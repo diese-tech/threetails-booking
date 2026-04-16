@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Three Tails Cafe — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #fff8f2;
+      --rose-light: #ffe4e1;
+      --rose-mid: #ffb3a7;
+      --rose-deep: #ff998a;
+      --rose-darker: #e8796a;
+      --green: #6dbf82;
+      --text: #3d2c2c;
+      --text-light: #9c7c7c;
+      --white: #ffffff;
+      --shadow: 0 4px 24px rgba(255,140,120,0.13);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; padding: 24px 12px 64px; }
+
+    /* Login */
+    .login-wrap {
+      max-width: 360px; margin: 80px auto;
+      background: var(--white); border-radius: 16px;
+      padding: 32px 24px; box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .login-wrap h1 { font-family: 'Pacifico', cursive; color: var(--rose-darker); font-size: 26px; margin-bottom: 6px; }
+    .login-wrap p { font-size: 13px; color: var(--text-light); font-weight: 600; margin-bottom: 20px; }
+    .login-input {
+      width: 100%; padding: 12px 15px;
+      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600;
+      border: 2px solid var(--rose-light); border-radius: 12px;
+      background: var(--cream); color: var(--text); outline: none;
+      margin-bottom: 12px; transition: border-color 0.2s;
+    }
+    .login-input:focus { border-color: var(--rose-mid); }
+    .login-btn {
+      width: 100%; padding: 13px;
+      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900;
+      background: var(--rose-deep); color: var(--white);
+      border: none; border-radius: 12px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .login-btn:hover { background: var(--rose-darker); }
+    .login-error { color: #e05a5a; font-size: 12px; font-weight: 700; margin-top: 8px; display: none; }
+    .login-error.visible { display: block; }
+
+    /* Admin panel */
+    .admin-wrap { max-width: 900px; margin: 0 auto; display: none; }
+    .admin-wrap.visible { display: block; }
+
+    .admin-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+    }
+    .admin-header h1 { font-family: 'Pacifico', cursive; color: var(--rose-darker); font-size: 24px; }
+    .admin-header-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+    .filter-input {
+      padding: 9px 13px;
+      font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+      border: 2px solid var(--rose-light); border-radius: 10px;
+      background: var(--white); color: var(--text); outline: none;
+      transition: border-color 0.2s;
+    }
+    .filter-input:focus { border-color: var(--rose-mid); }
+
+    .logout-btn {
+      padding: 9px 16px;
+      font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800;
+      background: var(--rose-light); color: var(--rose-darker);
+      border: none; border-radius: 10px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .logout-btn:hover { background: var(--rose-mid); color: var(--white); }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px; margin-bottom: 20px;
+    }
+    .stat-card {
+      background: var(--white); border-radius: 12px;
+      padding: 14px 16px; box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .stat-val { font-size: 26px; font-weight: 900; color: var(--rose-darker); }
+    .stat-label { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; margin-top: 2px; }
+
+    /* Table */
+    .table-wrap {
+      background: var(--white); border-radius: 16px;
+      box-shadow: var(--shadow); overflow: hidden;
+    }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    thead { background: var(--rose-light); }
+    th {
+      padding: 12px 14px; text-align: left;
+      font-size: 11px; font-weight: 800;
+      color: var(--text-light); text-transform: uppercase;
+      letter-spacing: 0.5px; white-space: nowrap;
+    }
+    td {
+      padding: 12px 14px; font-size: 13px; font-weight: 600;
+      border-bottom: 1px solid var(--rose-light); vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--cream); }
+    .badge {
+      display: inline-block; padding: 3px 9px;
+      border-radius: 99px; font-size: 11px; font-weight: 800;
+    }
+    .badge-discount { background: #e8f8ed; color: var(--green); }
+    .empty-state {
+      text-align: center; padding: 40px;
+      color: var(--text-light); font-weight: 700; font-size: 14px;
+    }
+    .loading-state {
+      text-align: center; padding: 40px;
+      color: var(--text-light); font-weight: 700; font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login -->
+  <div class="login-wrap" id="loginWrap">
+    <h1>🐾 Admin</h1>
+    <p>Three Tails Cafe booking dashboard</p>
+    <input type="password" class="login-input" id="passwordInput" placeholder="Enter password" onkeydown="if(event.key==='Enter') login()" />
+    <button class="login-btn" onclick="login()">Sign In</button>
+    <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin-wrap" id="adminWrap">
+    <div class="admin-header">
+      <h1>🐾 Bookings</h1>
+      <div class="admin-header-right">
+        <input type="date" class="filter-input" id="dateFilter" onchange="filterBookings()" placeholder="Filter by date" />
+        <input type="text" class="filter-input" id="searchFilter" oninput="filterBookings()" placeholder="Search name or email" style="width:180px" />
+        <button class="logout-btn" onclick="logout()">Log Out</button>
+      </div>
+    </div>
+
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card"><div class="stat-val" id="statTotal">—</div><div class="stat-label">Total Bookings</div></div>
+      <div class="stat-card"><div class="stat-val" id="statToday">—</div><div class="stat-label">Today</div></div>
+      <div class="stat-card"><div class="stat-val" id="statGuests">—</div><div class="stat-label">Total Guests</div></div>
+      <div class="stat-card"><div class="stat-val" id="statRevenue">—</div><div class="stat-label">Est. Revenue</div></div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Adults</th>
+              <th>Children</th>
+              <th>Discount</th>
+              <th>Total</th>
+              <th>Booked At</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsBody">
+            <tr><td colspan="10" class="loading-state">🐱 Loading bookings...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL      = "https://ggckzydfipyvnkwqnpfo.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA";
+    const ADMIN_PASSWORD    = "@dminP@ssw0rd";
+
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let allBookings = [];
+
+    function login() {
+      const val = document.getElementById("passwordInput").value;
+      const err = document.getElementById("loginError");
+      if (val === ADMIN_PASSWORD) {
+        document.getElementById("loginWrap").style.display = "none";
+        document.getElementById("adminWrap").classList.add("visible");
+        loadBookings();
+      } else {
+        err.classList.add("visible");
+        document.getElementById("passwordInput").value = "";
+      }
+    }
+
+    function logout() {
+      document.getElementById("loginWrap").style.display = "";
+      document.getElementById("adminWrap").classList.remove("visible");
+      document.getElementById("passwordInput").value = "";
+    }
+
+    async function loadBookings() {
+      const { data, error } = await db
+        .from("bookings")
+        .select("*")
+        .order("date", { ascending: false })
+        .order("time", { ascending: true });
+
+      if (error) {
+        document.getElementById("bookingsBody").innerHTML =
+          '<tr><td colspan="10" class="empty-state">❌ Failed to load: ' + error.message + '</td></tr>';
+        return;
+      }
+
+      allBookings = data || [];
+      updateStats(allBookings);
+      renderTable(allBookings);
+    }
+
+    function filterBookings() {
+      const dateVal   = document.getElementById("dateFilter").value;
+      const searchVal = document.getElementById("searchFilter").value.toLowerCase().trim();
+
+      let filtered = allBookings;
+      if (dateVal)   filtered = filtered.filter(b => b.date === dateVal);
+      if (searchVal) filtered = filtered.filter(b =>
+        (b.name  || "").toLowerCase().includes(searchVal) ||
+        (b.email || "").toLowerCase().includes(searchVal)
+      );
+
+      renderTable(filtered);
+    }
+
+    function renderTable(bookings) {
+      const tbody = document.getElementById("bookingsBody");
+      if (!bookings.length) {
+        tbody.innerHTML = '<tr><td colspan="10" class="empty-state">🐱 No bookings found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = bookings.map(b => {
+        const bookedAt = b.created_at
+          ? new Date(b.created_at).toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric", hour:"2-digit", minute:"2-digit" })
+          : "—";
+        const dateDisp = b.date
+          ? new Date(b.date + "T12:00:00").toLocaleDateString("en-US", { weekday:"short", month:"short", day:"numeric" })
+          : "—";
+
+        return `<tr>
+          <td>${dateDisp}</td>
+          <td>${b.time || "—"}</td>
+          <td>${b.name || "—"}</td>
+          <td><a href="mailto:${b.email}" style="color:var(--rose-darker);font-weight:700">${b.email || "—"}</a></td>
+          <td>${b.phone || "—"}</td>
+          <td style="text-align:center">${b.adults ?? "—"}</td>
+          <td style="text-align:center">${b.children ?? "—"}</td>
+          <td>${b.discount_code ? '<span class="badge badge-discount">' + b.discount_code + '</span>' : "—"}</td>
+          <td style="font-weight:800;color:var(--rose-darker)">${b.total ? "$" + parseFloat(b.total).toFixed(2) : "—"}</td>
+          <td style="color:var(--text-light);font-size:11px">${bookedAt}</td>
+        </tr>`;
+      }).join("");
+    }
+
+    function updateStats(bookings) {
+      const todayStr = new Date().toISOString().split("T")[0];
+      const todayCount = bookings.filter(b => b.date === todayStr).length;
+      const totalGuests = bookings.reduce((s,b) => s + (b.adults||0) + (b.children||0), 0);
+      const totalRevenue = bookings.reduce((s,b) => s + (parseFloat(b.total) || 0), 0);
+
+      document.getElementById("statTotal").innerText   = bookings.length;
+      document.getElementById("statToday").innerText   = todayCount;
+      document.getElementById("statGuests").innerText  = totalGuests;
+      document.getElementById("statRevenue").innerText = "$" + totalRevenue.toFixed(0);
+    }
+  </script>
+</body>
+</html>
