@@ -30,7 +30,7 @@
       background: var(--cream);
       color: var(--text);
       min-height: 100vh;
-      padding: 32px 16px 64px;
+      padding: 24px 12px 64px;
     }
 
     .booking-wrapper {
@@ -42,132 +42,182 @@
     /* Header */
     .header {
       text-align: center;
-      margin-bottom: 36px;
+      margin-bottom: 28px;
     }
-    .header .paws {
-      font-size: 36px;
-      margin-bottom: 8px;
-      display: block;
-    }
+    .header .paws { font-size: 32px; margin-bottom: 6px; display: block; }
     .header h1 {
       font-family: 'Pacifico', cursive;
-      font-size: clamp(28px, 6vw, 40px);
+      font-size: clamp(26px, 6vw, 38px);
       color: var(--rose-darker);
       line-height: 1.2;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .header p {
-      font-size: 15px;
-      color: var(--text-light);
-      font-weight: 600;
-    }
+    .header p { font-size: 14px; color: var(--text-light); font-weight: 600; }
 
-    /* Progress bar */
+    /* Progress */
     .progress {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
-    .progress-step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
+    .progress-step { display: flex; flex-direction: column; align-items: center; gap: 5px; }
     .step-circle {
-      width: 36px;
-      height: 36px;
+      width: 32px; height: 32px;
       border-radius: 50%;
       background: var(--rose-light);
       color: var(--text-light);
-      font-weight: 800;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-weight: 800; font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
       transition: all 0.3s ease;
       border: 2px solid transparent;
     }
-    .step-circle.active {
-      background: var(--rose-mid);
-      color: var(--white);
-      border-color: var(--rose-deep);
-      transform: scale(1.15);
-    }
-    .step-circle.done {
-      background: var(--green);
-      color: var(--white);
-    }
-    .step-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-light);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+    .step-circle.active { background: var(--rose-mid); color: var(--white); border-color: var(--rose-deep); transform: scale(1.15); }
+    .step-circle.done { background: var(--green); color: var(--white); }
+    .step-label { font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
     .step-label.active { color: var(--rose-darker); }
-    .progress-line {
-      width: 48px;
-      height: 2px;
-      background: var(--rose-light);
-      margin-bottom: 20px;
-      transition: background 0.3s;
-    }
+    .progress-line { width: 40px; height: 2px; background: var(--rose-light); margin-bottom: 18px; transition: background 0.3s; }
     .progress-line.done { background: var(--green); }
 
     /* Card */
     .card {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 28px 24px;
+      padding: 22px 18px;
       box-shadow: var(--shadow);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       display: none;
       animation: fadeUp 0.35s ease;
     }
     .card.active { display: block; }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .card h2 {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 18px;
+    .card h2 { font-size: 18px; font-weight: 800; margin-bottom: 16px; color: var(--text); }
+    .card h2 span { font-size: 20px; margin-right: 6px; }
+
+    /* ── WAIVER ── */
+    .rules-list { list-style: none; margin-bottom: 20px; }
+    .rules-list li {
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--rose-light);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
       color: var(--text);
     }
-    .card h2 span { font-size: 22px; margin-right: 8px; }
-
-    /* Date picker */
-    #datePicker {
-      width: 100%;
-      padding: 14px 16px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      border: 2px solid var(--rose-light);
+    .rules-list li:last-child { border-bottom: none; }
+    .rules-list li .rule-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .waiver-check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      background: var(--rose-light);
       border-radius: 12px;
-      background: var(--cream);
-      color: var(--text);
-      outline: none;
+      margin-bottom: 16px;
       cursor: pointer;
-      transition: border-color 0.2s;
     }
-    #datePicker:focus { border-color: var(--rose-mid); }
+    .waiver-check-row input[type="checkbox"] {
+      width: 20px; height: 20px;
+      accent-color: var(--rose-deeper);
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+    .waiver-check-row label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      line-height: 1.5;
+    }
 
-    /* Slots */
+    /* ── CALENDAR ── */
+    .calendar-wrap { margin-bottom: 20px; }
+    .cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .cal-month-label {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--text);
+    }
+    .cal-nav {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--rose-mid);
+      background: var(--white);
+      color: var(--rose-darker);
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .cal-nav:hover { background: var(--rose-mid); color: var(--white); }
+    .cal-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .cal-dow {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-light);
+      text-transform: uppercase;
+      padding: 4px 0 8px;
+    }
+    .cal-day {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--rose-light);
+      color: var(--text);
+      border: 2px solid transparent;
+      min-width: 0;
+    }
+    .cal-day:hover:not(.disabled):not(.empty) { background: var(--rose-mid); color: var(--white); }
+    .cal-day.selected { background: var(--rose-deep); color: var(--white); border-color: var(--rose-darker); transform: scale(1.08); }
+    .cal-day.today { border-color: var(--rose-mid); }
+    .cal-day.disabled { background: var(--booked); color: var(--booked-text); cursor: not-allowed; }
+    .cal-day.empty { background: transparent; cursor: default; }
+
+    /* ── SLOTS ── */
+    .slots-section { margin-top: 4px; }
+    .slots-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
     .slots-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    @media (min-width: 400px) {
+      .slots-grid { grid-template-columns: repeat(3, 1fr); }
     }
     .slot {
-      padding: 14px 10px;
-      border-radius: 12px;
+      padding: 11px 8px;
+      border-radius: 10px;
       background: var(--rose-light);
       text-align: center;
       cursor: pointer;
@@ -175,108 +225,86 @@
       border: 2px solid transparent;
       user-select: none;
     }
-    .slot:hover:not(.booked) { background: var(--rose-mid); transform: translateY(-2px); }
+    .slot:hover:not(.booked) { background: var(--rose-mid); transform: translateY(-1px); }
     .slot.selected {
       background: var(--rose-deep);
       color: var(--white);
       border-color: var(--rose-darker);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(255,120,100,0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(255,120,100,0.3);
     }
-    .slot.booked {
-      background: var(--booked);
-      color: var(--booked-text);
-      cursor: not-allowed;
-    }
-    .slot-time { font-weight: 800; font-size: 14px; margin-bottom: 4px; }
-    .slot-availability { font-size: 11px; font-weight: 700; opacity: 0.8; }
+    .slot.booked { background: var(--booked); color: var(--booked-text); cursor: not-allowed; }
+    .slot-time { font-weight: 800; font-size: 12px; margin-bottom: 3px; }
+    .slot-availability { font-size: 10px; font-weight: 700; opacity: 0.8; }
     .slots-loading {
+      grid-column: 1 / -1;
       text-align: center;
       color: var(--text-light);
       font-weight: 700;
-      padding: 20px;
-      font-size: 14px;
+      padding: 16px;
+      font-size: 13px;
+    }
+    .slots-placeholder {
       grid-column: 1 / -1;
+      text-align: center;
+      color: var(--text-light);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 16px;
+      background: var(--cream);
+      border-radius: 10px;
     }
 
-    /* Guest counter */
+    /* ── GUESTS ── */
     .guest-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 0;
+      padding: 13px 0;
       border-bottom: 1px solid var(--rose-light);
     }
     .guest-row:last-of-type { border-bottom: none; }
     .guest-info { flex: 1; }
-    .guest-label { font-weight: 800; font-size: 15px; }
-    .guest-sublabel { font-size: 12px; color: var(--text-light); font-weight: 600; }
-    .guest-price { font-weight: 700; color: var(--rose-darker); font-size: 14px; margin-right: 16px; }
-    .counter { display: flex; align-items: center; gap: 12px; }
+    .guest-label { font-weight: 800; font-size: 14px; }
+    .guest-sublabel { font-size: 11px; color: var(--text-light); font-weight: 600; }
+    .guest-price { font-weight: 700; color: var(--rose-darker); font-size: 13px; margin-right: 12px; }
+    .counter { display: flex; align-items: center; gap: 10px; }
     .counter-btn {
-      width: 32px;
-      height: 32px;
+      width: 30px; height: 30px;
       border-radius: 50%;
       border: 2px solid var(--rose-mid);
       background: var(--white);
       color: var(--rose-darker);
-      font-size: 18px;
-      font-weight: 800;
+      font-size: 17px; font-weight: 800;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       transition: all 0.15s;
       line-height: 1;
     }
     .counter-btn:hover { background: var(--rose-mid); color: var(--white); }
     .counter-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-    .counter-val { font-size: 18px; font-weight: 900; min-width: 20px; text-align: center; }
+    .counter-val { font-size: 17px; font-weight: 900; min-width: 18px; text-align: center; }
 
-    /* Capacity */
     .capacity-info {
-      margin-top: 16px;
-      padding: 12px 14px;
+      margin-top: 14px;
+      padding: 11px 13px;
       background: var(--cream);
       border-radius: 10px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--text-light);
     }
-    .capacity-bar-wrap {
-      height: 6px;
-      background: var(--rose-light);
-      border-radius: 99px;
-      margin-top: 6px;
-      overflow: hidden;
-    }
-    .capacity-bar-fill {
-      height: 100%;
-      background: var(--rose-deep);
-      border-radius: 99px;
-      transition: width 0.3s;
-    }
+    .capacity-bar-wrap { height: 5px; background: var(--rose-light); border-radius: 99px; margin-top: 5px; overflow: hidden; }
+    .capacity-bar-fill { height: 100%; background: var(--rose-deep); border-radius: 99px; transition: width 0.3s; }
 
-    /* Discount */
-    .discount-section {
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid var(--rose-light);
-    }
-    .discount-label {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-light);
-      margin-bottom: 8px;
-      display: block;
-    }
+    .discount-section { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--rose-light); }
+    .discount-label { font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 7px; display: block; }
     .discount-row { display: flex; gap: 8px; }
     .discount-input {
       flex: 1;
-      padding: 10px 14px;
+      padding: 10px 13px;
       font-family: 'Nunito', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13px; font-weight: 700;
       border: 2px solid var(--rose-light);
       border-radius: 10px;
       background: var(--cream);
@@ -287,173 +315,111 @@
     }
     .discount-input:focus { border-color: var(--rose-mid); }
     .discount-apply-btn {
-      padding: 10px 16px;
-      background: var(--rose-mid);
-      color: var(--white);
-      border: none;
-      border-radius: 10px;
+      padding: 10px 14px;
+      background: var(--rose-mid); color: var(--white);
+      border: none; border-radius: 10px;
       font-family: 'Nunito', sans-serif;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: background 0.2s;
+      font-size: 13px; font-weight: 800;
+      cursor: pointer; transition: background 0.2s;
     }
     .discount-apply-btn:hover { background: var(--rose-deep); }
-    .discount-msg { margin-top: 8px; font-size: 13px; font-weight: 700; }
+    .discount-msg { margin-top: 7px; font-size: 12px; font-weight: 700; }
     .discount-msg.success { color: var(--green-dark); }
     .discount-msg.error { color: #e05a5a; }
 
-    /* Total */
     .total-box {
-      margin-top: 18px;
-      padding: 14px 16px;
+      margin-top: 16px;
+      padding: 13px 15px;
       background: var(--rose-light);
       border-radius: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .total-label { font-weight: 800; font-size: 15px; }
-    .total-amount { font-weight: 900; font-size: 22px; color: var(--rose-darker); }
-    .total-note { font-size: 11px; color: var(--text-light); font-weight: 600; margin-top: 2px; }
+    .total-label { font-weight: 800; font-size: 14px; }
+    .total-amount { font-weight: 900; font-size: 21px; color: var(--rose-darker); }
+    .total-note { font-size: 10px; color: var(--text-light); font-weight: 600; margin-top: 2px; }
 
-    /* Form */
-    .form-group { margin-bottom: 14px; }
-    .form-label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-light);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+    /* ── FORM ── */
+    .form-group { margin-bottom: 12px; }
+    .form-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
     .form-input {
       width: 100%;
-      padding: 13px 16px;
+      padding: 12px 15px;
       font-family: 'Nunito', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 15px; font-weight: 600;
       border: 2px solid var(--rose-light);
       border-radius: 12px;
-      background: var(--cream);
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s;
+      background: var(--cream); color: var(--text);
+      outline: none; transition: border-color 0.2s;
     }
     .form-input:focus { border-color: var(--rose-mid); }
 
-    /* Summary */
     .summary-box {
       background: var(--cream);
       border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 18px;
-      font-size: 14px;
-      font-weight: 700;
+      padding: 13px 15px;
+      margin-bottom: 16px;
+      font-size: 13px; font-weight: 700;
       color: var(--text-light);
       line-height: 1.9;
     }
     .summary-box strong { color: var(--text); }
 
-    /* Buttons */
+    /* ── BUTTONS ── */
     .btn-primary {
       width: 100%;
-      padding: 15px;
+      padding: 14px;
       font-family: 'Nunito', sans-serif;
-      font-size: 17px;
-      font-weight: 900;
-      background: var(--rose-deep);
-      color: var(--white);
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
+      font-size: 16px; font-weight: 900;
+      background: var(--rose-deep); color: var(--white);
+      border: none; border-radius: 14px;
+      cursor: pointer; transition: all 0.2s;
       letter-spacing: 0.3px;
       box-shadow: 0 4px 16px rgba(255,120,100,0.25);
     }
     .btn-primary:hover { background: var(--rose-darker); transform: translateY(-1px); }
     .btn-primary:disabled { background: var(--booked); box-shadow: none; cursor: not-allowed; transform: none; }
     .btn-secondary {
-      background: none;
-      border: none;
+      background: none; border: none;
       color: var(--text-light);
       font-family: 'Nunito', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 10px 0;
-      display: block;
-      margin: 10px auto 0;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer; padding: 10px 0;
+      display: block; margin: 8px auto 0;
       text-decoration: underline;
     }
     .btn-secondary:hover { color: var(--text); }
 
-    /* Confirmation */
-    .confirmation-screen {
-      text-align: center;
-      padding: 12px 0;
-      display: none;
-      animation: fadeUp 0.4s ease;
-    }
+    /* ── CONFIRMATION ── */
+    .confirmation-screen { text-align: center; padding: 12px 0; display: none; animation: fadeUp 0.4s ease; }
     .confirmation-screen.active { display: block; }
-    .confirm-icon {
-      font-size: 64px;
-      margin-bottom: 16px;
-      display: block;
-      animation: bounceIn 0.5s ease;
-    }
+    .confirm-icon { font-size: 60px; margin-bottom: 14px; display: block; animation: bounceIn 0.5s ease; }
     @keyframes bounceIn {
       0% { transform: scale(0); }
       60% { transform: scale(1.2); }
       100% { transform: scale(1); }
     }
-    .confirmation-screen h2 {
-      font-family: 'Pacifico', cursive;
-      font-size: 28px;
-      color: var(--rose-darker);
-      margin-bottom: 10px;
-    }
-    .confirmation-screen p {
-      font-size: 15px;
-      color: var(--text-light);
-      font-weight: 600;
-      margin-bottom: 6px;
-      line-height: 1.6;
-    }
+    .confirmation-screen h2 { font-family: 'Pacifico', cursive; font-size: 26px; color: var(--rose-darker); margin-bottom: 8px; }
+    .confirmation-screen p { font-size: 14px; color: var(--text-light); font-weight: 600; margin-bottom: 5px; line-height: 1.6; }
     .confirm-details {
-      background: var(--cream);
-      border-radius: 12px;
-      padding: 16px;
-      margin: 20px 0;
-      text-align: left;
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 2;
+      background: var(--cream); border-radius: 12px;
+      padding: 15px; margin: 18px 0;
+      text-align: left; font-size: 13px;
+      font-weight: 700; line-height: 2;
     }
     .event-link {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 12px 24px;
-      background: var(--rose-light);
-      color: var(--rose-darker);
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 14px;
-      text-decoration: none;
-      transition: background 0.2s;
+      display: inline-block; margin-top: 14px;
+      padding: 11px 22px;
+      background: var(--rose-light); color: var(--rose-darker);
+      border-radius: 12px; font-weight: 800; font-size: 13px;
+      text-decoration: none; transition: background 0.2s;
     }
     .event-link:hover { background: var(--rose-mid); color: var(--white); }
 
-    /* Error */
+    /* ── ERROR ── */
     .error-msg {
-      margin-top: 12px;
-      padding: 12px 14px;
-      background: #fff0f0;
-      border-radius: 10px;
-      color: #e05a5a;
-      font-size: 13px;
-      font-weight: 700;
+      margin-top: 10px; padding: 11px 13px;
+      background: #fff0f0; border-radius: 10px;
+      color: #e05a5a; font-size: 12px; font-weight: 700;
       display: none;
     }
     .error-msg.visible { display: block; }
@@ -473,12 +439,12 @@
   <div class="progress" id="progressBar">
     <div class="progress-step">
       <div class="step-circle active" id="circle-1">1</div>
-      <div class="step-label active" id="label-1">Date</div>
+      <div class="step-label active" id="label-1">Rules</div>
     </div>
     <div class="progress-line" id="line-1"></div>
     <div class="progress-step">
       <div class="step-circle" id="circle-2">2</div>
-      <div class="step-label" id="label-2">Time</div>
+      <div class="step-label" id="label-2">Date & Time</div>
     </div>
     <div class="progress-line" id="line-2"></div>
     <div class="progress-step">
@@ -492,20 +458,50 @@
     </div>
   </div>
 
-  <!-- Step 1: Date -->
+  <!-- Step 1: Waiver -->
   <div class="card active" id="step-1">
-    <h2><span>📅</span>Pick a Date</h2>
-    <input type="date" id="datePicker" />
-    <button class="btn-primary" style="margin-top:18px" onclick="goToStep2()">Choose a Time →</button>
+    <h2><span>📋</span>Before You Visit</h2>
+    <ul class="rules-list">
+      <li><span class="rule-icon">🐱</span><span>Our cats come first. Please be gentle, move slowly, and let the cats approach you — never chase or corner them.</span></li>
+      <li><span class="rule-icon">🧼</span><span>Sanitize your hands before entering the lounge. Hand sanitizer is available at the entrance.</span></li>
+      <li><span class="rule-icon">🔇</span><span>Use inside voices. Cats have sensitive hearing — please keep noise low and silence your phone in the lounge.</span></li>
+      <li><span class="rule-icon">👶</span><span>Children 13 and under must be accompanied by an adult at all times. No more than 2 children per adult in the lounge.</span></li>
+      <li><span class="rule-icon">🚫</span><span>No outside food or drinks in the lounge. Please do not feed the cats — they are on special diets.</span></li>
+      <li><span class="rule-icon">🐶</span><span>No personal pets allowed inside. Only certified medical assistance animals are permitted in the café area.</span></li>
+      <li><span class="rule-icon">😴</span><span>Do not wake sleeping cats. They need their rest too!</span></li>
+      <li><span class="rule-icon">💰</span><span>This booking is a reservation confirmation only — payment is collected at the café upon arrival.</span></li>
+      <li><span class="rule-icon">🔄</span><span>Need to reschedule? Please contact us at least 24 hours in advance at dustin.nieves@threetailscafe.com or call 123-456-7890.</span></li>
+    </ul>
+    <div class="waiver-check-row" onclick="toggleWaiver()">
+      <input type="checkbox" id="waiverCheck" onclick="event.stopPropagation(); updateWaiverBtn()" />
+      <label for="waiverCheck">I have read and agree to the Three Tails Cafe rules. I understand my booking is a reservation only and payment is due at the café.</label>
+    </div>
+    <button class="btn-primary" id="waiverBtn" onclick="goToStep(2)" disabled>Let's Book! →</button>
   </div>
 
-  <!-- Step 2: Time -->
+  <!-- Step 2: Date & Time -->
   <div class="card" id="step-2">
-    <h2><span>🕐</span>Pick a Time</h2>
-    <div class="slots-grid" id="slotsGrid">
-      <div class="slots-loading">Loading availability...</div>
+    <h2><span>📅</span>Date & Time</h2>
+
+    <!-- Calendar -->
+    <div class="calendar-wrap">
+      <div class="cal-header">
+        <button class="cal-nav" id="calPrev" onclick="changeMonth(-1)">‹</button>
+        <div class="cal-month-label" id="calMonthLabel"></div>
+        <button class="cal-nav" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
     </div>
-    <button class="btn-primary" style="margin-top:18px" onclick="goToStep3()" id="timeNextBtn" disabled>Select Guests →</button>
+
+    <!-- Slots -->
+    <div class="slots-section">
+      <div class="slots-label">Available Times</div>
+      <div class="slots-grid" id="slotsGrid">
+        <div class="slots-placeholder">🐱 Select a date to see times</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" style="margin-top:16px" onclick="goToStep3()" id="timeNextBtn" disabled>Select Guests →</button>
     <button class="btn-secondary" onclick="goToStep(1)">← Back</button>
   </div>
 
@@ -529,7 +525,7 @@
     <div class="guest-row">
       <div class="guest-info">
         <div class="guest-label">Children</div>
-        <div class="guest-sublabel">Ages 13 & under (0.5 capacity each)</div>
+        <div class="guest-sublabel">Ages 13 & under</div>
       </div>
       <div class="guest-price" id="childPrice">$9 each</div>
       <div class="counter">
@@ -540,14 +536,14 @@
     </div>
 
     <div class="capacity-info">
-      <div id="capacityText">Select a time to see availability</div>
+      <div id="capacityText">Loading...</div>
       <div class="capacity-bar-wrap">
         <div class="capacity-bar-fill" id="capacityBar" style="width:0%"></div>
       </div>
     </div>
 
     <div class="discount-section">
-      <span class="discount-label">🎖️ Discount Code (VET, SHELTER, DVM)</span>
+      <span class="discount-label">🎖️ Have a discount code?</span>
       <div class="discount-row">
         <input type="text" class="discount-input" id="discountCode" placeholder="Enter code" maxlength="10" />
         <button class="discount-apply-btn" onclick="applyDiscount()">Apply</button>
@@ -557,13 +553,13 @@
 
     <div class="total-box">
       <div>
-        <div class="total-label">Total</div>
+        <div class="total-label">Total Due at Café</div>
         <div class="total-note" id="discountNote"></div>
       </div>
       <div class="total-amount" id="totalAmount">$15.00</div>
     </div>
 
-    <button class="btn-primary" style="margin-top:18px" onclick="goToStep4()">Enter Your Info →</button>
+    <button class="btn-primary" style="margin-top:16px" onclick="goToStep4()">Enter Your Info →</button>
     <button class="btn-secondary" onclick="goToStep(2)">← Back</button>
   </div>
 
@@ -594,8 +590,9 @@
     <h2>You're booked!</h2>
     <p>We can't wait to see you at Three Tails Cafe.</p>
     <p>A confirmation email is on its way.</p>
+    <p style="font-size:12px;margin-top:4px;">Questions? Call us at <strong>123-456-7890</strong></p>
     <div class="confirm-details" id="confirmDetails"></div>
-    <p style="font-size:13px;margin-top:8px;">Planning a birthday or private event?</p>
+    <p style="font-size:12px;margin-top:6px;">Planning a birthday or private event?</p>
     <a href="mailto:dustin.nieves@threetailscafe.com?subject=Private Event Inquiry" class="event-link">🎂 Inquire About Private Events</a>
   </div>
 
@@ -607,43 +604,51 @@
   // ── CONFIG ──────────────────────────────────────────────────
   const SUPABASE_URL      = "https://ggckzydfipyvnkwqnpfo.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA";
+  const EMAILJS_PUBLIC_KEY        = "YOUR_EMAILJS_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID        = "YOUR_SERVICE_ID";
+  const EMAILJS_TEMPLATE_CUSTOMER = "template_5pipgqs";
+  const EMAILJS_TEMPLATE_BUSINESS = "template_fxs6tv5";
+  const BUSINESS_EMAIL            = "dustin.nieves@threetailscafe.com";
 
-  // ── Fill these in after setting up EmailJS ──
-  const EMAILJS_PUBLIC_KEY         = "VNSbjXzzwXoX7Y_Vx";
-  const EMAILJS_SERVICE_ID         = "service_u00zfta";
-  const EMAILJS_TEMPLATE_CUSTOMER  = "template_5pipgqs";
-  const EMAILJS_TEMPLATE_BUSINESS  = "template_fxs6tv5";
-  const BUSINESS_EMAIL             = "dustin.nieves@threetailscafe.com";
-
-  const ADULT_PRICE   = 15;
-  const CHILD_PRICE   = 9;
-  const DISCOUNT_PCT  = 0.20;
-  const VALID_CODES   = ["VET", "SHELTER", "DVM"];
-  const MAX_CAPACITY  = 10;
+  const ADULT_PRICE  = 15;
+  const CHILD_PRICE  = 9;
+  const DISCOUNT_PCT = 0.20;
+  const VALID_CODES  = ["VET", "SHELTER", "DVM"];
+  const MAX_CAPACITY = 10;
 
   const TIME_SLOTS = [
-    "9:00 AM – 10:00 AM",
-    "10:00 AM – 11:00 AM",
-    "11:00 AM – 12:00 PM",
-    "12:00 PM – 1:00 PM",
-    "1:00 PM – 2:00 PM",
-    "2:00 PM – 3:00 PM",
-    "3:00 PM – 4:00 PM",
-    "4:00 PM – 5:00 PM",
-    "5:00 PM – 6:00 PM"
+    "9:00 AM – 10:00 AM","10:00 AM – 11:00 AM","11:00 AM – 12:00 PM",
+    "12:00 PM – 1:00 PM","1:00 PM – 2:00 PM","2:00 PM – 3:00 PM",
+    "3:00 PM – 4:00 PM","4:00 PM – 5:00 PM","5:00 PM – 6:00 PM"
   ];
 
   // ── STATE ────────────────────────────────────────────────────
-  let db, selectedDate = "", selectedTime = "";
+  let db;
+  let selectedDate = "", selectedTime = "";
   let adults = 1, children = 0;
   let discountApplied = false;
   let slotCapacityMap = {};
   let isSubmitting = false, currentStep = 1;
+  let calYear, calMonth;
 
   // ── INIT ─────────────────────────────────────────────────────
   db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   emailjs.init(EMAILJS_PUBLIC_KEY);
-  document.getElementById("datePicker").min = new Date().toISOString().split("T")[0];
+
+  const now = new Date();
+  calYear  = now.getFullYear();
+  calMonth = now.getMonth();
+  renderCalendar();
+
+  // ── WAIVER ───────────────────────────────────────────────────
+  function toggleWaiver() {
+    const cb = document.getElementById("waiverCheck");
+    cb.checked = !cb.checked;
+    updateWaiverBtn();
+  }
+  function updateWaiverBtn() {
+    document.getElementById("waiverBtn").disabled = !document.getElementById("waiverCheck").checked;
+  }
 
   // ── NAVIGATION ───────────────────────────────────────────────
   function goToStep(n) {
@@ -660,7 +665,7 @@
       const l = document.getElementById("label-" + i);
       c.classList.remove("active","done");
       l.classList.remove("active");
-      if (i < active)       { c.classList.add("done"); c.innerText = "✓"; }
+      if (i < active)        { c.classList.add("done"); c.innerText = "✓"; }
       else if (i === active) { c.classList.add("active"); c.innerText = i; l.classList.add("active"); }
       else                   { c.innerText = i; }
     }
@@ -669,20 +674,84 @@
     }
   }
 
-  // ── STEP 1 → 2 ───────────────────────────────────────────────
-  function goToStep2() {
-    selectedDate = document.getElementById("datePicker").value;
-    if (!selectedDate) { alert("Please pick a date first 🐾"); return; }
+  // ── CALENDAR ─────────────────────────────────────────────────
+  function renderCalendar() {
+    const label = document.getElementById("calMonthLabel");
+    const grid  = document.getElementById("calGrid");
+    const today = new Date(); today.setHours(0,0,0,0);
+
+    label.innerText = new Date(calYear, calMonth).toLocaleDateString("en-US", { month:"long", year:"numeric" });
+
+    // Disable prev button if we're already on current month
+    const prevBtn = document.getElementById("calPrev");
+    prevBtn.disabled = calYear === today.getFullYear() && calMonth === today.getMonth();
+
+    grid.innerHTML = "";
+
+    // Day of week headers
+    ["Su","Mo","Tu","We","Th","Fr","Sa"].forEach(d => {
+      const el = document.createElement("div");
+      el.className = "cal-dow";
+      el.innerText = d;
+      grid.appendChild(el);
+    });
+
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+    // Empty cells before first day
+    for (let i = 0; i < firstDay; i++) {
+      const el = document.createElement("div");
+      el.className = "cal-day empty";
+      grid.appendChild(el);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(calYear, calMonth, d);
+      date.setHours(0,0,0,0);
+      const dateStr = formatDateStr(calYear, calMonth, d);
+      const isPast  = date < today;
+
+      const el = document.createElement("div");
+      el.className = "cal-day" +
+        (isPast ? " disabled" : "") +
+        (date.getTime() === today.getTime() ? " today" : "") +
+        (dateStr === selectedDate ? " selected" : "");
+      el.innerText = d;
+
+      if (!isPast) {
+        el.onclick = () => selectDate(dateStr, el);
+      }
+      grid.appendChild(el);
+    }
+  }
+
+  function changeMonth(delta) {
+    calMonth += delta;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    if (calMonth < 0)  { calMonth = 11; calYear--; }
+    renderCalendar();
+  }
+
+  function selectDate(dateStr, el) {
+    selectedDate = dateStr;
     selectedTime = "";
     document.getElementById("timeNextBtn").disabled = true;
-    goToStep(2);
+    document.querySelectorAll(".cal-day").forEach(d => d.classList.remove("selected"));
+    el.classList.add("selected");
     loadSlots();
   }
 
+  function formatDateStr(y, m, d) {
+    return y + "-" + String(m+1).padStart(2,"0") + "-" + String(d).padStart(2,"0");
+  }
+
+  // ── SLOTS ─────────────────────────────────────────────────────
   async function loadSlots() {
     const grid = document.getElementById("slotsGrid");
     grid.innerHTML = '<div class="slots-loading">🐱 Checking availability...</div>';
     slotCapacityMap = {};
+
     try {
       const { data, error } = await db
         .from("bookings")
@@ -694,6 +763,7 @@
         slotCapacityMap[row.time] = (slotCapacityMap[row.time] || 0) + units;
       }
     } catch(e) { console.error("Slot load error:", e); }
+
     renderSlots();
   }
 
@@ -704,12 +774,15 @@
       const used      = slotCapacityMap[slot] || 0;
       const remaining = MAX_CAPACITY - used;
       const booked    = remaining <= 0;
+
       const div = document.createElement("div");
       div.className = "slot" + (booked ? " booked" : "") + (slot === selectedTime ? " selected" : "");
+
       let availText = "Available";
-      if (booked)          availText = "Fully Booked";
+      if (booked)           availText = "Fully Booked";
       else if (remaining <= 1) availText = "1 spot left!";
       else if (remaining <= 3) availText = Math.floor(remaining) + " spots left";
+
       div.innerHTML = `<div class="slot-time">${slot}</div><div class="slot-availability">${availText}</div>`;
       if (!booked) div.onclick = () => selectSlot(div, slot);
       grid.appendChild(div);
@@ -725,7 +798,7 @@
 
   // ── STEP 2 → 3 ───────────────────────────────────────────────
   function goToStep3() {
-    if (!selectedTime) { alert("Please pick a time slot 🐾"); return; }
+    if (!selectedDate || !selectedTime) { alert("Please pick a date and time 🐾"); return; }
     adults = 1; children = 0;
     discountApplied = false;
     document.getElementById("discountCode").value = "";
@@ -744,19 +817,19 @@
     const totalUsed = used + myUnits;
     const pct       = Math.min((totalUsed / MAX_CAPACITY) * 100, 100);
 
-    document.getElementById("adultCount").innerText  = adults;
-    document.getElementById("childCount").innerText  = children;
-    document.getElementById("adultMinus").disabled   = adults <= 1;
-    document.getElementById("adultPlus").disabled    = remaining < 1;
-    document.getElementById("childMinus").disabled   = children <= 0;
-    document.getElementById("childPlus").disabled    = remaining < 0.5;
+    document.getElementById("adultCount").innerText = adults;
+    document.getElementById("childCount").innerText = children;
+    document.getElementById("adultMinus").disabled  = adults <= 1;
+    document.getElementById("adultPlus").disabled   = remaining < 1;
+    document.getElementById("childMinus").disabled  = children <= 0;
+    document.getElementById("childPlus").disabled   = remaining < 0.5;
     document.getElementById("capacityBar").style.width = pct + "%";
 
     const spotsLeft = MAX_CAPACITY - totalUsed;
     document.getElementById("capacityText").innerText =
-      spotsLeft <= 0   ? "This slot is now full" :
-      spotsLeft < 1    ? "Less than 1 unit of capacity remaining" :
-      Math.floor(spotsLeft) + " capacity unit" + (Math.floor(spotsLeft) !== 1 ? "s" : "") + " remaining in this slot";
+      spotsLeft <= 0  ? "This slot is now full" :
+      spotsLeft < 1   ? "Almost full!" :
+      Math.floor(spotsLeft) + " spot" + (Math.floor(spotsLeft) !== 1 ? "s" : "") + " remaining in this slot";
   }
 
   function changeGuest(type, delta) {
@@ -786,7 +859,7 @@
     } else {
       discountApplied = false;
       msg.className = "discount-msg error";
-      msg.innerText = code ? "❌ Invalid code. Valid codes: VET, SHELTER, DVM." : "❌ Please enter a code.";
+      msg.innerText = code ? "❌ Invalid code." : "❌ Please enter a code.";
     }
     updateTotal();
   }
@@ -810,12 +883,12 @@
   function goToStep4() {
     const total = document.getElementById("totalAmount").innerText;
     const lines = [
-      "📅 <strong>" + formatDate(selectedDate) + "</strong>",
+      "📅 <strong>" + formatDateDisplay(selectedDate) + "</strong>",
       "🕐 <strong>" + selectedTime + "</strong>",
       "👤 <strong>" + adults + " adult" + (adults !== 1 ? "s" : "") + "</strong>",
       children > 0 ? "🧒 <strong>" + children + " child" + (children !== 1 ? "ren" : "") + "</strong>" : null,
       discountApplied ? "🎖️ <strong>20% discount applied</strong>" : null,
-      "💰 <strong>" + total + "</strong>"
+      "💰 <strong>" + total + " due at café</strong>"
     ].filter(Boolean);
     document.getElementById("bookingSummary").innerHTML = "<strong>Your booking summary:</strong><br>" + lines.join("<br>");
     goToStep(4);
@@ -837,8 +910,7 @@
 
     isSubmitting = true;
     const btn = document.getElementById("confirmBtn");
-    btn.disabled = true;
-    btn.innerText = "Confirming... 🐾";
+    btn.disabled = true; btn.innerText = "Confirming... 🐾";
 
     // Final capacity check
     const { data: fresh } = await db.from("bookings").select("adults, children").eq("date", selectedDate).eq("time", selectedTime);
@@ -863,10 +935,10 @@
       return;
     }
 
-    // Send emails
+    // Emails
     const params = {
       customer_name: name, customer_email: email,
-      booking_date: formatDate(selectedDate), booking_time: selectedTime,
+      booking_date: formatDateDisplay(selectedDate), booking_time: selectedTime,
       adults, children, discount: discountApplied ? "20% (" + code + ")" : "None",
       total: "$" + total.toFixed(2), business_email: BUSINESS_EMAIL
     };
@@ -875,24 +947,24 @@
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_BUSINESS,  { ...params, to_email: BUSINESS_EMAIL });
     } catch(e) { console.warn("Email failed (booking still saved):", e); }
 
-    // Show confirmation
+    // Success
     document.getElementById("step-4").classList.remove("active");
     document.getElementById("progressBar").style.display = "none";
     const screen = document.getElementById("confirmationScreen");
     screen.classList.add("active");
     document.getElementById("confirmDetails").innerHTML =
-      "📅 <strong>" + formatDate(selectedDate) + "</strong><br>" +
+      "📅 <strong>" + formatDateDisplay(selectedDate) + "</strong><br>" +
       "🕐 <strong>" + selectedTime + "</strong><br>" +
       "👤 <strong>" + adults + " adult" + (adults!==1?"s":"") +
       (children > 0 ? " + " + children + " child" + (children!==1?"ren":"") : "") + "</strong><br>" +
-      "💰 <strong>$" + total.toFixed(2) + "</strong>" +
+      "💰 <strong>$" + total.toFixed(2) + " due at café</strong>" +
       (discountApplied ? "<br>🎖️ <strong>20% discount applied</strong>" : "");
 
     isSubmitting = false;
   }
 
   // ── HELPERS ──────────────────────────────────────────────────
-  function formatDate(d) {
+  function formatDateDisplay(d) {
     const [y,m,day] = d.split("-");
     return new Date(y, m-1, day).toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
   }
