@@ -77,7 +77,14 @@
 
   <div id="confirmation"></div>
 
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
+    const supabase = window.supabase.createClient(
+      "https://ggckzydfipyvnkwqnpfo.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA"
+    );
+
     let selectedTime = "";
 
     function selectSlot(element) {
@@ -99,7 +106,7 @@
         "Booking: " + date + " at " + selectedTime;
     }
 
-    function confirmBooking() {
+    async function confirmBooking() {
       const date = document.getElementById('datePicker').value;
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
@@ -109,8 +116,24 @@
         return;
       }
 
-      document.getElementById('confirmation').innerText =
-        "✅ Booking confirmed for " + name + " on " + date + " at " + selectedTime;
+      const { error } = await supabase
+        .from('bookings')
+        .insert([
+          {
+            name: name,
+            email: email,
+            date: date,
+            time: selectedTime
+          }
+        ]);
+
+      if (error) {
+        alert("❌ Booking failed. Try again.");
+        console.error(error);
+      } else {
+        document.getElementById('confirmation').innerText =
+          "✅ Booking confirmed for " + name + " on " + date + " at " + selectedTime;
+      }
     }
   </script>
 
