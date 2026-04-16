@@ -1,149 +1,901 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Three Tails Cafe Booking</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Three Tails Cafe — Book Your Visit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --cream: #fff8f2;
+      --rose-light: #ffe4e1;
+      --rose-mid: #ffb3a7;
+      --rose-deep: #ff998a;
+      --rose-darker: #e8796a;
+      --booked: #e0e0e0;
+      --booked-text: #aaa;
+      --green: #6dbf82;
+      --green-dark: #4ea36a;
+      --text: #3d2c2c;
+      --text-light: #9c7c7c;
+      --white: #ffffff;
+      --shadow: 0 4px 24px rgba(255,140,120,0.13);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: Arial;
-      background: #fff8f2;
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 32px 16px 64px;
+    }
+
+    .booking-wrapper {
+      width: 99%;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
       text-align: center;
-      padding: 40px;
+      margin-bottom: 36px;
+    }
+    .header .paws {
+      font-size: 36px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(28px, 6vw, 40px);
+      color: var(--rose-darker);
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .header p {
+      font-size: 15px;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    /* Progress bar */
+    .progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 32px;
+    }
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .step-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--rose-light);
+      color: var(--text-light);
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    .step-circle.active {
+      background: var(--rose-mid);
+      color: var(--white);
+      border-color: var(--rose-deep);
+      transform: scale(1.15);
+    }
+    .step-circle.done {
+      background: var(--green);
+      color: var(--white);
+    }
+    .step-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .step-label.active { color: var(--rose-darker); }
+    .progress-line {
+      width: 48px;
+      height: 2px;
+      background: var(--rose-light);
+      margin-bottom: 20px;
+      transition: background 0.3s;
+    }
+    .progress-line.done { background: var(--green); }
+
+    /* Card */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      display: none;
+      animation: fadeUp 0.35s ease;
+    }
+    .card.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      color: var(--text);
+    }
+    .card h2 span { font-size: 22px; margin-right: 8px; }
+
+    /* Date picker */
+    #datePicker {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      border: 2px solid var(--rose-light);
+      border-radius: 12px;
+      background: var(--cream);
+      color: var(--text);
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    #datePicker:focus { border-color: var(--rose-mid); }
+
+    /* Slots */
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 12px;
     }
     .slot {
-      display: inline-block;
-      margin: 10px;
-      padding: 15px 25px;
-      background: #ffe4e1;
+      padding: 14px 10px;
       border-radius: 12px;
+      background: var(--rose-light);
+      text-align: center;
       cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+      user-select: none;
     }
-    .slot:hover { background: #ffd1cc; }
-    .selected { background: #ffb3a7 !important; }
-    #selection { margin-top: 20px; font-size: 18px; }
-    button {
-      margin-top: 20px;
-      padding: 12px 20px;
-      font-size: 16px;
-      background: #ffb3a7;
+    .slot:hover:not(.booked) { background: var(--rose-mid); transform: translateY(-2px); }
+    .slot.selected {
+      background: var(--rose-deep);
+      color: var(--white);
+      border-color: var(--rose-darker);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255,120,100,0.3);
+    }
+    .slot.booked {
+      background: var(--booked);
+      color: var(--booked-text);
+      cursor: not-allowed;
+    }
+    .slot-time { font-weight: 800; font-size: 14px; margin-bottom: 4px; }
+    .slot-availability { font-size: 11px; font-weight: 700; opacity: 0.8; }
+    .slots-loading {
+      text-align: center;
+      color: var(--text-light);
+      font-weight: 700;
+      padding: 20px;
+      font-size: 14px;
+      grid-column: 1 / -1;
+    }
+
+    /* Guest counter */
+    .guest-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rose-light);
+    }
+    .guest-row:last-of-type { border-bottom: none; }
+    .guest-info { flex: 1; }
+    .guest-label { font-weight: 800; font-size: 15px; }
+    .guest-sublabel { font-size: 12px; color: var(--text-light); font-weight: 600; }
+    .guest-price { font-weight: 700; color: var(--rose-darker); font-size: 14px; margin-right: 16px; }
+    .counter { display: flex; align-items: center; gap: 12px; }
+    .counter-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--rose-mid);
+      background: var(--white);
+      color: var(--rose-darker);
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      line-height: 1;
+    }
+    .counter-btn:hover { background: var(--rose-mid); color: var(--white); }
+    .counter-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .counter-val { font-size: 18px; font-weight: 900; min-width: 20px; text-align: center; }
+
+    /* Capacity */
+    .capacity-info {
+      margin-top: 16px;
+      padding: 12px 14px;
+      background: var(--cream);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-light);
+    }
+    .capacity-bar-wrap {
+      height: 6px;
+      background: var(--rose-light);
+      border-radius: 99px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .capacity-bar-fill {
+      height: 100%;
+      background: var(--rose-deep);
+      border-radius: 99px;
+      transition: width 0.3s;
+    }
+
+    /* Discount */
+    .discount-section {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--rose-light);
+    }
+    .discount-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .discount-row { display: flex; gap: 8px; }
+    .discount-input {
+      flex: 1;
+      padding: 10px 14px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      border: 2px solid var(--rose-light);
+      border-radius: 10px;
+      background: var(--cream);
+      color: var(--text);
+      outline: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .discount-input:focus { border-color: var(--rose-mid); }
+    .discount-apply-btn {
+      padding: 10px 16px;
+      background: var(--rose-mid);
+      color: var(--white);
       border: none;
       border-radius: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
       cursor: pointer;
+      transition: background 0.2s;
     }
-    button:hover { background: #ff998a; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
-    input {
-      padding: 10px;
-      font-size: 16px;
-      margin: 10px;
+    .discount-apply-btn:hover { background: var(--rose-deep); }
+    .discount-msg { margin-top: 8px; font-size: 13px; font-weight: 700; }
+    .discount-msg.success { color: var(--green-dark); }
+    .discount-msg.error { color: #e05a5a; }
+
+    /* Total */
+    .total-box {
+      margin-top: 18px;
+      padding: 14px 16px;
+      background: var(--rose-light);
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    #confirmation { margin-top: 20px; font-size: 18px; }
-    #debug { color: red; margin-top: 10px; font-size: 14px; }
+    .total-label { font-weight: 800; font-size: 15px; }
+    .total-amount { font-weight: 900; font-size: 22px; color: var(--rose-darker); }
+    .total-note { font-size: 11px; color: var(--text-light); font-weight: 600; margin-top: 2px; }
+
+    /* Form */
+    .form-group { margin-bottom: 14px; }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 13px 16px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      border: 2px solid var(--rose-light);
+      border-radius: 12px;
+      background: var(--cream);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--rose-mid); }
+
+    /* Summary */
+    .summary-box {
+      background: var(--cream);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-light);
+      line-height: 1.9;
+    }
+    .summary-box strong { color: var(--text); }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 17px;
+      font-weight: 900;
+      background: var(--rose-deep);
+      color: var(--white);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 16px rgba(255,120,100,0.25);
+    }
+    .btn-primary:hover { background: var(--rose-darker); transform: translateY(-1px); }
+    .btn-primary:disabled { background: var(--booked); box-shadow: none; cursor: not-allowed; transform: none; }
+    .btn-secondary {
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 10px 0;
+      display: block;
+      margin: 10px auto 0;
+      text-decoration: underline;
+    }
+    .btn-secondary:hover { color: var(--text); }
+
+    /* Confirmation */
+    .confirmation-screen {
+      text-align: center;
+      padding: 12px 0;
+      display: none;
+      animation: fadeUp 0.4s ease;
+    }
+    .confirmation-screen.active { display: block; }
+    .confirm-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+      display: block;
+      animation: bounceIn 0.5s ease;
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0); }
+      60% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .confirmation-screen h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 28px;
+      color: var(--rose-darker);
+      margin-bottom: 10px;
+    }
+    .confirmation-screen p {
+      font-size: 15px;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: 6px;
+      line-height: 1.6;
+    }
+    .confirm-details {
+      background: var(--cream);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 20px 0;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 2;
+    }
+    .event-link {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 12px 24px;
+      background: var(--rose-light);
+      color: var(--rose-darker);
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 14px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .event-link:hover { background: var(--rose-mid); color: var(--white); }
+
+    /* Error */
+    .error-msg {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #fff0f0;
+      border-radius: 10px;
+      color: #e05a5a;
+      font-size: 13px;
+      font-weight: 700;
+      display: none;
+    }
+    .error-msg.visible { display: block; }
   </style>
 </head>
 <body>
-  <h1>🐾 Book Your Cat Lounge Time</h1>
+<div class="booking-wrapper">
 
-  <h2>Select a Date</h2>
-  <input type="date" id="datePicker" />
+  <!-- Header -->
+  <div class="header">
+    <span class="paws">🐾🐱🐾</span>
+    <h1>Three Tails Cafe</h1>
+    <p>Book your cozy cat lounge session</p>
+  </div>
 
-  <h2>Select a Time</h2>
-  <div class="slot" onclick="selectSlot(this)">1:00 PM – 2:00 PM</div>
-  <div class="slot" onclick="selectSlot(this)">2:00 PM – 3:00 PM</div>
-  <div class="slot" onclick="selectSlot(this)">3:00 PM – 4:00 PM</div>
+  <!-- Progress -->
+  <div class="progress" id="progressBar">
+    <div class="progress-step">
+      <div class="step-circle active" id="circle-1">1</div>
+      <div class="step-label active" id="label-1">Date</div>
+    </div>
+    <div class="progress-line" id="line-1"></div>
+    <div class="progress-step">
+      <div class="step-circle" id="circle-2">2</div>
+      <div class="step-label" id="label-2">Time</div>
+    </div>
+    <div class="progress-line" id="line-2"></div>
+    <div class="progress-step">
+      <div class="step-circle" id="circle-3">3</div>
+      <div class="step-label" id="label-3">Guests</div>
+    </div>
+    <div class="progress-line" id="line-3"></div>
+    <div class="progress-step">
+      <div class="step-circle" id="circle-4">4</div>
+      <div class="step-label" id="label-4">Info</div>
+    </div>
+  </div>
 
-  <div id="selection"></div>
+  <!-- Step 1: Date -->
+  <div class="card active" id="step-1">
+    <h2><span>📅</span>Pick a Date</h2>
+    <input type="date" id="datePicker" />
+    <button class="btn-primary" style="margin-top:18px" onclick="goToStep2()">Choose a Time →</button>
+  </div>
 
-  <h2>Your Info</h2>
-  <input type="text" id="name" placeholder="Your Name" />
-  <input type="email" id="email" placeholder="Your Email" />
-  <br/>
-  <button id="bookBtn" onclick="confirmBooking()">Confirm Booking</button>
+  <!-- Step 2: Time -->
+  <div class="card" id="step-2">
+    <h2><span>🕐</span>Pick a Time</h2>
+    <div class="slots-grid" id="slotsGrid">
+      <div class="slots-loading">Loading availability...</div>
+    </div>
+    <button class="btn-primary" style="margin-top:18px" onclick="goToStep3()" id="timeNextBtn" disabled>Select Guests →</button>
+    <button class="btn-secondary" onclick="goToStep(1)">← Back</button>
+  </div>
 
-  <div id="confirmation"></div>
-  <div id="debug"></div>
+  <!-- Step 3: Guests & Pricing -->
+  <div class="card" id="step-3">
+    <h2><span>🧑‍🤝‍🧑</span>Guests & Pricing</h2>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    // --- Debug: confirm script is running ---
-    document.getElementById('debug').innerText = "⏳ Initializing...";
+    <div class="guest-row">
+      <div class="guest-info">
+        <div class="guest-label">Adults</div>
+        <div class="guest-sublabel">Ages 14+</div>
+      </div>
+      <div class="guest-price" id="adultPrice">$15 each</div>
+      <div class="counter">
+        <button class="counter-btn" onclick="changeGuest('adult',-1)" id="adultMinus">−</button>
+        <div class="counter-val" id="adultCount">1</div>
+        <button class="counter-btn" onclick="changeGuest('adult',1)" id="adultPlus">+</button>
+      </div>
+    </div>
 
-    // --- Supabase init ---
-    let supabaseClient;
+    <div class="guest-row">
+      <div class="guest-info">
+        <div class="guest-label">Children</div>
+        <div class="guest-sublabel">Ages 13 & under (0.5 capacity each)</div>
+      </div>
+      <div class="guest-price" id="childPrice">$9 each</div>
+      <div class="counter">
+        <button class="counter-btn" onclick="changeGuest('child',-1)" id="childMinus">−</button>
+        <div class="counter-val" id="childCount">0</div>
+        <button class="counter-btn" onclick="changeGuest('child',1)" id="childPlus">+</button>
+      </div>
+    </div>
+
+    <div class="capacity-info">
+      <div id="capacityText">Select a time to see availability</div>
+      <div class="capacity-bar-wrap">
+        <div class="capacity-bar-fill" id="capacityBar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="discount-section">
+      <span class="discount-label">🎖️ Discount Code (VET, SHELTER, DVM)</span>
+      <div class="discount-row">
+        <input type="text" class="discount-input" id="discountCode" placeholder="Enter code" maxlength="10" />
+        <button class="discount-apply-btn" onclick="applyDiscount()">Apply</button>
+      </div>
+      <div class="discount-msg" id="discountMsg"></div>
+    </div>
+
+    <div class="total-box">
+      <div>
+        <div class="total-label">Total</div>
+        <div class="total-note" id="discountNote"></div>
+      </div>
+      <div class="total-amount" id="totalAmount">$15.00</div>
+    </div>
+
+    <button class="btn-primary" style="margin-top:18px" onclick="goToStep4()">Enter Your Info →</button>
+    <button class="btn-secondary" onclick="goToStep(2)">← Back</button>
+  </div>
+
+  <!-- Step 4: Info -->
+  <div class="card" id="step-4">
+    <h2><span>✏️</span>Your Info</h2>
+    <div class="summary-box" id="bookingSummary"></div>
+    <div class="form-group">
+      <label class="form-label" for="guestName">Full Name</label>
+      <input type="text" class="form-input" id="guestName" placeholder="e.g. Jane Smith" autocomplete="name" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="guestEmail">Email Address</label>
+      <input type="email" class="form-input" id="guestEmail" placeholder="e.g. jane@email.com" autocomplete="email" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="guestPhone">Phone <span style="font-weight:600;text-transform:none">(optional)</span></label>
+      <input type="tel" class="form-input" id="guestPhone" placeholder="e.g. 407-555-0100" autocomplete="tel" />
+    </div>
+    <div class="error-msg" id="errorMsg"></div>
+    <button class="btn-primary" onclick="confirmBooking()" id="confirmBtn">Confirm Booking 🐾</button>
+    <button class="btn-secondary" onclick="goToStep(3)">← Back</button>
+  </div>
+
+  <!-- Confirmation -->
+  <div class="confirmation-screen" id="confirmationScreen">
+    <span class="confirm-icon">🎉</span>
+    <h2>You're booked!</h2>
+    <p>We can't wait to see you at Three Tails Cafe.</p>
+    <p>A confirmation email is on its way.</p>
+    <div class="confirm-details" id="confirmDetails"></div>
+    <p style="font-size:13px;margin-top:8px;">Planning a birthday or private event?</p>
+    <a href="mailto:dustin.nieves@threetailscafe.com?subject=Private Event Inquiry" class="event-link">🎂 Inquire About Private Events</a>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────
+  const SUPABASE_URL      = "https://ggckzydfipyvnkwqnpfo.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA";
+
+  // ── Fill these in after setting up EmailJS ──
+  const EMAILJS_PUBLIC_KEY         = "YOUR_EMAILJS_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID         = "YOUR_SERVICE_ID";
+  const EMAILJS_TEMPLATE_CUSTOMER  = "YOUR_CUSTOMER_TEMPLATE_ID";
+  const EMAILJS_TEMPLATE_BUSINESS  = "YOUR_BUSINESS_TEMPLATE_ID";
+  const BUSINESS_EMAIL             = "dustin.nieves@threetailscafe.com";
+
+  const ADULT_PRICE   = 15;
+  const CHILD_PRICE   = 9;
+  const DISCOUNT_PCT  = 0.20;
+  const VALID_CODES   = ["VET", "SHELTER", "DVM"];
+  const MAX_CAPACITY  = 10;
+
+  const TIME_SLOTS = [
+    "9:00 AM – 10:00 AM",
+    "10:00 AM – 11:00 AM",
+    "11:00 AM – 12:00 PM",
+    "12:00 PM – 1:00 PM",
+    "1:00 PM – 2:00 PM",
+    "2:00 PM – 3:00 PM",
+    "3:00 PM – 4:00 PM",
+    "4:00 PM – 5:00 PM",
+    "5:00 PM – 6:00 PM"
+  ];
+
+  // ── STATE ────────────────────────────────────────────────────
+  let db, selectedDate = "", selectedTime = "";
+  let adults = 1, children = 0;
+  let discountApplied = false;
+  let slotCapacityMap = {};
+  let isSubmitting = false, currentStep = 1;
+
+  // ── INIT ─────────────────────────────────────────────────────
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+  document.getElementById("datePicker").min = new Date().toISOString().split("T")[0];
+
+  // ── NAVIGATION ───────────────────────────────────────────────
+  function goToStep(n) {
+    document.getElementById("step-" + currentStep).classList.remove("active");
+    currentStep = n;
+    document.getElementById("step-" + n).classList.add("active");
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function updateProgress(active) {
+    for (let i = 1; i <= 4; i++) {
+      const c = document.getElementById("circle-" + i);
+      const l = document.getElementById("label-" + i);
+      c.classList.remove("active","done");
+      l.classList.remove("active");
+      if (i < active)       { c.classList.add("done"); c.innerText = "✓"; }
+      else if (i === active) { c.classList.add("active"); c.innerText = i; l.classList.add("active"); }
+      else                   { c.innerText = i; }
+    }
+    for (let i = 1; i <= 3; i++) {
+      document.getElementById("line-" + i).classList.toggle("done", i < active);
+    }
+  }
+
+  // ── STEP 1 → 2 ───────────────────────────────────────────────
+  function goToStep2() {
+    selectedDate = document.getElementById("datePicker").value;
+    if (!selectedDate) { alert("Please pick a date first 🐾"); return; }
+    selectedTime = "";
+    document.getElementById("timeNextBtn").disabled = true;
+    goToStep(2);
+    loadSlots();
+  }
+
+  async function loadSlots() {
+    const grid = document.getElementById("slotsGrid");
+    grid.innerHTML = '<div class="slots-loading">🐱 Checking availability...</div>';
+    slotCapacityMap = {};
     try {
-      supabaseClient = window.supabase.createClient(
-        "https://ggckzydfipyvnkwqnpfo.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA"
-      );
-      document.getElementById('debug').innerText = "✅ Script loaded";
-    } catch (e) {
-      document.getElementById('debug').innerText = "❌ Supabase failed to init: " + e.message;
+      const { data, error } = await db
+        .from("bookings")
+        .select("time, adults, children")
+        .eq("date", selectedDate);
+      if (error) throw error;
+      for (const row of (data || [])) {
+        const units = (row.adults || 0) + (row.children || 0) * 0.5;
+        slotCapacityMap[row.time] = (slotCapacityMap[row.time] || 0) + units;
+      }
+    } catch(e) { console.error("Slot load error:", e); }
+    renderSlots();
+  }
+
+  function renderSlots() {
+    const grid = document.getElementById("slotsGrid");
+    grid.innerHTML = "";
+    for (const slot of TIME_SLOTS) {
+      const used      = slotCapacityMap[slot] || 0;
+      const remaining = MAX_CAPACITY - used;
+      const booked    = remaining <= 0;
+      const div = document.createElement("div");
+      div.className = "slot" + (booked ? " booked" : "") + (slot === selectedTime ? " selected" : "");
+      let availText = "Available";
+      if (booked)          availText = "Fully Booked";
+      else if (remaining <= 1) availText = "1 spot left!";
+      else if (remaining <= 3) availText = Math.floor(remaining) + " spots left";
+      div.innerHTML = `<div class="slot-time">${slot}</div><div class="slot-availability">${availText}</div>`;
+      if (!booked) div.onclick = () => selectSlot(div, slot);
+      grid.appendChild(div);
+    }
+  }
+
+  function selectSlot(el, slot) {
+    document.querySelectorAll(".slot").forEach(s => s.classList.remove("selected"));
+    el.classList.add("selected");
+    selectedTime = slot;
+    document.getElementById("timeNextBtn").disabled = false;
+  }
+
+  // ── STEP 2 → 3 ───────────────────────────────────────────────
+  function goToStep3() {
+    if (!selectedTime) { alert("Please pick a time slot 🐾"); return; }
+    adults = 1; children = 0;
+    discountApplied = false;
+    document.getElementById("discountCode").value = "";
+    document.getElementById("discountMsg").innerText = "";
+    document.getElementById("discountMsg").className = "discount-msg";
+    document.getElementById("discountNote").innerText = "";
+    refreshGuestUI();
+    updateTotal();
+    goToStep(3);
+  }
+
+  function refreshGuestUI() {
+    const used      = slotCapacityMap[selectedTime] || 0;
+    const myUnits   = adults + children * 0.5;
+    const remaining = MAX_CAPACITY - used - myUnits;
+    const totalUsed = used + myUnits;
+    const pct       = Math.min((totalUsed / MAX_CAPACITY) * 100, 100);
+
+    document.getElementById("adultCount").innerText  = adults;
+    document.getElementById("childCount").innerText  = children;
+    document.getElementById("adultMinus").disabled   = adults <= 1;
+    document.getElementById("adultPlus").disabled    = remaining < 1;
+    document.getElementById("childMinus").disabled   = children <= 0;
+    document.getElementById("childPlus").disabled    = remaining < 0.5;
+    document.getElementById("capacityBar").style.width = pct + "%";
+
+    const spotsLeft = MAX_CAPACITY - totalUsed;
+    document.getElementById("capacityText").innerText =
+      spotsLeft <= 0   ? "This slot is now full" :
+      spotsLeft < 1    ? "Less than 1 unit of capacity remaining" :
+      Math.floor(spotsLeft) + " capacity unit" + (Math.floor(spotsLeft) !== 1 ? "s" : "") + " remaining in this slot";
+  }
+
+  function changeGuest(type, delta) {
+    const used      = slotCapacityMap[selectedTime] || 0;
+    const myUnits   = adults + children * 0.5;
+    const remaining = MAX_CAPACITY - used - myUnits;
+    if (type === "adult") {
+      if (delta === 1 && remaining < 1) return;
+      if (delta === -1 && adults <= 1) return;
+      adults += delta;
+    } else {
+      if (delta === 1 && remaining < 0.5) return;
+      if (delta === -1 && children <= 0) return;
+      children += delta;
+    }
+    refreshGuestUI();
+    updateTotal();
+  }
+
+  function applyDiscount() {
+    const code = document.getElementById("discountCode").value.trim().toUpperCase();
+    const msg  = document.getElementById("discountMsg");
+    if (VALID_CODES.includes(code)) {
+      discountApplied = true;
+      msg.className = "discount-msg success";
+      msg.innerText = "✅ 20% discount applied!";
+    } else {
+      discountApplied = false;
+      msg.className = "discount-msg error";
+      msg.innerText = code ? "❌ Invalid code. Valid codes: VET, SHELTER, DVM." : "❌ Please enter a code.";
+    }
+    updateTotal();
+  }
+
+  function updateTotal() {
+    let total = adults * ADULT_PRICE + children * CHILD_PRICE;
+    if (discountApplied) {
+      total *= (1 - DISCOUNT_PCT);
+      document.getElementById("discountNote").innerText = "20% discount applied";
+      document.getElementById("adultPrice").innerText = "$" + (ADULT_PRICE * 0.8).toFixed(2) + " each";
+      document.getElementById("childPrice").innerText = "$" + (CHILD_PRICE * 0.8).toFixed(2) + " each";
+    } else {
+      document.getElementById("discountNote").innerText = "";
+      document.getElementById("adultPrice").innerText = "$" + ADULT_PRICE + " each";
+      document.getElementById("childPrice").innerText = "$" + CHILD_PRICE + " each";
+    }
+    document.getElementById("totalAmount").innerText = "$" + total.toFixed(2);
+  }
+
+  // ── STEP 3 → 4 ───────────────────────────────────────────────
+  function goToStep4() {
+    const total = document.getElementById("totalAmount").innerText;
+    const lines = [
+      "📅 <strong>" + formatDate(selectedDate) + "</strong>",
+      "🕐 <strong>" + selectedTime + "</strong>",
+      "👤 <strong>" + adults + " adult" + (adults !== 1 ? "s" : "") + "</strong>",
+      children > 0 ? "🧒 <strong>" + children + " child" + (children !== 1 ? "ren" : "") + "</strong>" : null,
+      discountApplied ? "🎖️ <strong>20% discount applied</strong>" : null,
+      "💰 <strong>" + total + "</strong>"
+    ].filter(Boolean);
+    document.getElementById("bookingSummary").innerHTML = "<strong>Your booking summary:</strong><br>" + lines.join("<br>");
+    goToStep(4);
+  }
+
+  // ── CONFIRM ──────────────────────────────────────────────────
+  async function confirmBooking() {
+    if (isSubmitting) return;
+    const name   = document.getElementById("guestName").value.trim();
+    const email  = document.getElementById("guestEmail").value.trim();
+    const phone  = document.getElementById("guestPhone").value.trim();
+    const code   = document.getElementById("discountCode").value.trim().toUpperCase();
+    const total  = parseFloat(document.getElementById("totalAmount").innerText.replace("$",""));
+    const errDiv = document.getElementById("errorMsg");
+
+    errDiv.classList.remove("visible");
+    if (!name || !email) { errDiv.innerText = "Please enter your name and email 🐾"; errDiv.classList.add("visible"); return; }
+    if (!/^\S+@\S+\.\S+$/.test(email)) { errDiv.innerText = "Please enter a valid email address."; errDiv.classList.add("visible"); return; }
+
+    isSubmitting = true;
+    const btn = document.getElementById("confirmBtn");
+    btn.disabled = true;
+    btn.innerText = "Confirming... 🐾";
+
+    // Final capacity check
+    const { data: fresh } = await db.from("bookings").select("adults, children").eq("date", selectedDate).eq("time", selectedTime);
+    const freshUsed = (fresh || []).reduce((s,r) => s + (r.adults||0) + (r.children||0)*0.5, 0);
+    if (freshUsed + adults + children * 0.5 > MAX_CAPACITY) {
+      errDiv.innerText = "Sorry, this slot just filled up! Please go back and choose another time.";
+      errDiv.classList.add("visible");
+      btn.disabled = false; btn.innerText = "Confirm Booking 🐾"; isSubmitting = false;
+      return;
     }
 
-    let selectedTime = "";
-    let isSubmitting = false;
+    // Insert
+    const { error } = await db.from("bookings").insert([{
+      name, email, phone, date: selectedDate, time: selectedTime,
+      adults, children, discount_code: code || null, total
+    }]).select();
 
-    function selectSlot(element) {
-      const date = document.getElementById('datePicker').value;
-      if (!date) {
-        alert("Please select a date first 🐾");
-        return;
-      }
-      document.querySelectorAll('.slot').forEach(slot => slot.classList.remove('selected'));
-      element.classList.add('selected');
-      selectedTime = element.innerText;
-      document.getElementById('selection').innerText =
-        "Booking: " + date + " at " + selectedTime;
+    if (error) {
+      errDiv.innerText = "Booking failed: " + error.message;
+      errDiv.classList.add("visible");
+      btn.disabled = false; btn.innerText = "Confirm Booking 🐾"; isSubmitting = false;
+      return;
     }
 
-    async function confirmBooking() {
-      if (isSubmitting) return;
+    // Send emails
+    const params = {
+      customer_name: name, customer_email: email,
+      booking_date: formatDate(selectedDate), booking_time: selectedTime,
+      adults, children, discount: discountApplied ? "20% (" + code + ")" : "None",
+      total: "$" + total.toFixed(2), business_email: BUSINESS_EMAIL
+    };
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CUSTOMER, { ...params, to_email: email });
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_BUSINESS,  { ...params, to_email: BUSINESS_EMAIL });
+    } catch(e) { console.warn("Email failed (booking still saved):", e); }
 
-      const date = document.getElementById('datePicker').value;
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const btn = document.getElementById('bookBtn');
-      const confirmDiv = document.getElementById('confirmation');
-      const debugDiv = document.getElementById('debug');
+    // Show confirmation
+    document.getElementById("step-4").classList.remove("active");
+    document.getElementById("progressBar").style.display = "none";
+    const screen = document.getElementById("confirmationScreen");
+    screen.classList.add("active");
+    document.getElementById("confirmDetails").innerHTML =
+      "📅 <strong>" + formatDate(selectedDate) + "</strong><br>" +
+      "🕐 <strong>" + selectedTime + "</strong><br>" +
+      "👤 <strong>" + adults + " adult" + (adults!==1?"s":"") +
+      (children > 0 ? " + " + children + " child" + (children!==1?"ren":"") : "") + "</strong><br>" +
+      "💰 <strong>$" + total.toFixed(2) + "</strong>" +
+      (discountApplied ? "<br>🎖️ <strong>20% discount applied</strong>" : "");
 
-      if (!date || !selectedTime || !name || !email) {
-        alert("Please complete all fields 🐾");
-        return;
-      }
+    isSubmitting = false;
+  }
 
-      // Loading state
-      isSubmitting = true;
-      btn.disabled = true;
-      btn.innerText = "Booking...";
-      confirmDiv.innerText = "";
-      debugDiv.innerText = "⏳ Submitting...";
-
-      const { data, error } = await supabaseClient
-        .from('bookings')
-        .insert([{ name, email, date, time: selectedTime }])
-        .select();
-
-      if (error) {
-        confirmDiv.style.color = "red";
-        confirmDiv.innerText = "❌ Booking failed: " + error.message;
-        debugDiv.innerText = "Error code: " + (error.code || "unknown");
-      } else {
-        confirmDiv.style.color = "green";
-        confirmDiv.innerText = "✅ Booking confirmed for " + name + " on " + date + " at " + selectedTime;
-        debugDiv.innerText = "";
-
-        // Clear form
-        document.getElementById('datePicker').value = "";
-        document.getElementById('name').value = "";
-        document.getElementById('email').value = "";
-        document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
-        document.getElementById('selection').innerText = "";
-        selectedTime = "";
-      }
-
-      isSubmitting = false;
-      btn.disabled = false;
-      btn.innerText = "Confirm Booking";
-    }
-  </script>
+  // ── HELPERS ──────────────────────────────────────────────────
+  function formatDate(d) {
+    const [y,m,day] = d.split("-");
+    return new Date(y, m-1, day).toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+  }
+</script>
 </body>
 </html>
