@@ -28,14 +28,28 @@
     }
 
     #selection {
-      margin-top: 30px;
+      margin-top: 20px;
       font-size: 18px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background: #ffb3a7;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff998a;
     }
 
     input {
       padding: 10px;
       font-size: 16px;
-      margin-bottom: 20px;
+      margin: 10px;
     }
   </style>
 </head>
@@ -54,7 +68,18 @@
 
   <div id="selection"></div>
 
+  <h2>Your Info</h2>
+  <input type="text" id="name" placeholder="Your Name" />
+  <input type="email" id="email" placeholder="Your Email" />
+
+  <br/>
+  <button onclick="confirmBooking()">Confirm Booking</button>
+
+  <div id="confirmation"></div>
+
   <script>
+    let selectedTime = "";
+
     function selectSlot(element) {
       const date = document.getElementById('datePicker').value;
 
@@ -68,9 +93,24 @@
       });
 
       element.classList.add('selected');
+      selectedTime = element.innerText;
 
       document.getElementById('selection').innerText =
-        "Booking: " + date + " at " + element.innerText;
+        "Booking: " + date + " at " + selectedTime;
+    }
+
+    function confirmBooking() {
+      const date = document.getElementById('datePicker').value;
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+
+      if (!date || !selectedTime || !name || !email) {
+        alert("Please complete all fields 🐾");
+        return;
+      }
+
+      document.getElementById('confirmation').innerText =
+        "✅ Booking confirmed for " + name + " on " + date + " at " + selectedTime;
     }
   </script>
 
