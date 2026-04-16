@@ -9,7 +9,6 @@
       text-align: center;
       padding: 40px;
     }
-
     .slot {
       display: inline-block;
       margin: 10px;
@@ -18,20 +17,9 @@
       border-radius: 12px;
       cursor: pointer;
     }
-
-    .slot:hover {
-      background: #ffd1cc;
-    }
-
-    .selected {
-      background: #ffb3a7 !important;
-    }
-
-    #selection {
-      margin-top: 20px;
-      font-size: 18px;
-    }
-
+    .slot:hover { background: #ffd1cc; }
+    .selected { background: #ffb3a7 !important; }
+    #selection { margin-top: 20px; font-size: 18px; }
     button {
       margin-top: 20px;
       padding: 12px 20px;
@@ -41,27 +29,24 @@
       border-radius: 10px;
       cursor: pointer;
     }
-
-    button:hover {
-      background: #ff998a;
-    }
-
+    button:hover { background: #ff998a; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
     input {
       padding: 10px;
       font-size: 16px;
       margin: 10px;
     }
+    #confirmation { margin-top: 20px; font-size: 18px; }
+    #debug { color: red; margin-top: 10px; font-size: 14px; }
   </style>
 </head>
 <body>
-
   <h1>🐾 Book Your Cat Lounge Time</h1>
 
   <h2>Select a Date</h2>
   <input type="date" id="datePicker" />
 
   <h2>Select a Time</h2>
-
   <div class="slot" onclick="selectSlot(this)">1:00 PM – 2:00 PM</div>
   <div class="slot" onclick="selectSlot(this)">2:00 PM – 3:00 PM</div>
   <div class="slot" onclick="selectSlot(this)">3:00 PM – 4:00 PM</div>
@@ -71,64 +56,94 @@
   <h2>Your Info</h2>
   <input type="text" id="name" placeholder="Your Name" />
   <input type="email" id="email" placeholder="Your Email" />
-
   <br/>
-  <button onclick="confirmBooking()">Confirm Booking</button>
+  <button id="bookBtn" onclick="confirmBooking()">Confirm Booking</button>
 
   <div id="confirmation"></div>
+  <div id="debug"></div>
 
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const supabase = window.supabase.createClient(
-      "https://ggckzydfipyvnkwqnpfo.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA"
-    );
+    // --- Debug: confirm script is running ---
+    document.getElementById('debug').innerText = "⏳ Initializing...";
+
+    // --- Supabase init ---
+    let supabaseClient;
+    try {
+      supabaseClient = window.supabase.createClient(
+        "https://ggckzydfipyvnkwqnpfo.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA"
+      );
+      document.getElementById('debug').innerText = "✅ Script loaded";
+    } catch (e) {
+      document.getElementById('debug').innerText = "❌ Supabase failed to init: " + e.message;
+    }
 
     let selectedTime = "";
+    let isSubmitting = false;
 
     function selectSlot(element) {
       const date = document.getElementById('datePicker').value;
-
       if (!date) {
         alert("Please select a date first 🐾");
         return;
       }
-
-      document.querySelectorAll('.slot').forEach(slot => {
-        slot.classList.remove('selected');
-      });
-
+      document.querySelectorAll('.slot').forEach(slot => slot.classList.remove('selected'));
       element.classList.add('selected');
       selectedTime = element.innerText;
-
       document.getElementById('selection').innerText =
         "Booking: " + date + " at " + selectedTime;
     }
 
     async function confirmBooking() {
+      if (isSubmitting) return;
+
       const date = document.getElementById('datePicker').value;
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const btn = document.getElementById('bookBtn');
+      const confirmDiv = document.getElementById('confirmation');
+      const debugDiv = document.getElementById('debug');
 
       if (!date || !selectedTime || !name || !email) {
         alert("Please complete all fields 🐾");
         return;
       }
 
-      const { error } = await supabase
+      // Loading state
+      isSubmitting = true;
+      btn.disabled = true;
+      btn.innerText = "Booking...";
+      confirmDiv.innerText = "";
+      debugDiv.innerText = "⏳ Submitting...";
+
+      const { data, error } = await supabaseClient
         .from('bookings')
-        .insert([{ name, email, date, time: selectedTime }]).select();
+        .insert([{ name, email, date, time: selectedTime }])
+        .select();
 
       if (error) {
-        alert("❌ Booking failed. Try again.");
-        console.error(error);
+        confirmDiv.style.color = "red";
+        confirmDiv.innerText = "❌ Booking failed: " + error.message;
+        debugDiv.innerText = "Error code: " + (error.code || "unknown");
       } else {
-        document.getElementById('confirmation').innerText =
-          "✅ Booking confirmed for " + name + " on " + date + " at " + selectedTime;
+        confirmDiv.style.color = "green";
+        confirmDiv.innerText = "✅ Booking confirmed for " + name + " on " + date + " at " + selectedTime;
+        debugDiv.innerText = "";
+
+        // Clear form
+        document.getElementById('datePicker').value = "";
+        document.getElementById('name').value = "";
+        document.getElementById('email').value = "";
+        document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+        document.getElementById('selection').innerText = "";
+        selectedTime = "";
       }
+
+      isSubmitting = false;
+      btn.disabled = false;
+      btn.innerText = "Confirm Booking";
     }
   </script>
-
 </body>
 </html>
