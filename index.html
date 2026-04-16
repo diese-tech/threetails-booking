@@ -22,6 +22,15 @@
     .slot:hover {
       background: #ffd1cc;
     }
+
+    .selected {
+      background: #ffb3a7 !important;
+    }
+
+    #selection {
+      margin-top: 30px;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
@@ -30,9 +39,27 @@
 
   <h2>Select a Time</h2>
 
-  <div class="slot">1:00 PM – 2:00 PM</div>
-  <div class="slot">2:00 PM – 3:00 PM</div>
-  <div class="slot">3:00 PM – 4:00 PM</div>
+  <div class="slot" onclick="selectSlot(this)">1:00 PM – 2:00 PM</div>
+  <div class="slot" onclick="selectSlot(this)">2:00 PM – 3:00 PM</div>
+  <div class="slot" onclick="selectSlot(this)">3:00 PM – 4:00 PM</div>
+
+  <div id="selection"></div>
+
+  <script>
+    function selectSlot(element) {
+      // remove previous selection
+      document.querySelectorAll('.slot').forEach(slot => {
+        slot.classList.remove('selected');
+      });
+
+      // highlight clicked
+      element.classList.add('selected');
+
+      // show selected time
+      document.getElementById('selection').innerText =
+        "You selected: " + element.innerText;
+    }
+  </script>
 
 </body>
 </html>
