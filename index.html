@@ -7,20 +7,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --cream: #fff8f2;
-      --rose-light: #ffe4e1;
-      --rose-mid: #ffb3a7;
-      --rose-deep: #ff998a;
-      --rose-darker: #e8796a;
-      --booked: #e0e0e0;
-      --booked-text: #aaa;
-      --green: #6dbf82;
-      --green-dark: #4ea36a;
-      --text: #3d2c2c;
-      --text-light: #9c7c7c;
-      --white: #ffffff;
-      --shadow: 0 4px 24px rgba(255,140,120,0.13);
-      --radius: 16px;
+      /* ── Brand Palette ── */
+      --cream:       #F6F1E8;   /* 60% — primary background */
+      --sage:        #A7B6A3;   /* 20% — containers, sections */
+      --sage-light:  #C8D4C4;   /* lighter sage for hover states */
+      --blue:        #7F9BB3;   /* 10% — selected, focus, active */
+      --blue-light:  #B0C4D4;   /* lighter blue for borders/subtle accents */
+      --apricot:     #E6B39A;   /* 5%  — buttons */
+      --apricot-dark:#C98E72;   /* button hover */
+      --sand:        #E9DDCF;   /* section contrast, card backgrounds */
+      --espresso:    #4A3F36;   /* 5%  — all text */
+      --espresso-light: #8A7B6F; /* secondary text */
+
+      /* ── Utility ── */
+      --booked:      #D6CFC7;
+      --booked-text: #9E9087;
+      --green:       #6dbf82;
+      --green-dark:  #4ea36a;
+      --white:       #FFFFFF;
+      --shadow:      0 2px 16px rgba(74, 63, 54, 0.08);
+      --shadow-card: 0 4px 24px rgba(74, 63, 54, 0.10);
+      --radius:      14px;
+      --radius-sm:   10px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,183 +36,228 @@
     body {
       font-family: 'Nunito', sans-serif;
       background: var(--cream);
-      color: var(--text);
+      color: var(--espresso);
       min-height: 100vh;
-      padding: 24px 12px 64px;
+      padding: 32px 16px 72px;
     }
 
     .booking-wrapper {
       width: 99%;
-      max-width: 640px;
+      max-width: 600px;
       margin: 0 auto;
     }
 
-    /* Header */
+    /* ── HEADER ── */
     .header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
-    .header .paws { font-size: 32px; margin-bottom: 6px; display: block; }
+    .header .paws {
+      font-size: 30px;
+      margin-bottom: 8px;
+      display: block;
+      opacity: 0.75;
+    }
     .header h1 {
       font-family: 'Pacifico', cursive;
-      font-size: clamp(26px, 6vw, 38px);
-      color: var(--rose-darker);
+      font-size: clamp(26px, 6vw, 36px);
+      color: var(--espresso);
       line-height: 1.2;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
     }
-    .header p { font-size: 14px; color: var(--text-light); font-weight: 600; }
+    .header p {
+      font-size: 14px;
+      color: var(--espresso-light);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
 
-    /* Progress */
+    /* ── PROGRESS ── */
     .progress {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
-    .progress-step { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
     .step-circle {
       width: 32px; height: 32px;
       border-radius: 50%;
-      background: var(--rose-light);
-      color: var(--text-light);
+      background: var(--sand);
+      color: var(--espresso-light);
       font-weight: 800; font-size: 13px;
       display: flex; align-items: center; justify-content: center;
       transition: all 0.3s ease;
       border: 2px solid transparent;
     }
-    .step-circle.active { background: var(--rose-mid); color: var(--white); border-color: var(--rose-deep); transform: scale(1.15); }
-    .step-circle.done { background: var(--green); color: var(--white); }
-    .step-label { font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
-    .step-label.active { color: var(--rose-darker); }
-    .progress-line { width: 40px; height: 2px; background: var(--rose-light); margin-bottom: 18px; transition: background 0.3s; }
+    .step-circle.active {
+      background: var(--blue);
+      color: var(--white);
+      border-color: var(--blue-light);
+      transform: scale(1.15);
+      box-shadow: 0 2px 10px rgba(127, 155, 179, 0.35);
+    }
+    .step-circle.done {
+      background: var(--green);
+      color: var(--white);
+    }
+    .step-label {
+      font-size: 10px; font-weight: 700;
+      color: var(--espresso-light);
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .step-label.active { color: var(--blue); }
+    .progress-line {
+      width: 40px; height: 2px;
+      background: var(--sand);
+      margin-bottom: 20px;
+      transition: background 0.3s;
+    }
     .progress-line.done { background: var(--green); }
 
-    /* Card */
+    /* ── CARD ── */
     .card {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 22px 18px;
-      box-shadow: var(--shadow);
-      margin-bottom: 14px;
+      padding: 26px 22px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 16px;
       display: none;
       animation: fadeUp 0.35s ease;
+      border: 1px solid rgba(74, 63, 54, 0.06);
     }
     .card.active { display: block; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .card h2 { font-size: 18px; font-weight: 800; margin-bottom: 16px; color: var(--text); }
-    .card h2 span { font-size: 20px; margin-right: 6px; }
+    .card h2 {
+      font-size: 17px; font-weight: 800;
+      margin-bottom: 18px; color: var(--espresso);
+      letter-spacing: 0.2px;
+    }
+    .card h2 span { font-size: 19px; margin-right: 7px; opacity: 0.8; }
 
     /* ── WAIVER ── */
     .rules-list { list-style: none; margin-bottom: 20px; }
     .rules-list li {
-      display: flex;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--rose-light);
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.5;
-      color: var(--text);
+      display: flex; gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--sand);
+      font-size: 13px; font-weight: 600;
+      line-height: 1.55; color: var(--espresso);
     }
     .rules-list li:last-child { border-bottom: none; }
-    .rules-list li .rule-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .rules-list li .rule-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; opacity: 0.85; }
+
     .waiver-check-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 14px;
-      background: var(--rose-light);
-      border-radius: 12px;
-      margin-bottom: 16px;
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px;
+      background: var(--sand);
+      border-radius: var(--radius-sm);
+      margin-bottom: 18px;
       cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: border-color 0.2s;
     }
+    .waiver-check-row:hover { border-color: var(--blue-light); }
     .waiver-check-row input[type="checkbox"] {
-      width: 20px; height: 20px;
-      accent-color: var(--rose-deeper);
-      flex-shrink: 0;
-      margin-top: 2px;
-      cursor: pointer;
+      width: 18px; height: 18px;
+      accent-color: var(--blue);
+      flex-shrink: 0; margin-top: 2px; cursor: pointer;
     }
     .waiver-check-row label {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text);
-      cursor: pointer;
-      line-height: 1.5;
+      font-size: 13px; font-weight: 700;
+      color: var(--espresso); cursor: pointer; line-height: 1.5;
     }
 
     /* ── CALENDAR ── */
-    .calendar-wrap { margin-bottom: 20px; }
+    .calendar-wrap {
+      background: var(--sand);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 20px;
+    }
     .cal-header {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
     .cal-month-label {
-      font-size: 16px;
-      font-weight: 900;
-      color: var(--text);
+      font-size: 15px; font-weight: 900; color: var(--espresso);
     }
     .cal-nav {
-      width: 34px; height: 34px;
+      width: 32px; height: 32px;
       border-radius: 50%;
-      border: 2px solid var(--rose-mid);
+      border: 1.5px solid var(--sage);
       background: var(--white);
-      color: var(--rose-darker);
-      font-size: 16px;
-      font-weight: 900;
+      color: var(--espresso);
+      font-size: 15px; font-weight: 900;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       transition: all 0.15s;
     }
-    .cal-nav:hover { background: var(--rose-mid); color: var(--white); }
+    .cal-nav:hover { background: var(--sage); color: var(--white); border-color: var(--sage); }
     .cal-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+
     .cal-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 4px;
     }
     .cal-dow {
-      text-align: center;
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--text-light);
-      text-transform: uppercase;
-      padding: 4px 0 8px;
+      text-align: center; font-size: 10px; font-weight: 800;
+      color: var(--espresso-light); text-transform: uppercase;
+      padding: 2px 0 8px; letter-spacing: 0.3px;
     }
     .cal-day {
       aspect-ratio: 1;
-      border-radius: 10px;
+      border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13px; font-weight: 700;
       cursor: pointer;
       transition: all 0.15s;
-      background: var(--rose-light);
-      color: var(--text);
-      border: 2px solid transparent;
+      background: var(--white);
+      color: var(--espresso);
+      border: 1.5px solid transparent;
       min-width: 0;
     }
-    .cal-day:hover:not(.disabled):not(.empty) { background: var(--rose-mid); color: var(--white); }
-    .cal-day.selected { background: var(--rose-deep); color: var(--white); border-color: var(--rose-darker); transform: scale(1.08); }
-    .cal-day.today { border-color: var(--rose-mid); }
-    .cal-day.disabled { background: var(--booked); color: var(--booked-text); cursor: not-allowed; }
+    .cal-day:hover:not(.disabled):not(.empty) {
+      background: var(--sage-light);
+      color: var(--espresso);
+    }
+    .cal-day.selected {
+      background: var(--blue);
+      color: var(--white);
+      border-color: var(--blue);
+      transform: scale(1.08);
+      box-shadow: 0 2px 8px rgba(127, 155, 179, 0.4);
+    }
+    .cal-day.today {
+      border-color: var(--apricot);
+      font-weight: 900;
+    }
+    .cal-day.disabled {
+      background: var(--booked);
+      color: var(--booked-text);
+      cursor: not-allowed;
+    }
     .cal-day.empty { background: transparent; cursor: default; }
 
     /* ── SLOTS ── */
     .slots-section { margin-top: 4px; }
     .slots-label {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text-light);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: 12px; font-weight: 800;
+      color: var(--espresso-light);
+      text-transform: uppercase; letter-spacing: 0.6px;
       margin-bottom: 10px;
     }
     .slots-grid {
@@ -215,212 +268,255 @@
     @media (min-width: 400px) {
       .slots-grid { grid-template-columns: repeat(3, 1fr); }
     }
+
     .slot {
       padding: 11px 8px;
-      border-radius: 10px;
-      background: var(--rose-light);
+      border-radius: 99px;
+      background: var(--sand);
       text-align: center;
       cursor: pointer;
       transition: all 0.2s ease;
-      border: 2px solid transparent;
+      border: 1.5px solid transparent;
       user-select: none;
     }
-    .slot:hover:not(.booked) { background: var(--rose-mid); transform: translateY(-1px); }
-    .slot.selected {
-      background: var(--rose-deep);
-      color: var(--white);
-      border-color: var(--rose-darker);
-      transform: translateY(-1px);
-      box-shadow: 0 3px 10px rgba(255,120,100,0.3);
+    .slot:hover:not(.booked) {
+      background: var(--sage-light);
+      border-color: var(--sage);
     }
-    .slot.booked { background: var(--booked); color: var(--booked-text); cursor: not-allowed; }
-    .slot-time { font-weight: 800; font-size: 12px; margin-bottom: 3px; }
-    .slot-availability { font-size: 10px; font-weight: 700; opacity: 0.8; }
+    .slot.selected {
+      background: var(--blue);
+      color: var(--white);
+      border-color: var(--blue);
+      box-shadow: 0 2px 10px rgba(127, 155, 179, 0.35);
+    }
+    .slot.booked {
+      background: var(--booked);
+      color: var(--booked-text);
+      cursor: not-allowed;
+    }
+    .slot-time { font-weight: 800; font-size: 12px; margin-bottom: 2px; }
+    .slot-availability { font-size: 10px; font-weight: 700; opacity: 0.75; }
+    .slot.selected .slot-availability { opacity: 0.9; }
+
     .slots-loading {
       grid-column: 1 / -1;
-      text-align: center;
-      color: var(--text-light);
-      font-weight: 700;
-      padding: 16px;
-      font-size: 13px;
+      text-align: center; color: var(--espresso-light);
+      font-weight: 700; padding: 16px; font-size: 13px;
     }
     .slots-placeholder {
       grid-column: 1 / -1;
-      text-align: center;
-      color: var(--text-light);
-      font-weight: 700;
-      font-size: 13px;
-      padding: 16px;
-      background: var(--cream);
-      border-radius: 10px;
+      text-align: center; color: var(--espresso-light);
+      font-weight: 700; font-size: 13px; padding: 16px;
+      background: var(--sand); border-radius: var(--radius-sm);
     }
 
     /* ── GUESTS ── */
     .guest-row {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
-      padding: 13px 0;
-      border-bottom: 1px solid var(--rose-light);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--sand);
     }
     .guest-row:last-of-type { border-bottom: none; }
     .guest-info { flex: 1; }
-    .guest-label { font-weight: 800; font-size: 14px; }
-    .guest-sublabel { font-size: 11px; color: var(--text-light); font-weight: 600; }
-    .guest-price { font-weight: 700; color: var(--rose-darker); font-size: 13px; margin-right: 12px; }
-    .counter { display: flex; align-items: center; gap: 10px; }
+    .guest-label { font-weight: 800; font-size: 14px; color: var(--espresso); }
+    .guest-sublabel { font-size: 11px; color: var(--espresso-light); font-weight: 600; margin-top: 1px; }
+    .guest-price { font-weight: 700; color: var(--blue); font-size: 13px; margin-right: 14px; }
+
+    .counter { display: flex; align-items: center; gap: 12px; }
     .counter-btn {
       width: 30px; height: 30px;
       border-radius: 50%;
-      border: 2px solid var(--rose-mid);
+      border: 1.5px solid var(--sage);
       background: var(--white);
-      color: var(--rose-darker);
+      color: var(--espresso);
       font-size: 17px; font-weight: 800;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: all 0.15s;
-      line-height: 1;
+      transition: all 0.15s; line-height: 1;
     }
-    .counter-btn:hover { background: var(--rose-mid); color: var(--white); }
+    .counter-btn:hover { background: var(--sage); color: var(--white); border-color: var(--sage); }
     .counter-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-    .counter-val { font-size: 17px; font-weight: 900; min-width: 18px; text-align: center; }
+    .counter-val { font-size: 17px; font-weight: 900; min-width: 18px; text-align: center; color: var(--espresso); }
 
     .capacity-info {
-      margin-top: 14px;
-      padding: 11px 13px;
-      background: var(--cream);
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-light);
+      margin-top: 16px; padding: 12px 14px;
+      background: var(--sand); border-radius: var(--radius-sm);
+      font-size: 12px; font-weight: 700; color: var(--espresso-light);
     }
-    .capacity-bar-wrap { height: 5px; background: var(--rose-light); border-radius: 99px; margin-top: 5px; overflow: hidden; }
-    .capacity-bar-fill { height: 100%; background: var(--rose-deep); border-radius: 99px; transition: width 0.3s; }
+    .capacity-bar-wrap {
+      height: 5px; background: var(--cream);
+      border-radius: 99px; margin-top: 6px; overflow: hidden;
+    }
+    .capacity-bar-fill {
+      height: 100%; background: var(--blue);
+      border-radius: 99px; transition: width 0.3s;
+    }
 
-    .discount-section { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--rose-light); }
-    .discount-label { font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 7px; display: block; }
+    /* ── DISCOUNT ── */
+    .discount-section {
+      margin-top: 18px; padding-top: 16px;
+      border-top: 1px solid var(--sand);
+    }
+    .discount-label {
+      font-size: 12px; font-weight: 700;
+      color: var(--espresso-light); margin-bottom: 8px; display: block;
+    }
     .discount-row { display: flex; gap: 8px; }
     .discount-input {
-      flex: 1;
-      padding: 10px 13px;
+      flex: 1; padding: 10px 13px;
       font-family: 'Nunito', sans-serif;
       font-size: 13px; font-weight: 700;
-      border: 2px solid var(--rose-light);
-      border-radius: 10px;
-      background: var(--cream);
-      color: var(--text);
-      outline: none;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      border: 1.5px solid var(--sand);
+      border-radius: var(--radius-sm);
+      background: var(--cream); color: var(--espresso);
+      outline: none; text-transform: uppercase; letter-spacing: 1px;
+      transition: border-color 0.2s;
     }
-    .discount-input:focus { border-color: var(--rose-mid); }
+    .discount-input:focus { border-color: var(--blue); }
     .discount-apply-btn {
-      padding: 10px 14px;
-      background: var(--rose-mid); color: var(--white);
-      border: none; border-radius: 10px;
+      padding: 10px 16px;
+      background: var(--sage); color: var(--white);
+      border: none; border-radius: var(--radius-sm);
       font-family: 'Nunito', sans-serif;
       font-size: 13px; font-weight: 800;
       cursor: pointer; transition: background 0.2s;
     }
-    .discount-apply-btn:hover { background: var(--rose-deep); }
+    .discount-apply-btn:hover { background: var(--espresso); }
     .discount-msg { margin-top: 7px; font-size: 12px; font-weight: 700; }
     .discount-msg.success { color: var(--green-dark); }
-    .discount-msg.error { color: #e05a5a; }
+    .discount-msg.error { color: #c0392b; }
 
+    /* ── TOTAL ── */
     .total-box {
-      margin-top: 16px;
-      padding: 13px 15px;
-      background: var(--rose-light);
-      border-radius: 12px;
+      margin-top: 18px; padding: 14px 16px;
+      background: var(--sand);
+      border-radius: var(--radius-sm);
       display: flex; justify-content: space-between; align-items: center;
+      border: 1px solid rgba(74, 63, 54, 0.08);
     }
-    .total-label { font-weight: 800; font-size: 14px; }
-    .total-amount { font-weight: 900; font-size: 21px; color: var(--rose-darker); }
-    .total-note { font-size: 10px; color: var(--text-light); font-weight: 600; margin-top: 2px; }
+    .total-label { font-weight: 800; font-size: 14px; color: var(--espresso); }
+    .total-amount { font-weight: 900; font-size: 22px; color: var(--espresso); }
+    .total-note { font-size: 10px; color: var(--blue); font-weight: 700; margin-top: 2px; }
 
     /* ── FORM ── */
-    .form-group { margin-bottom: 12px; }
-    .form-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group { margin-bottom: 14px; }
+    .form-label {
+      display: block; font-size: 11px; font-weight: 800;
+      color: var(--espresso-light); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.6px;
+    }
     .form-input {
-      width: 100%;
-      padding: 12px 15px;
+      width: 100%; padding: 13px 15px;
       font-family: 'Nunito', sans-serif;
       font-size: 15px; font-weight: 600;
-      border: 2px solid var(--rose-light);
-      border-radius: 12px;
-      background: var(--cream); color: var(--text);
-      outline: none; transition: border-color 0.2s;
+      border: 1.5px solid var(--sand);
+      border-radius: var(--radius-sm);
+      background: var(--cream); color: var(--espresso);
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .form-input:focus { border-color: var(--rose-mid); }
+    .form-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(127, 155, 179, 0.15);
+    }
 
+    /* ── SUMMARY ── */
     .summary-box {
-      background: var(--cream);
-      border-radius: 12px;
-      padding: 13px 15px;
-      margin-bottom: 16px;
+      background: var(--sand);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-bottom: 18px;
       font-size: 13px; font-weight: 700;
-      color: var(--text-light);
+      color: var(--espresso-light);
       line-height: 1.9;
+      border: 1px solid rgba(74, 63, 54, 0.07);
     }
-    .summary-box strong { color: var(--text); }
+    .summary-box strong { color: var(--espresso); }
 
     /* ── BUTTONS ── */
     .btn-primary {
-      width: 100%;
-      padding: 14px;
+      width: 100%; padding: 14px;
       font-family: 'Nunito', sans-serif;
-      font-size: 16px; font-weight: 900;
-      background: var(--rose-deep); color: var(--white);
-      border: none; border-radius: 14px;
+      font-size: 15px; font-weight: 900;
+      background: var(--apricot);
+      color: var(--espresso);
+      border: none; border-radius: 99px;
       cursor: pointer; transition: all 0.2s;
       letter-spacing: 0.3px;
-      box-shadow: 0 4px 16px rgba(255,120,100,0.25);
+      box-shadow: 0 3px 12px rgba(230, 179, 154, 0.35);
     }
-    .btn-primary:hover { background: var(--rose-darker); transform: translateY(-1px); }
-    .btn-primary:disabled { background: var(--booked); box-shadow: none; cursor: not-allowed; transform: none; }
+    .btn-primary:hover {
+      background: var(--apricot-dark);
+      color: var(--white);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 16px rgba(201, 142, 114, 0.4);
+    }
+    .btn-primary:disabled {
+      background: var(--booked); color: var(--booked-text);
+      box-shadow: none; cursor: not-allowed; transform: none;
+    }
+
     .btn-secondary {
       background: none; border: none;
-      color: var(--text-light);
+      color: var(--espresso-light);
       font-family: 'Nunito', sans-serif;
       font-size: 13px; font-weight: 700;
       cursor: pointer; padding: 10px 0;
-      display: block; margin: 8px auto 0;
-      text-decoration: underline;
+      display: block; margin: 10px auto 0;
+      text-decoration: underline; text-underline-offset: 2px;
+      transition: color 0.15s;
     }
-    .btn-secondary:hover { color: var(--text); }
+    .btn-secondary:hover { color: var(--espresso); }
 
     /* ── CONFIRMATION ── */
-    .confirmation-screen { text-align: center; padding: 12px 0; display: none; animation: fadeUp 0.4s ease; }
+    .confirmation-screen {
+      text-align: center; padding: 12px 0;
+      display: none; animation: fadeUp 0.4s ease;
+    }
     .confirmation-screen.active { display: block; }
-    .confirm-icon { font-size: 60px; margin-bottom: 14px; display: block; animation: bounceIn 0.5s ease; }
+    .confirm-icon {
+      font-size: 56px; margin-bottom: 14px;
+      display: block; animation: bounceIn 0.5s ease;
+    }
     @keyframes bounceIn {
-      0% { transform: scale(0); }
-      60% { transform: scale(1.2); }
+      0%   { transform: scale(0); }
+      60%  { transform: scale(1.2); }
       100% { transform: scale(1); }
     }
-    .confirmation-screen h2 { font-family: 'Pacifico', cursive; font-size: 26px; color: var(--rose-darker); margin-bottom: 8px; }
-    .confirmation-screen p { font-size: 14px; color: var(--text-light); font-weight: 600; margin-bottom: 5px; line-height: 1.6; }
+    .confirmation-screen h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 26px; color: var(--espresso);
+      margin-bottom: 8px;
+    }
+    .confirmation-screen p {
+      font-size: 14px; color: var(--espresso-light);
+      font-weight: 600; margin-bottom: 5px; line-height: 1.6;
+    }
     .confirm-details {
-      background: var(--cream); border-radius: 12px;
-      padding: 15px; margin: 18px 0;
+      background: var(--sand); border-radius: var(--radius-sm);
+      padding: 16px; margin: 20px 0;
       text-align: left; font-size: 13px;
       font-weight: 700; line-height: 2;
+      border: 1px solid rgba(74, 63, 54, 0.07);
     }
     .event-link {
-      display: inline-block; margin-top: 14px;
-      padding: 11px 22px;
-      background: var(--rose-light); color: var(--rose-darker);
-      border-radius: 12px; font-weight: 800; font-size: 13px;
-      text-decoration: none; transition: background 0.2s;
+      display: inline-block; margin-top: 16px;
+      padding: 11px 24px;
+      background: var(--sand); color: var(--espresso);
+      border-radius: 99px; font-weight: 800; font-size: 13px;
+      text-decoration: none; transition: all 0.2s;
+      border: 1.5px solid var(--sage);
     }
-    .event-link:hover { background: var(--rose-mid); color: var(--white); }
+    .event-link:hover {
+      background: var(--sage); color: var(--white);
+    }
 
     /* ── ERROR ── */
     .error-msg {
-      margin-top: 10px; padding: 11px 13px;
-      background: #fff0f0; border-radius: 10px;
-      color: #e05a5a; font-size: 12px; font-weight: 700;
-      display: none;
+      margin-top: 10px; padding: 11px 14px;
+      background: #fdf2f0; border-radius: var(--radius-sm);
+      color: #c0392b; font-size: 12px; font-weight: 700;
+      display: none; border: 1px solid rgba(192, 57, 43, 0.15);
     }
     .error-msg.visible { display: block; }
   </style>
@@ -430,7 +526,7 @@
 
   <!-- Header -->
   <div class="header">
-    <span class="paws">🐾🐱🐾</span>
+
     <h1>Three Tails Cafe</h1>
     <p>Book your cozy cat lounge session</p>
   </div>
@@ -460,17 +556,17 @@
 
   <!-- Step 1: Waiver -->
   <div class="card active" id="step-1">
-    <h2><span>📋</span>Before You Visit</h2>
+    <h2>Before You Visit</h2>
     <ul class="rules-list">
-      <li><span>Our cats come first. Please be gentle, move slowly, and let the cats approach you — never chase or corner them.</span></li>
-      <li><span>Sanitize your hands before entering the lounge. Hand sanitizer is available at the entrance.</span></li>
-      <li><span>Use inside voices. Cats have sensitive hearing — please keep noise low and silence your phone in the lounge.</span></li>
-      <li><span>Children 13 and under must be accompanied by an adult at all times. No more than 2 children per adult in the lounge.</span></li>
-      <li><span>No outside food or drinks in the lounge. Please do not feed the cats — they are on special diets.</span></li>
-      <li><span>No personal pets allowed inside. Only certified medical assistance animals are permitted in the café area.</span></li>
-      <li><span>Do not wake sleeping cats. They need their rest too!</span></li>
-      <li><span>This booking is a reservation confirmation only — payment is collected at the café upon arrival.</span></li>
-      <li><span>Need to reschedule? Please contact us at least 24 hours in advance at dustin.nieves@threetailscafe.com or call 123-456-7890.</span></li>
+      <li>Our cats come first. Please be gentle, move slowly, and let the cats approach you — never chase or corner them.</li>
+      <li>Sanitize your hands before entering the lounge. Hand sanitizer is available at the entrance.</li>
+      <li>Use inside voices. Cats have sensitive hearing — please keep noise low and silence your phone in the lounge.</li>
+      <li>Children 13 and under must be accompanied by an adult at all times. No more than 2 children per adult in the lounge.</li>
+      <li>No outside food or drinks in the lounge. Please do not feed the cats — they are on special diets.</li>
+      <li>No personal pets allowed inside. Only certified medical assistance animals are permitted in the café area.</li>
+      <li>Do not wake sleeping cats. They need their rest too!</li>
+      <li>This booking is a reservation confirmation only — payment is collected at the café upon arrival.</li>
+      <li>Need to reschedule? Please contact us at least 24 hours in advance at dustin.nieves@threetailscafe.com or call 123-456-7890.</li>
     </ul>
     <div class="waiver-check-row" onclick="toggleWaiver()">
       <input type="checkbox" id="waiverCheck" onclick="event.stopPropagation(); updateWaiverBtn()" />
@@ -481,9 +577,8 @@
 
   <!-- Step 2: Date & Time -->
   <div class="card" id="step-2">
-    <h2><span>📅</span>Date & Time</h2>
+    <h2>Date & Time</h2>
 
-    <!-- Calendar -->
     <div class="calendar-wrap">
       <div class="cal-header">
         <button class="cal-nav" id="calPrev" onclick="changeMonth(-1)">‹</button>
@@ -493,21 +588,20 @@
       <div class="cal-grid" id="calGrid"></div>
     </div>
 
-    <!-- Slots -->
     <div class="slots-section">
       <div class="slots-label">Available Times</div>
       <div class="slots-grid" id="slotsGrid">
-        <div class="slots-placeholder">🐱 Select a date to see times</div>
+        <div class="slots-placeholder">Select a date to see times</div>
       </div>
     </div>
 
-    <button class="btn-primary" style="margin-top:16px" onclick="goToStep3()" id="timeNextBtn" disabled>Select Guests →</button>
+    <button class="btn-primary" style="margin-top:18px" onclick="goToStep3()" id="timeNextBtn" disabled>Select Guests →</button>
     <button class="btn-secondary" onclick="goToStep(1)">← Back</button>
   </div>
 
   <!-- Step 3: Guests & Pricing -->
   <div class="card" id="step-3">
-    <h2><span>🧑‍🤝‍🧑</span>Guests & Pricing</h2>
+    <h2>Guests & Pricing</h2>
 
     <div class="guest-row">
       <div class="guest-info">
@@ -559,13 +653,13 @@
       <div class="total-amount" id="totalAmount">$15.00</div>
     </div>
 
-    <button class="btn-primary" style="margin-top:16px" onclick="goToStep4()">Enter Your Info →</button>
+    <button class="btn-primary" style="margin-top:18px" onclick="goToStep4()">Enter Your Info →</button>
     <button class="btn-secondary" onclick="goToStep(2)">← Back</button>
   </div>
 
   <!-- Step 4: Info -->
   <div class="card" id="step-4">
-    <h2><span>✏️</span>Your Info</h2>
+    <h2>Your Info</h2>
     <div class="summary-box" id="bookingSummary"></div>
     <div class="form-group">
       <label class="form-label" for="guestName">Full Name</label>
@@ -576,24 +670,24 @@
       <input type="email" class="form-input" id="guestEmail" placeholder="e.g. jane@email.com" autocomplete="email" />
     </div>
     <div class="form-group">
-      <label class="form-label" for="guestPhone">Phone <span style="font-weight:600;text-transform:none">(optional)</span></label>
+      <label class="form-label" for="guestPhone">Phone <span style="font-weight:600;text-transform:none;font-size:11px">(optional)</span></label>
       <input type="tel" class="form-input" id="guestPhone" placeholder="e.g. 407-555-0100" autocomplete="tel" />
     </div>
     <div class="error-msg" id="errorMsg"></div>
-    <button class="btn-primary" onclick="confirmBooking()" id="confirmBtn">Confirm Booking 🐾</button>
+    <button class="btn-primary" onclick="confirmBooking()" id="confirmBtn">Confirm Booking</button>
     <button class="btn-secondary" onclick="goToStep(3)">← Back</button>
   </div>
 
   <!-- Confirmation -->
   <div class="confirmation-screen" id="confirmationScreen">
-    <span class="confirm-icon">🎉</span>
+    <span class="confirm-icon"></span>
     <h2>You're booked!</h2>
     <p>We can't wait to see you at Three Tails Cafe.</p>
     <p>A confirmation email is on its way.</p>
-    <p style="font-size:12px;margin-top:4px;">Questions? Call us at <strong>123-456-7890</strong></p>
+    <p style="font-size:12px;margin-top:4px;color:var(--espresso-light)">Questions? Call us at <strong style="color:var(--espresso)">123-456-7890</strong></p>
     <div class="confirm-details" id="confirmDetails"></div>
-    <p style="font-size:12px;margin-top:6px;">Planning a birthday or private event?</p>
-    <a href="mailto:dustin.nieves@threetailscafe.com?subject=Private Event Inquiry" class="event-link">🎂 Inquire About Private Events</a>
+    <p style="font-size:12px;color:var(--espresso-light)">Planning a birthday or private event?</p>
+    <a href="mailto:dustin.nieves@threetailscafe.com?subject=Private Event Inquiry" class="event-link">Inquire About Private Events</a>
   </div>
 
 </div>
@@ -682,13 +776,11 @@
 
     label.innerText = new Date(calYear, calMonth).toLocaleDateString("en-US", { month:"long", year:"numeric" });
 
-    // Disable prev button if we're already on current month
     const prevBtn = document.getElementById("calPrev");
     prevBtn.disabled = calYear === today.getFullYear() && calMonth === today.getMonth();
 
     grid.innerHTML = "";
 
-    // Day of week headers
     ["Su","Mo","Tu","We","Th","Fr","Sa"].forEach(d => {
       const el = document.createElement("div");
       el.className = "cal-dow";
@@ -696,10 +788,9 @@
       grid.appendChild(el);
     });
 
-    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const firstDay    = new Date(calYear, calMonth, 1).getDay();
     const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
 
-    // Empty cells before first day
     for (let i = 0; i < firstDay; i++) {
       const el = document.createElement("div");
       el.className = "cal-day empty";
@@ -719,9 +810,7 @@
         (dateStr === selectedDate ? " selected" : "");
       el.innerText = d;
 
-      if (!isPast) {
-        el.onclick = () => selectDate(dateStr, el);
-      }
+      if (!isPast) el.onclick = () => selectDate(dateStr, el);
       grid.appendChild(el);
     }
   }
@@ -749,7 +838,7 @@
   // ── SLOTS ─────────────────────────────────────────────────────
   async function loadSlots() {
     const grid = document.getElementById("slotsGrid");
-    grid.innerHTML = '<div class="slots-loading">🐱 Checking availability...</div>';
+    grid.innerHTML = '<div class="slots-loading">Checking availability...</div>';
     slotCapacityMap = {};
 
     try {
@@ -779,7 +868,7 @@
       div.className = "slot" + (booked ? " booked" : "") + (slot === selectedTime ? " selected" : "");
 
       let availText = "Available";
-      if (booked)           availText = "Fully Booked";
+      if (booked)              availText = "Fully Booked";
       else if (remaining <= 1) availText = "1 spot left!";
       else if (remaining <= 3) availText = Math.floor(remaining) + " spots left";
 
@@ -798,7 +887,7 @@
 
   // ── STEP 2 → 3 ───────────────────────────────────────────────
   function goToStep3() {
-    if (!selectedDate || !selectedTime) { alert("Please pick a date and time 🐾"); return; }
+    if (!selectedDate || !selectedTime) { alert("Please pick a date and time"); return; }
     adults = 1; children = 0;
     discountApplied = false;
     document.getElementById("discountCode").value = "";
@@ -855,11 +944,11 @@
     if (VALID_CODES.includes(code)) {
       discountApplied = true;
       msg.className = "discount-msg success";
-      msg.innerText = "✅ 20% discount applied!";
+      msg.innerText = "20% discount applied!";
     } else {
       discountApplied = false;
       msg.className = "discount-msg error";
-      msg.innerText = code ? "❌ Invalid code." : "❌ Please enter a code.";
+      msg.innerText = code ? "Invalid code." : "Please enter a code.";
     }
     updateTotal();
   }
@@ -883,12 +972,12 @@
   function goToStep4() {
     const total = document.getElementById("totalAmount").innerText;
     const lines = [
-      "📅 <strong>" + formatDateDisplay(selectedDate) + "</strong>",
-      "🕐 <strong>" + selectedTime + "</strong>",
-      "👤 <strong>" + adults + " adult" + (adults !== 1 ? "s" : "") + "</strong>",
-      children > 0 ? "🧒 <strong>" + children + " child" + (children !== 1 ? "ren" : "") + "</strong>" : null,
-      discountApplied ? "🎖️ <strong>20% discount applied</strong>" : null,
-      "💰 <strong>" + total + " due at café</strong>"
+      "Date: <strong>" + formatDateDisplay(selectedDate) + "</strong>",
+      "Time: <strong>" + selectedTime + "</strong>",
+      "Adults: <strong>" + adults + " adult" + (adults !== 1 ? "s" : "") + "</strong>",
+      children > 0 ? "Children: <strong>" + children + " child" + (children !== 1 ? "ren" : "") + "</strong>" : null,
+      discountApplied ? "<strong>20% discount applied</strong>" : null,
+      "Total: <strong>" + total + " due at café</strong>"
     ].filter(Boolean);
     document.getElementById("bookingSummary").innerHTML = "<strong>Your booking summary:</strong><br>" + lines.join("<br>");
     goToStep(4);
@@ -905,24 +994,22 @@
     const errDiv = document.getElementById("errorMsg");
 
     errDiv.classList.remove("visible");
-    if (!name || !email) { errDiv.innerText = "Please enter your name and email 🐾"; errDiv.classList.add("visible"); return; }
+    if (!name || !email) { errDiv.innerText = "Please enter your name and email."; errDiv.classList.add("visible"); return; }
     if (!/^\S+@\S+\.\S+$/.test(email)) { errDiv.innerText = "Please enter a valid email address."; errDiv.classList.add("visible"); return; }
 
     isSubmitting = true;
     const btn = document.getElementById("confirmBtn");
-    btn.disabled = true; btn.innerText = "Confirming... 🐾";
+    btn.disabled = true; btn.innerText = "Confirming...";
 
-    // Final capacity check
     const { data: fresh } = await db.from("bookings").select("adults, children").eq("date", selectedDate).eq("time", selectedTime);
     const freshUsed = (fresh || []).reduce((s,r) => s + (r.adults||0) + (r.children||0)*0.5, 0);
     if (freshUsed + adults + children * 0.5 > MAX_CAPACITY) {
       errDiv.innerText = "Sorry, this slot just filled up! Please go back and choose another time.";
       errDiv.classList.add("visible");
-      btn.disabled = false; btn.innerText = "Confirm Booking 🐾"; isSubmitting = false;
+      btn.disabled = false; btn.innerText = "Confirm Booking"; isSubmitting = false;
       return;
     }
 
-    // Insert
     const { error } = await db.from("bookings").insert([{
       name, email, phone, date: selectedDate, time: selectedTime,
       adults, children, discount_code: code || null, total
@@ -931,11 +1018,10 @@
     if (error) {
       errDiv.innerText = "Booking failed: " + error.message;
       errDiv.classList.add("visible");
-      btn.disabled = false; btn.innerText = "Confirm Booking 🐾"; isSubmitting = false;
+      btn.disabled = false; btn.innerText = "Confirm Booking"; isSubmitting = false;
       return;
     }
 
-    // Emails
     const params = {
       customer_name: name, customer_email: email,
       booking_date: formatDateDisplay(selectedDate), booking_time: selectedTime,
@@ -947,18 +1033,17 @@
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_BUSINESS,  { ...params, to_email: BUSINESS_EMAIL });
     } catch(e) { console.warn("Email failed (booking still saved):", e); }
 
-    // Success
     document.getElementById("step-4").classList.remove("active");
     document.getElementById("progressBar").style.display = "none";
     const screen = document.getElementById("confirmationScreen");
     screen.classList.add("active");
     document.getElementById("confirmDetails").innerHTML =
-      "📅 <strong>" + formatDateDisplay(selectedDate) + "</strong><br>" +
-      "🕐 <strong>" + selectedTime + "</strong><br>" +
-      "👤 <strong>" + adults + " adult" + (adults!==1?"s":"") +
+      "Date: <strong>" + formatDateDisplay(selectedDate) + "</strong><br>" +
+      "Time: <strong>" + selectedTime + "</strong><br>" +
+      "Guests: <strong>" + adults + " adult" + (adults!==1?"s":"") +
       (children > 0 ? " + " + children + " child" + (children!==1?"ren":"") : "") + "</strong><br>" +
-      "💰 <strong>$" + total.toFixed(2) + " due at café</strong>" +
-      (discountApplied ? "<br>🎖️ <strong>20% discount applied</strong>" : "");
+      "Total: <strong>$" + total.toFixed(2) + " due at café</strong>" +
+      (discountApplied ? "<br><strong>20% discount applied</strong>" : "");
 
     isSubmitting = false;
   }
