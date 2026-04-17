@@ -3,286 +3,893 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Three Tails Cafe — Admin</title>
+  <title>Three Tails Cafe — Staff</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --cream: #fff8f2;
-      --rose-light: #ffe4e1;
-      --rose-mid: #ffb3a7;
-      --rose-deep: #ff998a;
-      --rose-darker: #e8796a;
-      --green: #6dbf82;
-      --text: #3d2c2c;
-      --text-light: #9c7c7c;
-      --white: #ffffff;
-      --shadow: 0 4px 24px rgba(255,140,120,0.13);
+      --cream:          #F6F1E8;
+      --sage:           #A7B6A3;
+      --sage-light:     #C8D4C4;
+      --sage-dark:      #7A9476;
+      --blue:           #7F9BB3;
+      --blue-light:     #B0C4D4;
+      --apricot:        #E6B39A;
+      --apricot-dark:   #C98E72;
+      --sand:           #E9DDCF;
+      --espresso:       #4A3F36;
+      --espresso-light: #8A7B6F;
+      --booked:         #D6CFC7;
+      --booked-text:    #9E9087;
+      --green:          #6dbf82;
+      --green-dark:     #4ea36a;
+      --red:            #D9534F;
+      --red-light:      #F9E5E5;
+      --yellow:         #E6A817;
+      --yellow-light:   #FDF3DC;
+      --white:          #FFFFFF;
+      --shadow:         0 2px 16px rgba(74,63,54,0.08);
+      --shadow-card:    0 4px 24px rgba(74,63,54,0.10);
+      --radius:         14px;
+      --radius-sm:      10px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; padding: 24px 12px 64px; }
 
-    /* Login */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--espresso);
+      min-height: 100vh;
+      padding: 24px 14px 64px;
+    }
+
+    /* ── LOGIN ── */
     .login-wrap {
       max-width: 360px; margin: 80px auto;
-      background: var(--white); border-radius: 16px;
-      padding: 32px 24px; box-shadow: var(--shadow);
+      background: var(--white); border-radius: var(--radius);
+      padding: 36px 28px; box-shadow: var(--shadow-card);
       text-align: center;
     }
-    .login-wrap h1 { font-family: 'Pacifico', cursive; color: var(--rose-darker); font-size: 26px; margin-bottom: 6px; }
-    .login-wrap p { font-size: 13px; color: var(--text-light); font-weight: 600; margin-bottom: 20px; }
+    .login-wrap h1 {
+      font-family: 'Pacifico', cursive;
+      color: var(--espresso); font-size: 26px; margin-bottom: 4px;
+    }
+    .login-wrap p { font-size: 13px; color: var(--espresso-light); font-weight: 600; margin-bottom: 24px; }
+
+    .login-tabs {
+      display: flex; gap: 8px; margin-bottom: 20px;
+    }
+    .login-tab {
+      flex: 1; padding: 10px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--sand);
+      background: var(--cream);
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px; font-weight: 800;
+      color: var(--espresso-light);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .login-tab.active {
+      background: var(--blue); color: var(--white);
+      border-color: var(--blue);
+    }
+
     .login-input {
       width: 100%; padding: 12px 15px;
       font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600;
-      border: 2px solid var(--rose-light); border-radius: 12px;
-      background: var(--cream); color: var(--text); outline: none;
+      border: 1.5px solid var(--sand); border-radius: var(--radius-sm);
+      background: var(--cream); color: var(--espresso); outline: none;
       margin-bottom: 12px; transition: border-color 0.2s;
+      text-align: center; letter-spacing: 2px;
     }
-    .login-input:focus { border-color: var(--rose-mid); }
+    .login-input:focus { border-color: var(--blue); }
     .login-btn {
       width: 100%; padding: 13px;
       font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900;
-      background: var(--rose-deep); color: var(--white);
-      border: none; border-radius: 12px; cursor: pointer;
-      transition: background 0.2s;
+      background: var(--apricot); color: var(--espresso);
+      border: none; border-radius: 99px; cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 3px 12px rgba(230,179,154,0.35);
     }
-    .login-btn:hover { background: var(--rose-darker); }
-    .login-error { color: #e05a5a; font-size: 12px; font-weight: 700; margin-top: 8px; display: none; }
+    .login-btn:hover { background: var(--apricot-dark); color: var(--white); }
+    .login-error {
+      color: var(--red); font-size: 12px; font-weight: 700;
+      margin-top: 10px; display: none;
+    }
     .login-error.visible { display: block; }
 
-    /* Admin panel */
-    .admin-wrap { max-width: 900px; margin: 0 auto; display: none; }
-    .admin-wrap.visible { display: block; }
-
-    .admin-header {
+    /* ── SHARED HEADER ── */
+    .app-header {
       display: flex; align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
     }
-    .admin-header h1 { font-family: 'Pacifico', cursive; color: var(--rose-darker); font-size: 24px; }
-    .admin-header-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-
-    .filter-input {
-      padding: 9px 13px;
-      font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
-      border: 2px solid var(--rose-light); border-radius: 10px;
-      background: var(--white); color: var(--text); outline: none;
-      transition: border-color 0.2s;
+    .app-header h1 {
+      font-family: 'Pacifico', cursive;
+      color: var(--espresso); font-size: 22px;
     }
-    .filter-input:focus { border-color: var(--rose-mid); }
+    .app-header-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
     .logout-btn {
-      padding: 9px 16px;
+      padding: 8px 16px;
       font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800;
-      background: var(--rose-light); color: var(--rose-darker);
-      border: none; border-radius: 10px; cursor: pointer;
+      background: var(--sand); color: var(--espresso);
+      border: none; border-radius: 99px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .logout-btn:hover { background: var(--sage); color: var(--white); }
+
+    .role-badge {
+      padding: 5px 12px;
+      border-radius: 99px;
+      font-size: 11px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .role-badge.owner { background: var(--blue-light); color: var(--blue); }
+    .role-badge.staff { background: var(--sage-light); color: var(--sage-dark); }
+
+    /* ── PANELS ── */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ── STAFF VIEW ── */
+    .staff-date-header {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 16px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .staff-date-label {
+      font-size: 18px; font-weight: 900; color: var(--espresso);
+    }
+    .staff-date-sub {
+      font-size: 13px; font-weight: 600; color: var(--espresso-light);
+      margin-top: 2px;
+    }
+    .staff-date-nav { display: flex; gap: 8px; align-items: center; }
+    .date-nav-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid var(--sage);
+      background: var(--white); color: var(--espresso);
+      font-size: 15px; font-weight: 900;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .date-nav-btn:hover { background: var(--sage); color: var(--white); }
+    .today-btn {
+      padding: 6px 14px;
+      font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800;
+      background: var(--blue); color: var(--white);
+      border: none; border-radius: 99px; cursor: pointer;
       transition: background 0.2s;
     }
-    .logout-btn:hover { background: var(--rose-mid); color: var(--white); }
+    .today-btn:hover { background: var(--espresso); }
 
-    /* Stats row */
+    /* Walk-in button */
+    .walkin-btn {
+      padding: 9px 18px;
+      font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 900;
+      background: var(--apricot); color: var(--espresso);
+      border: none; border-radius: 99px; cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(230,179,154,0.3);
+    }
+    .walkin-btn:hover { background: var(--apricot-dark); color: var(--white); }
+
+    /* Slot cards */
+    .slots-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .slot-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1px solid rgba(74,63,54,0.06);
+    }
+    .slot-card-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--sand);
+      border-bottom: 1px solid rgba(74,63,54,0.06);
+    }
+    .slot-time-label {
+      font-size: 14px; font-weight: 900; color: var(--espresso);
+    }
+    .slot-capacity-label {
+      font-size: 12px; font-weight: 700; color: var(--espresso-light);
+    }
+    .slot-card-body { padding: 0; }
+
+    .booking-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--cream);
+      gap: 10px; flex-wrap: wrap;
+    }
+    .booking-row:last-child { border-bottom: none; }
+
+    .booking-info { flex: 1; min-width: 120px; }
+    .booking-name { font-size: 14px; font-weight: 800; color: var(--espresso); }
+    .booking-detail { font-size: 12px; font-weight: 600; color: var(--espresso-light); margin-top: 1px; }
+
+    .booking-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+    /* Status badges */
+    .status-badge {
+      display: inline-block; padding: 4px 10px;
+      border-radius: 99px; font-size: 11px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+    .status-pending   { background: var(--yellow-light); color: var(--yellow); }
+    .status-checked-in { background: #e8f8ed; color: var(--green-dark); }
+    .status-no-show   { background: var(--red-light); color: var(--red); }
+    .status-walk-in   { background: var(--blue-light); color: var(--blue); }
+
+    .action-btn {
+      padding: 5px 12px;
+      font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800;
+      border: none; border-radius: 99px; cursor: pointer;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .btn-checkin  { background: #e8f8ed; color: var(--green-dark); }
+    .btn-checkin:hover  { background: var(--green); color: var(--white); }
+    .btn-noshow   { background: var(--red-light); color: var(--red); }
+    .btn-noshow:hover   { background: var(--red); color: var(--white); }
+    .btn-undo     { background: var(--sand); color: var(--espresso-light); }
+    .btn-undo:hover     { background: var(--booked); color: var(--espresso); }
+
+    .slot-empty {
+      padding: 14px 16px;
+      font-size: 13px; font-weight: 600;
+      color: var(--espresso-light); font-style: italic;
+    }
+
+    /* ── WALK-IN MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(74,63,54,0.4);
+      display: none; align-items: center; justify-content: center;
+      z-index: 100; padding: 20px;
+    }
+    .modal-overlay.visible { display: flex; }
+    .modal {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      width: 100%; max-width: 420px;
+      box-shadow: 0 8px 40px rgba(74,63,54,0.2);
+      animation: fadeUp 0.25s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .modal h2 { font-size: 17px; font-weight: 900; margin-bottom: 18px; color: var(--espresso); }
+    .modal-group { margin-bottom: 14px; }
+    .modal-label {
+      display: block; font-size: 11px; font-weight: 800;
+      color: var(--espresso-light); margin-bottom: 5px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .modal-input, .modal-select {
+      width: 100%; padding: 11px 14px;
+      font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600;
+      border: 1.5px solid var(--sand); border-radius: var(--radius-sm);
+      background: var(--cream); color: var(--espresso); outline: none;
+      transition: border-color 0.2s;
+    }
+    .modal-input:focus, .modal-select:focus { border-color: var(--blue); }
+    .modal-row { display: flex; gap: 10px; }
+    .modal-row .modal-group { flex: 1; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .modal-confirm {
+      flex: 1; padding: 12px;
+      font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 900;
+      background: var(--apricot); color: var(--espresso);
+      border: none; border-radius: 99px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .modal-confirm:hover { background: var(--apricot-dark); color: var(--white); }
+    .modal-cancel {
+      padding: 12px 20px;
+      font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800;
+      background: var(--sand); color: var(--espresso-light);
+      border: none; border-radius: 99px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .modal-cancel:hover { background: var(--booked); }
+    .modal-error {
+      margin-top: 10px; padding: 10px 12px;
+      background: var(--red-light); border-radius: var(--radius-sm);
+      color: var(--red); font-size: 12px; font-weight: 700;
+      display: none;
+    }
+    .modal-error.visible { display: block; }
+
+    /* ── OWNER VIEW ── */
+    .owner-wrap { max-width: 960px; margin: 0 auto; }
+
     .stats-row {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
       gap: 10px; margin-bottom: 20px;
     }
     .stat-card {
-      background: var(--white); border-radius: 12px;
-      padding: 14px 16px; box-shadow: var(--shadow);
-      text-align: center;
+      background: var(--white); border-radius: var(--radius-sm);
+      padding: 14px 16px; box-shadow: var(--shadow); text-align: center;
     }
-    .stat-val { font-size: 26px; font-weight: 900; color: var(--rose-darker); }
-    .stat-label { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; margin-top: 2px; }
+    .stat-val { font-size: 26px; font-weight: 900; color: var(--espresso); }
+    .stat-label { font-size: 11px; font-weight: 700; color: var(--espresso-light); text-transform: uppercase; margin-top: 2px; }
 
-    /* Table */
+    .filters-row {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .filter-input, .filter-select {
+      padding: 9px 13px;
+      font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+      border: 1.5px solid var(--sand); border-radius: var(--radius-sm);
+      background: var(--white); color: var(--espresso); outline: none;
+      transition: border-color 0.2s;
+    }
+    .filter-input:focus, .filter-select:focus { border-color: var(--blue); }
+
     .table-wrap {
-      background: var(--white); border-radius: 16px;
-      box-shadow: var(--shadow); overflow: hidden;
+      background: var(--white); border-radius: var(--radius);
+      box-shadow: var(--shadow-card); overflow: hidden;
     }
     .table-scroll { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; min-width: 600px; }
-    thead { background: var(--rose-light); }
+    table { width: 100%; border-collapse: collapse; min-width: 700px; }
+    thead { background: var(--sand); }
     th {
       padding: 12px 14px; text-align: left;
       font-size: 11px; font-weight: 800;
-      color: var(--text-light); text-transform: uppercase;
+      color: var(--espresso-light); text-transform: uppercase;
       letter-spacing: 0.5px; white-space: nowrap;
     }
     td {
-      padding: 12px 14px; font-size: 13px; font-weight: 600;
-      border-bottom: 1px solid var(--rose-light); vertical-align: middle;
+      padding: 11px 14px; font-size: 13px; font-weight: 600;
+      border-bottom: 1px solid var(--cream); vertical-align: middle;
     }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: var(--cream); }
-    .badge {
-      display: inline-block; padding: 3px 9px;
-      border-radius: 99px; font-size: 11px; font-weight: 800;
-    }
-    .badge-discount { background: #e8f8ed; color: var(--green); }
-    .empty-state {
+
+    .empty-state, .loading-state {
       text-align: center; padding: 40px;
-      color: var(--text-light); font-weight: 700; font-size: 14px;
+      color: var(--espresso-light); font-weight: 700; font-size: 14px;
     }
-    .loading-state {
-      text-align: center; padding: 40px;
-      color: var(--text-light); font-weight: 700; font-size: 14px;
+
+    /* Responsive */
+    @media (max-width: 500px) {
+      .booking-row { flex-direction: column; align-items: flex-start; }
+      .modal-row { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Login -->
-  <div class="login-wrap" id="loginWrap">
-    <h1>🐾 Admin</h1>
-    <p>Three Tails Cafe booking dashboard</p>
-    <input type="password" class="login-input" id="passwordInput" placeholder="Enter password" onkeydown="if(event.key==='Enter') login()" />
-    <button class="login-btn" onclick="login()">Sign In</button>
-    <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+  <!-- ── LOGIN ── -->
+  <div id="loginWrap">
+    <div class="login-wrap">
+      <h1>Three Tails Cafe</h1>
+      <p>Staff & Admin Portal</p>
+
+      <div class="login-tabs">
+        <button class="login-tab active" id="tabStaff" onclick="switchTab('staff')">Staff</button>
+        <button class="login-tab" id="tabOwner" onclick="switchTab('owner')">Owner</button>
+      </div>
+
+      <input type="password" class="login-input" id="loginInput"
+        placeholder="Enter PIN or password"
+        onkeydown="if(event.key==='Enter') login()" />
+      <button class="login-btn" onclick="login()">Sign In</button>
+      <div class="login-error" id="loginError">Incorrect credentials. Try again.</div>
+    </div>
   </div>
 
-  <!-- Admin Panel -->
-  <div class="admin-wrap" id="adminWrap">
-    <div class="admin-header">
-      <h1>🐾 Bookings</h1>
-      <div class="admin-header-right">
-        <input type="date" class="filter-input" id="dateFilter" onchange="filterBookings()" placeholder="Filter by date" />
-        <input type="text" class="filter-input" id="searchFilter" oninput="filterBookings()" placeholder="Search name or email" style="width:180px" />
+  <!-- ── STAFF PANEL ── -->
+  <div class="panel" id="staffPanel">
+
+    <div class="app-header">
+      <h1>Three Tails Cafe</h1>
+      <div class="app-header-right">
+        <span class="role-badge staff">Staff</span>
+        <button class="walkin-btn" onclick="openWalkInModal()">+ Walk-In</button>
         <button class="logout-btn" onclick="logout()">Log Out</button>
       </div>
     </div>
 
-    <div class="stats-row" id="statsRow">
-      <div class="stat-card"><div class="stat-val" id="statTotal">—</div><div class="stat-label">Total Bookings</div></div>
-      <div class="stat-card"><div class="stat-val" id="statToday">—</div><div class="stat-label">Today</div></div>
-      <div class="stat-card"><div class="stat-val" id="statGuests">—</div><div class="stat-label">Total Guests</div></div>
-      <div class="stat-card"><div class="stat-val" id="statRevenue">—</div><div class="stat-label">Est. Revenue</div></div>
+    <div class="staff-date-header">
+      <div>
+        <div class="staff-date-label" id="staffDateLabel"></div>
+        <div class="staff-date-sub" id="staffDateSub"></div>
+      </div>
+      <div class="staff-date-nav">
+        <button class="date-nav-btn" onclick="changeStaffDate(-1)">‹</button>
+        <button class="today-btn" onclick="goToToday()">Today</button>
+        <button class="date-nav-btn" onclick="changeStaffDate(1)">›</button>
+      </div>
     </div>
 
-    <div class="table-wrap">
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Adults</th>
-              <th>Children</th>
-              <th>Discount</th>
-              <th>Total</th>
-              <th>Booked At</th>
-            </tr>
-          </thead>
-          <tbody id="bookingsBody">
-            <tr><td colspan="10" class="loading-state">🐱 Loading bookings...</td></tr>
-          </tbody>
-        </table>
+    <div class="slots-list" id="staffSlotsList">
+      <div class="loading-state">Loading today's bookings...</div>
+    </div>
+  </div>
+
+  <!-- ── OWNER PANEL ── -->
+  <div class="panel" id="ownerPanel">
+    <div class="owner-wrap">
+      <div class="app-header">
+        <h1>Three Tails Cafe</h1>
+        <div class="app-header-right">
+          <span class="role-badge owner">Owner</span>
+          <button class="walkin-btn" onclick="openWalkInModal()">+ Walk-In</button>
+          <button class="logout-btn" onclick="logout()">Log Out</button>
+        </div>
+      </div>
+
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card"><div class="stat-val" id="statTotal">—</div><div class="stat-label">Total Bookings</div></div>
+        <div class="stat-card"><div class="stat-val" id="statToday">—</div><div class="stat-label">Today</div></div>
+        <div class="stat-card"><div class="stat-val" id="statCheckedIn">—</div><div class="stat-label">Checked In</div></div>
+        <div class="stat-card"><div class="stat-val" id="statNoShow">—</div><div class="stat-label">No-Shows</div></div>
+        <div class="stat-card"><div class="stat-val" id="statWalkIn">—</div><div class="stat-label">Walk-Ins</div></div>
+        <div class="stat-card"><div class="stat-val" id="statGuests">—</div><div class="stat-label">Total Guests</div></div>
+      </div>
+
+      <div class="filters-row">
+        <input type="date" class="filter-input" id="dateFilter" onchange="loadOwnerBookings()" />
+        <input type="text" class="filter-input" id="searchFilter" oninput="filterOwnerTable()" placeholder="Search name or email" style="flex:1;min-width:160px" />
+        <select class="filter-select" id="statusFilter" onchange="filterOwnerTable()">
+          <option value="">All statuses</option>
+          <option value="pending">Pending</option>
+          <option value="checked-in">Checked In</option>
+          <option value="no-show">No-Show</option>
+          <option value="walk-in">Walk-In</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Guests</th>
+                <th>Discount</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ownerTableBody">
+              <tr><td colspan="9" class="loading-state">Loading bookings...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── WALK-IN MODAL ── -->
+  <div class="modal-overlay" id="walkInModal">
+    <div class="modal">
+      <h2>Add Walk-In Guest</h2>
+      <div class="modal-group">
+        <label class="modal-label">Name <span style="font-weight:600;text-transform:none">(optional)</span></label>
+        <input type="text" class="modal-input" id="wiName" placeholder="Guest name" />
+      </div>
+      <div class="modal-group">
+        <label class="modal-label">Time Slot</label>
+        <select class="modal-select" id="wiSlot"></select>
+      </div>
+      <div class="modal-row">
+        <div class="modal-group">
+          <label class="modal-label">Adults</label>
+          <input type="number" class="modal-input" id="wiAdults" value="1" min="1" max="10" />
+        </div>
+        <div class="modal-group">
+          <label class="modal-label">Children</label>
+          <input type="number" class="modal-input" id="wiChildren" value="0" min="0" max="10" />
+        </div>
+      </div>
+      <div class="modal-error" id="wiError"></div>
+      <div class="modal-actions">
+        <button class="modal-cancel" onclick="closeWalkInModal()">Cancel</button>
+        <button class="modal-confirm" onclick="submitWalkIn()">Add Walk-In</button>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    // ── CONFIG ──────────────────────────────────────────────────
     const SUPABASE_URL      = "https://ggckzydfipyvnkwqnpfo.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA";
-    const ADMIN_PASSWORD    = "@dminP@ssw0rd";
+    const OWNER_PASSWORD    = "@dminP@ssw0rd";
+    const STAFF_PIN         = "1228";
+
+    const TIME_SLOTS = [
+      "9:00 AM – 10:00 AM","10:00 AM – 11:00 AM","11:00 AM – 12:00 PM",
+      "12:00 PM – 1:00 PM","1:00 PM – 2:00 PM","2:00 PM – 3:00 PM",
+      "3:00 PM – 4:00 PM","4:00 PM – 5:00 PM","5:00 PM – 6:00 PM"
+    ];
+    const MAX_CAPACITY = 10;
+    const ADULT_PRICE  = 15;
+    const CHILD_PRICE  = 9;
 
     const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    let allBookings = [];
+
+    // ── STATE ────────────────────────────────────────────────────
+    let currentRole = "staff";
+    let loginTab    = "staff";
+    let staffDate   = todayStr();
+    let ownerBookings = [];
+
+    // ── HELPERS ──────────────────────────────────────────────────
+    function todayStr() {
+      return new Date().toISOString().split("T")[0];
+    }
+
+    function formatDateDisplay(d) {
+      const [y,m,day] = d.split("-");
+      return new Date(y, m-1, day).toLocaleDateString("en-US", {
+        weekday:"long", month:"long", day:"numeric", year:"numeric"
+      });
+    }
+
+    function formatDateShort(d) {
+      const [y,m,day] = d.split("-");
+      return new Date(y, m-1, day).toLocaleDateString("en-US", {
+        weekday:"short", month:"short", day:"numeric"
+      });
+    }
+
+    function offsetDate(dateStr, days) {
+      const d = new Date(dateStr + "T12:00:00");
+      d.setDate(d.getDate() + days);
+      return d.toISOString().split("T")[0];
+    }
+
+    function statusBadge(status) {
+      const map = {
+        "pending":    ["status-pending",    "Pending"],
+        "checked-in": ["status-checked-in", "Checked In"],
+        "no-show":    ["status-no-show",    "No-Show"],
+        "walk-in":    ["status-walk-in",    "Walk-In"],
+      };
+      const [cls, label] = map[status] || ["status-pending", "Pending"];
+      return `<span class="status-badge ${cls}">${label}</span>`;
+    }
+
+    // ── LOGIN ─────────────────────────────────────────────────────
+    function switchTab(tab) {
+      loginTab = tab;
+      document.getElementById("tabStaff").classList.toggle("active", tab === "staff");
+      document.getElementById("tabOwner").classList.toggle("active", tab === "owner");
+      document.getElementById("loginInput").value = "";
+      document.getElementById("loginError").classList.remove("visible");
+      document.getElementById("loginInput").placeholder = tab === "staff" ? "Enter PIN" : "Enter password";
+    }
 
     function login() {
-      const val = document.getElementById("passwordInput").value;
+      const val = document.getElementById("loginInput").value.trim();
       const err = document.getElementById("loginError");
-      if (val === ADMIN_PASSWORD) {
+      err.classList.remove("visible");
+
+      if (loginTab === "staff" && val === STAFF_PIN) {
+        currentRole = "staff";
         document.getElementById("loginWrap").style.display = "none";
-        document.getElementById("adminWrap").classList.add("visible");
-        loadBookings();
+        document.getElementById("staffPanel").classList.add("active");
+        initStaffView();
+      } else if (loginTab === "owner" && val === OWNER_PASSWORD) {
+        currentRole = "owner";
+        document.getElementById("loginWrap").style.display = "none";
+        document.getElementById("ownerPanel").classList.add("active");
+        initOwnerView();
       } else {
         err.classList.add("visible");
-        document.getElementById("passwordInput").value = "";
+        document.getElementById("loginInput").value = "";
       }
     }
 
     function logout() {
       document.getElementById("loginWrap").style.display = "";
-      document.getElementById("adminWrap").classList.remove("visible");
-      document.getElementById("passwordInput").value = "";
+      document.getElementById("staffPanel").classList.remove("active");
+      document.getElementById("ownerPanel").classList.remove("active");
+      document.getElementById("loginInput").value = "";
+      document.getElementById("loginError").classList.remove("visible");
+      switchTab("staff");
     }
 
-    async function loadBookings() {
+    // ── STAFF VIEW ───────────────────────────────────────────────
+    function initStaffView() {
+      staffDate = todayStr();
+      renderStaffDate();
+      loadStaffBookings();
+    }
+
+    function renderStaffDate() {
+      const isToday = staffDate === todayStr();
+      document.getElementById("staffDateLabel").innerText =
+        isToday ? "Today" : formatDateShort(staffDate);
+      document.getElementById("staffDateSub").innerText = formatDateDisplay(staffDate);
+    }
+
+    function changeStaffDate(delta) {
+      staffDate = offsetDate(staffDate, delta);
+      renderStaffDate();
+      loadStaffBookings();
+    }
+
+    function goToToday() {
+      staffDate = todayStr();
+      renderStaffDate();
+      loadStaffBookings();
+    }
+
+    async function loadStaffBookings() {
+      const list = document.getElementById("staffSlotsList");
+      list.innerHTML = '<div class="loading-state">Loading bookings...</div>';
+
       const { data, error } = await db
         .from("bookings")
         .select("*")
-        .order("date", { ascending: false })
+        .eq("date", staffDate)
         .order("time", { ascending: true });
 
       if (error) {
-        document.getElementById("bookingsBody").innerHTML =
-          '<tr><td colspan="10" class="empty-state">❌ Failed to load: ' + error.message + '</td></tr>';
+        list.innerHTML = '<div class="loading-state">Failed to load bookings.</div>';
         return;
       }
 
-      allBookings = data || [];
-      updateStats(allBookings);
-      renderTable(allBookings);
+      renderStaffSlots(data || []);
     }
 
-    function filterBookings() {
-      const dateVal   = document.getElementById("dateFilter").value;
-      const searchVal = document.getElementById("searchFilter").value.toLowerCase().trim();
+    function renderStaffSlots(bookings) {
+      const list = document.getElementById("staffSlotsList");
+      list.innerHTML = "";
 
-      let filtered = allBookings;
-      if (dateVal)   filtered = filtered.filter(b => b.date === dateVal);
-      if (searchVal) filtered = filtered.filter(b =>
-        (b.name  || "").toLowerCase().includes(searchVal) ||
-        (b.email || "").toLowerCase().includes(searchVal)
+      // Group by time slot
+      const grouped = {};
+      for (const slot of TIME_SLOTS) grouped[slot] = [];
+      for (const b of bookings) {
+        if (grouped[b.time] !== undefined) grouped[b.time].push(b);
+      }
+
+      for (const slot of TIME_SLOTS) {
+        const slotBookings = grouped[slot];
+        const usedUnits = slotBookings.reduce((s,b) => s + (b.adults||0) + (b.children||0)*0.5, 0);
+        const remaining = MAX_CAPACITY - usedUnits;
+
+        const card = document.createElement("div");
+        card.className = "slot-card";
+
+        const capacityText = remaining <= 0
+          ? "Full"
+          : Math.floor(remaining) + " spot" + (Math.floor(remaining) !== 1 ? "s" : "") + " left";
+
+        card.innerHTML = `
+          <div class="slot-card-header">
+            <div class="slot-time-label">${slot}</div>
+            <div class="slot-capacity-label">${slotBookings.length} booking${slotBookings.length !== 1 ? "s" : ""} · ${capacityText}</div>
+          </div>
+          <div class="slot-card-body" id="body-${slot.replace(/\s/g,'-').replace(/[–:]/g,'')}">
+            ${slotBookings.length === 0
+              ? '<div class="slot-empty">No bookings for this slot.</div>'
+              : slotBookings.map(b => renderBookingRow(b)).join("")
+            }
+          </div>
+        `;
+        list.appendChild(card);
+      }
+    }
+
+    function renderBookingRow(b) {
+      const status  = b.status || "pending";
+      const isWalkIn = status === "walk-in";
+      const guestStr = (b.adults||0) + " adult" + ((b.adults||0)!==1?"s":"") +
+        ((b.children||0) > 0 ? " + " + b.children + " child" + ((b.children||0)!==1?"ren":"") : "");
+      const nameDisplay = b.name || (isWalkIn ? "Walk-In Guest" : "Guest");
+
+      let actions = "";
+      if (status === "pending" || status === "walk-in") {
+        actions = `
+          <button class="action-btn btn-checkin" onclick="updateStatus('${b.id}', 'checked-in')">Check In</button>
+          <button class="action-btn btn-noshow" onclick="updateStatus('${b.id}', 'no-show')">No-Show</button>
+        `;
+      } else {
+        actions = `<button class="action-btn btn-undo" onclick="updateStatus('${b.id}', '${isWalkIn ? "walk-in" : "pending"}')">Undo</button>`;
+      }
+
+      return `
+        <div class="booking-row" id="row-${b.id}">
+          <div class="booking-info">
+            <div class="booking-name">${nameDisplay}</div>
+            <div class="booking-detail">${guestStr}${b.email ? " · " + b.email : ""}</div>
+          </div>
+          <div class="booking-actions">
+            ${statusBadge(status)}
+            ${actions}
+          </div>
+        </div>
+      `;
+    }
+
+    async function updateStatus(id, newStatus) {
+      const { error } = await db
+        .from("bookings")
+        .update({ status: newStatus })
+        .eq("id", id);
+
+      if (!error) {
+        // Reload to reflect changes
+        if (currentRole === "staff") loadStaffBookings();
+        else loadOwnerBookings();
+      }
+    }
+
+    // ── OWNER VIEW ───────────────────────────────────────────────
+    function initOwnerView() {
+      document.getElementById("dateFilter").value = "";
+      loadOwnerBookings();
+    }
+
+    async function loadOwnerBookings() {
+      const dateVal = document.getElementById("dateFilter").value;
+      let query = db.from("bookings").select("*").order("date", { ascending: false }).order("time", { ascending: true });
+      if (dateVal) query = query.eq("date", dateVal);
+
+      const { data, error } = await query;
+      if (error) {
+        document.getElementById("ownerTableBody").innerHTML =
+          `<tr><td colspan="9" class="empty-state">Failed to load: ${error.message}</td></tr>`;
+        return;
+      }
+
+      ownerBookings = data || [];
+      updateStats(ownerBookings);
+      filterOwnerTable();
+    }
+
+    function filterOwnerTable() {
+      const search = document.getElementById("searchFilter").value.toLowerCase().trim();
+      const status = document.getElementById("statusFilter").value;
+
+      let filtered = ownerBookings;
+      if (search) filtered = filtered.filter(b =>
+        (b.name||"").toLowerCase().includes(search) ||
+        (b.email||"").toLowerCase().includes(search)
       );
-
-      renderTable(filtered);
+      if (status) filtered = filtered.filter(b => (b.status || "pending") === status);
+      renderOwnerTable(filtered);
     }
 
-    function renderTable(bookings) {
-      const tbody = document.getElementById("bookingsBody");
+    function renderOwnerTable(bookings) {
+      const tbody = document.getElementById("ownerTableBody");
       if (!bookings.length) {
-        tbody.innerHTML = '<tr><td colspan="10" class="empty-state">🐱 No bookings found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-state">No bookings found.</td></tr>';
         return;
       }
-
       tbody.innerHTML = bookings.map(b => {
-        const bookedAt = b.created_at
-          ? new Date(b.created_at).toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric", hour:"2-digit", minute:"2-digit" })
-          : "—";
-        const dateDisp = b.date
-          ? new Date(b.date + "T12:00:00").toLocaleDateString("en-US", { weekday:"short", month:"short", day:"numeric" })
-          : "—";
-
+        const status   = b.status || "pending";
+        const dateDisp = b.date ? formatDateShort(b.date) : "—";
+        const guestStr = (b.adults||0) + "A" + ((b.children||0)>0 ? " + " + b.children + "C" : "");
         return `<tr>
           <td>${dateDisp}</td>
-          <td>${b.time || "—"}</td>
-          <td>${b.name || "—"}</td>
-          <td><a href="mailto:${b.email}" style="color:var(--rose-darker);font-weight:700">${b.email || "—"}</a></td>
-          <td>${b.phone || "—"}</td>
-          <td style="text-align:center">${b.adults ?? "—"}</td>
-          <td style="text-align:center">${b.children ?? "—"}</td>
-          <td>${b.discount_code ? '<span class="badge badge-discount">' + b.discount_code + '</span>' : "—"}</td>
-          <td style="font-weight:800;color:var(--rose-darker)">${b.total ? "$" + parseFloat(b.total).toFixed(2) : "—"}</td>
-          <td style="color:var(--text-light);font-size:11px">${bookedAt}</td>
+          <td style="white-space:nowrap">${b.time||"—"}</td>
+          <td style="font-weight:800">${b.name||"—"}</td>
+          <td><a href="mailto:${b.email}" style="color:var(--blue);font-weight:700">${b.email||"—"}</a></td>
+          <td>${guestStr}</td>
+          <td>${b.discount_code ? `<span class="status-badge status-walk-in">${b.discount_code}</span>` : "—"}</td>
+          <td style="font-weight:800">${b.total ? "$"+parseFloat(b.total).toFixed(2) : "—"}</td>
+          <td>${statusBadge(status)}</td>
+          <td>
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              ${status === "pending" || status === "walk-in"
+                ? `<button class="action-btn btn-checkin" onclick="updateStatus('${b.id}','checked-in')">Check In</button>
+                   <button class="action-btn btn-noshow" onclick="updateStatus('${b.id}','no-show')">No-Show</button>`
+                : `<button class="action-btn btn-undo" onclick="updateStatus('${b.id}','${status==="walk-in"?"walk-in":"pending"}')">Undo</button>`
+              }
+            </div>
+          </td>
         </tr>`;
       }).join("");
     }
 
     function updateStats(bookings) {
-      const todayStr = new Date().toISOString().split("T")[0];
-      const todayCount = bookings.filter(b => b.date === todayStr).length;
-      const totalGuests = bookings.reduce((s,b) => s + (b.adults||0) + (b.children||0), 0);
-      const totalRevenue = bookings.reduce((s,b) => s + (parseFloat(b.total) || 0), 0);
-
-      document.getElementById("statTotal").innerText   = bookings.length;
-      document.getElementById("statToday").innerText   = todayCount;
-      document.getElementById("statGuests").innerText  = totalGuests;
-      document.getElementById("statRevenue").innerText = "$" + totalRevenue.toFixed(0);
+      const today     = todayStr();
+      const todayList = bookings.filter(b => b.date === today);
+      document.getElementById("statTotal").innerText     = bookings.length;
+      document.getElementById("statToday").innerText     = todayList.length;
+      document.getElementById("statCheckedIn").innerText = bookings.filter(b => b.status === "checked-in").length;
+      document.getElementById("statNoShow").innerText    = bookings.filter(b => b.status === "no-show").length;
+      document.getElementById("statWalkIn").innerText    = bookings.filter(b => b.status === "walk-in").length;
+      document.getElementById("statGuests").innerText    = bookings.reduce((s,b) => s+(b.adults||0)+(b.children||0),0);
     }
+
+    // ── WALK-IN MODAL ─────────────────────────────────────────────
+    function openWalkInModal() {
+      // Populate slot dropdown
+      const select = document.getElementById("wiSlot");
+      select.innerHTML = TIME_SLOTS.map(s => `<option value="${s}">${s}</option>`).join("");
+
+      // Pre-select current/upcoming slot based on time
+      const hour = new Date().getHours();
+      const slotIndex = Math.min(Math.max(hour - 9, 0), TIME_SLOTS.length - 1);
+      select.selectedIndex = slotIndex;
+
+      document.getElementById("wiName").value     = "";
+      document.getElementById("wiAdults").value   = "1";
+      document.getElementById("wiChildren").value = "0";
+      document.getElementById("wiError").classList.remove("visible");
+      document.getElementById("walkInModal").classList.add("visible");
+    }
+
+    function closeWalkInModal() {
+      document.getElementById("walkInModal").classList.remove("visible");
+    }
+
+    async function submitWalkIn() {
+      const name     = document.getElementById("wiName").value.trim();
+      const slot     = document.getElementById("wiSlot").value;
+      const adults   = parseInt(document.getElementById("wiAdults").value) || 1;
+      const children = parseInt(document.getElementById("wiChildren").value) || 0;
+      const errDiv   = document.getElementById("wiError");
+      errDiv.classList.remove("visible");
+
+      if (adults < 1) {
+        errDiv.innerText = "At least 1 adult required.";
+        errDiv.classList.add("visible"); return;
+      }
+
+      // Check capacity
+      const { data: existing } = await db
+        .from("bookings").select("adults, children")
+        .eq("date", staffDate).eq("time", slot);
+
+      const used    = (existing||[]).reduce((s,b) => s+(b.adults||0)+(b.children||0)*0.5, 0);
+      const myUnits = adults + children * 0.5;
+
+      if (used + myUnits > MAX_CAPACITY) {
+        errDiv.innerText = "Not enough capacity in this slot.";
+        errDiv.classList.add("visible"); return;
+      }
+
+      const total = adults * ADULT_PRICE + children * CHILD_PRICE;
+
+      const { error } = await db.from("bookings").insert([{
+        name: name || "Walk-In Guest",
+        email: null, phone: null,
+        date: staffDate, time: slot,
+        adults, children,
+        discount_code: null,
+        total, status: "walk-in"
+      }]);
+
+      if (error) {
+        errDiv.innerText = "Failed to add walk-in: " + error.message;
+        errDiv.classList.add("visible"); return;
+      }
+
+      closeWalkInModal();
+      if (currentRole === "staff") loadStaffBookings();
+      else loadOwnerBookings();
+    }
+
+    // Close modal on overlay click
+    document.getElementById("walkInModal").addEventListener("click", function(e) {
+      if (e.target === this) closeWalkInModal();
+    });
   </script>
 </body>
 </html>
