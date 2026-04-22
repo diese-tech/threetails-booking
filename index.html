@@ -822,18 +822,14 @@
     let paymentId = null;
     try {
       const amountCents = Math.round(total * 100);
-      const paymentResp = await fetch("https://connect.squareupsandbox.com/v2/payments", {
+      const paymentResp = await fetch("/api/pay", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer EAAAl3_7KZm3mbuJb8k7pQjY8WmGShnJ1tgxSsOsVitCAd6ixYWfaocgaEpcz0Ab",
-          "Square-Version": "2024-01-18"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           source_id: sourceId,
           idempotency_key: crypto.randomUUID(),
-          amount_money: { amount: amountCents, currency: "USD" },
-          buyer_email_address: email,
+          amount_cents: amountCents,
+          email: email,
           note: `Three Tails Cafe — ${selectedDate} ${selectedTime} — ${name}`
         })
       });
