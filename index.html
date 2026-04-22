@@ -7,28 +7,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet" />
   <style>
     :root {
-      /* ── Brand Palette ── */
-      --cream:       #F6F1E8;   /* 60% — primary background */
-      --sage:        #A7B6A3;   /* 20% — containers, sections */
-      --sage-light:  #C8D4C4;   /* lighter sage for hover states */
-      --blue:        #7F9BB3;   /* 10% — selected, focus, active */
-      --blue-light:  #B0C4D4;   /* lighter blue for borders/subtle accents */
-      --apricot:     #E6B39A;   /* 5%  — buttons */
-      --apricot-dark:#C98E72;   /* button hover */
-      --sand:        #E9DDCF;   /* section contrast, card backgrounds */
-      --espresso:    #4A3F36;   /* 5%  — all text */
-      --espresso-light: #8A7B6F; /* secondary text */
-
-      /* ── Utility ── */
-      --booked:      #D6CFC7;
-      --booked-text: #9E9087;
-      --green:       #6dbf82;
-      --green-dark:  #4ea36a;
-      --white:       #FFFFFF;
-      --shadow:      0 2px 16px rgba(74, 63, 54, 0.08);
-      --shadow-card: 0 4px 24px rgba(74, 63, 54, 0.10);
-      --radius:      14px;
-      --radius-sm:   10px;
+      --cream:          #F6F1E8;
+      --sage:           #A7B6A3;
+      --sage-light:     #C8D4C4;
+      --blue:           #7F9BB3;
+      --blue-light:     #B0C4D4;
+      --apricot:        #E6B39A;
+      --apricot-dark:   #C98E72;
+      --sand:           #E9DDCF;
+      --espresso:       #4A3F36;
+      --espresso-light: #8A7B6F;
+      --booked:         #D6CFC7;
+      --booked-text:    #9E9087;
+      --green:          #6dbf82;
+      --green-dark:     #4ea36a;
+      --white:          #FFFFFF;
+      --shadow:         0 2px 16px rgba(74,63,54,0.08);
+      --shadow-card:    0 4px 24px rgba(74,63,54,0.10);
+      --radius:         14px;
+      --radius-sm:      10px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,96 +38,43 @@
       padding: 32px 16px 72px;
     }
 
-    .booking-wrapper {
-      width: 99%;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+    .booking-wrapper { width: 99%; max-width: 600px; margin: 0 auto; }
 
     /* ── HEADER ── */
-    .header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    .header .paws {
-      font-size: 30px;
-      margin-bottom: 8px;
-      display: block;
-      opacity: 0.75;
-    }
+    .header { text-align: center; margin-bottom: 32px; }
+    .header .paws { font-size: 30px; margin-bottom: 8px; display: block; opacity: 0.75; }
     .header h1 {
       font-family: 'Pacifico', cursive;
       font-size: clamp(26px, 6vw, 36px);
-      color: var(--espresso);
-      line-height: 1.2;
-      margin-bottom: 6px;
-      letter-spacing: 0.5px;
+      color: var(--espresso); line-height: 1.2;
+      margin-bottom: 6px; letter-spacing: 0.5px;
     }
-    .header p {
-      font-size: 14px;
-      color: var(--espresso-light);
-      font-weight: 600;
-      letter-spacing: 0.2px;
-    }
+    .header p { font-size: 14px; color: var(--espresso-light); font-weight: 600; letter-spacing: 0.2px; }
 
     /* ── PROGRESS ── */
-    .progress {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 28px;
-    }
-    .progress-step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
+    .progress { display: flex; align-items: center; justify-content: center; margin-bottom: 28px; }
+    .progress-step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
     .step-circle {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: var(--sand);
-      color: var(--espresso-light);
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--sand); color: var(--espresso-light);
       font-weight: 800; font-size: 13px;
       display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
+      transition: all 0.3s ease; border: 2px solid transparent;
     }
-    .step-circle.active {
-      background: var(--blue);
-      color: var(--white);
-      border-color: var(--blue-light);
-      transform: scale(1.15);
-      box-shadow: 0 2px 10px rgba(127, 155, 179, 0.35);
-    }
-    .step-circle.done {
-      background: var(--green);
-      color: var(--white);
-    }
-    .step-label {
-      font-size: 10px; font-weight: 700;
-      color: var(--espresso-light);
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
+    .step-circle.active { background: var(--blue); color: var(--white); border-color: var(--blue-light); transform: scale(1.15); box-shadow: 0 2px 10px rgba(127,155,179,0.35); }
+    .step-circle.done { background: var(--green); color: var(--white); }
+    .step-label { font-size: 10px; font-weight: 700; color: var(--espresso-light); text-transform: uppercase; letter-spacing: 0.5px; }
     .step-label.active { color: var(--blue); }
-    .progress-line {
-      width: 40px; height: 2px;
-      background: var(--sand);
-      margin-bottom: 20px;
-      transition: background 0.3s;
-    }
+    .progress-line { width: 40px; height: 2px; background: var(--sand); margin-bottom: 20px; transition: background 0.3s; }
     .progress-line.done { background: var(--green); }
 
     /* ── CARD ── */
     .card {
-      background: var(--white);
-      border-radius: var(--radius);
-      padding: 26px 22px;
-      box-shadow: var(--shadow-card);
-      margin-bottom: 16px;
-      display: none;
+      background: var(--white); border-radius: var(--radius);
+      padding: 26px 22px; box-shadow: var(--shadow-card);
+      margin-bottom: 16px; display: none;
       animation: fadeUp 0.35s ease;
-      border: 1px solid rgba(74, 63, 54, 0.06);
+      border: 1px solid rgba(74,63,54,0.06);
     }
     .card.active { display: block; }
 
@@ -139,386 +83,192 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .card h2 {
-      font-size: 17px; font-weight: 800;
-      margin-bottom: 18px; color: var(--espresso);
-      letter-spacing: 0.2px;
-    }
+    .card h2 { font-size: 17px; font-weight: 800; margin-bottom: 18px; color: var(--espresso); letter-spacing: 0.2px; }
     .card h2 span { font-size: 19px; margin-right: 7px; opacity: 0.8; }
 
     /* ── WAIVER ── */
     .rules-list { list-style: none; margin-bottom: 20px; }
     .rules-list li {
-      display: flex; gap: 12px;
-      padding: 11px 0;
+      display: flex; gap: 12px; padding: 11px 0;
       border-bottom: 1px solid var(--sand);
-      font-size: 13px; font-weight: 600;
-      line-height: 1.55; color: var(--espresso);
+      font-size: 13px; font-weight: 600; line-height: 1.55; color: var(--espresso);
     }
     .rules-list li:last-child { border-bottom: none; }
     .rules-list li .rule-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; opacity: 0.85; }
 
     .waiver-check-row {
       display: flex; align-items: flex-start; gap: 12px;
-      padding: 14px 16px;
-      background: var(--sand);
-      border-radius: var(--radius-sm);
-      margin-bottom: 18px;
-      cursor: pointer;
-      border: 1.5px solid transparent;
-      transition: border-color 0.2s;
+      padding: 14px 16px; background: var(--sand);
+      border-radius: var(--radius-sm); margin-bottom: 18px;
+      cursor: pointer; border: 1.5px solid transparent; transition: border-color 0.2s;
     }
     .waiver-check-row:hover { border-color: var(--blue-light); }
-    .waiver-check-row input[type="checkbox"] {
-      width: 18px; height: 18px;
-      accent-color: var(--blue);
-      flex-shrink: 0; margin-top: 2px; cursor: pointer;
-    }
-    .waiver-check-row label {
-      font-size: 13px; font-weight: 700;
-      color: var(--espresso); cursor: pointer; line-height: 1.5;
-    }
+    .waiver-check-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue); flex-shrink: 0; margin-top: 2px; cursor: pointer; }
+    .waiver-check-row label { font-size: 13px; font-weight: 700; color: var(--espresso); cursor: pointer; line-height: 1.5; }
 
     /* ── CALENDAR ── */
-    .calendar-wrap {
-      background: var(--sand);
-      border-radius: var(--radius-sm);
-      padding: 16px;
-      margin-bottom: 20px;
-    }
-    .cal-header {
-      display: flex; align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-    .cal-month-label {
-      font-size: 15px; font-weight: 900; color: var(--espresso);
-    }
+    .calendar-wrap { background: var(--sand); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 20px; }
+    .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .cal-month-label { font-size: 15px; font-weight: 900; color: var(--espresso); }
     .cal-nav {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      border: 1.5px solid var(--sage);
-      background: var(--white);
-      color: var(--espresso);
-      font-size: 15px; font-weight: 900;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.15s;
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1.5px solid var(--sage); background: var(--white); color: var(--espresso);
+      font-size: 15px; font-weight: 900; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.15s;
     }
     .cal-nav:hover { background: var(--sage); color: var(--white); border-color: var(--sage); }
     .cal-nav:disabled { opacity: 0.3; cursor: not-allowed; }
-
-    .cal-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-    }
-    .cal-dow {
-      text-align: center; font-size: 10px; font-weight: 800;
-      color: var(--espresso-light); text-transform: uppercase;
-      padding: 2px 0 8px; letter-spacing: 0.3px;
-    }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-dow { text-align: center; font-size: 10px; font-weight: 800; color: var(--espresso-light); text-transform: uppercase; padding: 2px 0 8px; letter-spacing: 0.3px; }
     .cal-day {
-      aspect-ratio: 1;
-      border-radius: 8px;
+      aspect-ratio: 1; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700;
-      cursor: pointer;
-      transition: all 0.15s;
-      background: var(--white);
-      color: var(--espresso);
-      border: 1.5px solid transparent;
-      min-width: 0;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: all 0.15s; background: var(--white); color: var(--espresso);
+      border: 1.5px solid transparent; min-width: 0;
     }
-    .cal-day:hover:not(.disabled):not(.empty) {
-      background: var(--sage-light);
-      color: var(--espresso);
-    }
-    .cal-day.selected {
-      background: var(--blue);
-      color: var(--white);
-      border-color: var(--blue);
-      transform: scale(1.08);
-      box-shadow: 0 2px 8px rgba(127, 155, 179, 0.4);
-    }
-    .cal-day.today {
-      border-color: var(--apricot);
-      font-weight: 900;
-    }
-    .cal-day.disabled {
-      background: var(--booked);
-      color: var(--booked-text);
-      cursor: not-allowed;
-    }
+    .cal-day:hover:not(.disabled):not(.empty) { background: var(--sage-light); color: var(--espresso); }
+    .cal-day.selected { background: var(--blue); color: var(--white); border-color: var(--blue); transform: scale(1.08); box-shadow: 0 2px 8px rgba(127,155,179,0.4); }
+    .cal-day.today { border-color: var(--apricot); font-weight: 900; }
+    .cal-day.disabled { background: var(--booked); color: var(--booked-text); cursor: not-allowed; }
     .cal-day.empty { background: transparent; cursor: default; }
 
     /* ── SLOTS ── */
     .slots-section { margin-top: 4px; }
-    .slots-label {
-      font-size: 12px; font-weight: 800;
-      color: var(--espresso-light);
-      text-transform: uppercase; letter-spacing: 0.6px;
-      margin-bottom: 10px;
-    }
-    .slots-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-    }
-    @media (min-width: 400px) {
-      .slots-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-
-    .slot {
-      padding: 11px 8px;
-      border-radius: 99px;
-      background: var(--sand);
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: 1.5px solid transparent;
-      user-select: none;
-    }
-    .slot:hover:not(.booked) {
-      background: var(--sage-light);
-      border-color: var(--sage);
-    }
-    .slot.selected {
-      background: var(--blue);
-      color: var(--white);
-      border-color: var(--blue);
-      box-shadow: 0 2px 10px rgba(127, 155, 179, 0.35);
-    }
-    .slot.booked {
-      background: var(--booked);
-      color: var(--booked-text);
-      cursor: not-allowed;
-    }
+    .slots-label { font-size: 12px; font-weight: 800; color: var(--espresso-light); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+    .slots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    @media (min-width: 400px) { .slots-grid { grid-template-columns: repeat(3, 1fr); } }
+    .slot { padding: 11px 8px; border-radius: 99px; background: var(--sand); text-align: center; cursor: pointer; transition: all 0.2s ease; border: 1.5px solid transparent; user-select: none; }
+    .slot:hover:not(.booked) { background: var(--sage-light); border-color: var(--sage); }
+    .slot.selected { background: var(--blue); color: var(--white); border-color: var(--blue); box-shadow: 0 2px 10px rgba(127,155,179,0.35); }
+    .slot.booked { background: var(--booked); color: var(--booked-text); cursor: not-allowed; }
     .slot-time { font-weight: 800; font-size: 12px; margin-bottom: 2px; }
     .slot-availability { font-size: 10px; font-weight: 700; opacity: 0.75; }
     .slot.selected .slot-availability { opacity: 0.9; }
-
-    .slots-loading {
-      grid-column: 1 / -1;
-      text-align: center; color: var(--espresso-light);
-      font-weight: 700; padding: 16px; font-size: 13px;
-    }
-    .slots-placeholder {
-      grid-column: 1 / -1;
-      text-align: center; color: var(--espresso-light);
-      font-weight: 700; font-size: 13px; padding: 16px;
-      background: var(--sand); border-radius: var(--radius-sm);
-    }
+    .slots-loading { grid-column: 1 / -1; text-align: center; color: var(--espresso-light); font-weight: 700; padding: 16px; font-size: 13px; }
+    .slots-placeholder { grid-column: 1 / -1; text-align: center; color: var(--espresso-light); font-weight: 700; font-size: 13px; padding: 16px; background: var(--sand); border-radius: var(--radius-sm); }
 
     /* ── GUESTS ── */
-    .guest-row {
-      display: flex; align-items: center;
-      justify-content: space-between;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--sand);
-    }
+    .guest-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--sand); }
     .guest-row:last-of-type { border-bottom: none; }
     .guest-info { flex: 1; }
     .guest-label { font-weight: 800; font-size: 14px; color: var(--espresso); }
     .guest-sublabel { font-size: 11px; color: var(--espresso-light); font-weight: 600; margin-top: 1px; }
     .guest-price { font-weight: 700; color: var(--blue); font-size: 13px; margin-right: 14px; }
-
     .counter { display: flex; align-items: center; gap: 12px; }
     .counter-btn {
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      border: 1.5px solid var(--sage);
-      background: var(--white);
-      color: var(--espresso);
-      font-size: 17px; font-weight: 800;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.15s; line-height: 1;
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1.5px solid var(--sage); background: var(--white); color: var(--espresso);
+      font-size: 17px; font-weight: 800; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.15s; line-height: 1;
     }
     .counter-btn:hover { background: var(--sage); color: var(--white); border-color: var(--sage); }
     .counter-btn:disabled { opacity: 0.3; cursor: not-allowed; }
     .counter-val { font-size: 17px; font-weight: 900; min-width: 18px; text-align: center; color: var(--espresso); }
-
-    .capacity-info {
-      margin-top: 16px; padding: 12px 14px;
-      background: var(--sand); border-radius: var(--radius-sm);
-      font-size: 12px; font-weight: 700; color: var(--espresso-light);
-    }
-    .capacity-bar-wrap {
-      height: 5px; background: var(--cream);
-      border-radius: 99px; margin-top: 6px; overflow: hidden;
-    }
-    .capacity-bar-fill {
-      height: 100%; background: var(--blue);
-      border-radius: 99px; transition: width 0.3s;
-    }
-
-    /* ── DISCOUNT ── */
-    .discount-section {
-      margin-top: 18px; padding-top: 16px;
-      border-top: 1px solid var(--sand);
-    }
-    .discount-label {
-      font-size: 12px; font-weight: 700;
-      color: var(--espresso-light); margin-bottom: 8px; display: block;
-    }
+    .capacity-info { margin-top: 16px; padding: 12px 14px; background: var(--sand); border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; color: var(--espresso-light); }
+    .capacity-bar-wrap { height: 5px; background: var(--cream); border-radius: 99px; margin-top: 6px; overflow: hidden; }
+    .capacity-bar-fill { height: 100%; background: var(--blue); border-radius: 99px; transition: width 0.3s; }
+    .discount-section { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--sand); }
+    .discount-label { font-size: 12px; font-weight: 700; color: var(--espresso-light); margin-bottom: 8px; display: block; }
     .discount-row { display: flex; gap: 8px; }
-    .discount-input {
-      flex: 1; padding: 10px 13px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 13px; font-weight: 700;
-      border: 1.5px solid var(--sand);
-      border-radius: var(--radius-sm);
-      background: var(--cream); color: var(--espresso);
-      outline: none; text-transform: uppercase; letter-spacing: 1px;
-      transition: border-color 0.2s;
-    }
+    .discount-input { flex: 1; padding: 10px 13px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; border: 1.5px solid var(--sand); border-radius: var(--radius-sm); background: var(--cream); color: var(--espresso); outline: none; text-transform: uppercase; letter-spacing: 1px; transition: border-color 0.2s; }
     .discount-input:focus { border-color: var(--blue); }
-    .discount-apply-btn {
-      padding: 10px 16px;
-      background: var(--sage); color: var(--white);
-      border: none; border-radius: var(--radius-sm);
-      font-family: 'Nunito', sans-serif;
-      font-size: 13px; font-weight: 800;
-      cursor: pointer; transition: background 0.2s;
-    }
+    .discount-apply-btn { padding: 10px 16px; background: var(--sage); color: var(--white); border: none; border-radius: var(--radius-sm); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
     .discount-apply-btn:hover { background: var(--espresso); }
     .discount-msg { margin-top: 7px; font-size: 12px; font-weight: 700; }
     .discount-msg.success { color: var(--green-dark); }
     .discount-msg.error { color: #c0392b; }
-
-    /* ── TOTAL ── */
-    .total-box {
-      margin-top: 18px; padding: 14px 16px;
-      background: var(--sand);
-      border-radius: var(--radius-sm);
-      display: flex; justify-content: space-between; align-items: center;
-      border: 1px solid rgba(74, 63, 54, 0.08);
-    }
+    .total-box { margin-top: 18px; padding: 14px 16px; background: var(--sand); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(74,63,54,0.08); }
     .total-label { font-weight: 800; font-size: 14px; color: var(--espresso); }
     .total-amount { font-weight: 900; font-size: 22px; color: var(--espresso); }
     .total-note { font-size: 10px; color: var(--blue); font-weight: 700; margin-top: 2px; }
 
     /* ── FORM ── */
     .form-group { margin-bottom: 14px; }
-    .form-label {
-      display: block; font-size: 11px; font-weight: 800;
-      color: var(--espresso-light); margin-bottom: 6px;
-      text-transform: uppercase; letter-spacing: 0.6px;
-    }
-    .form-input {
-      width: 100%; padding: 13px 15px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 15px; font-weight: 600;
-      border: 1.5px solid var(--sand);
-      border-radius: var(--radius-sm);
-      background: var(--cream); color: var(--espresso);
-      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .form-input:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(127, 155, 179, 0.15);
-    }
+    .form-label { display: block; font-size: 11px; font-weight: 800; color: var(--espresso-light); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.6px; }
+    .form-input { width: 100%; padding: 13px 15px; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600; border: 1.5px solid var(--sand); border-radius: var(--radius-sm); background: var(--cream); color: var(--espresso); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(127,155,179,0.15); }
 
-    /* ── SUMMARY ── */
-    .summary-box {
-      background: var(--sand);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      margin-bottom: 18px;
-      font-size: 13px; font-weight: 700;
-      color: var(--espresso-light);
-      line-height: 1.9;
-      border: 1px solid rgba(74, 63, 54, 0.07);
-    }
+    .summary-box { background: var(--sand); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 18px; font-size: 13px; font-weight: 700; color: var(--espresso-light); line-height: 1.9; border: 1px solid rgba(74,63,54,0.07); }
     .summary-box strong { color: var(--espresso); }
 
-    /* ── BUTTONS ── */
-    .btn-primary {
-      width: 100%; padding: 14px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 15px; font-weight: 900;
-      background: var(--apricot);
-      color: var(--espresso);
-      border: none; border-radius: 99px;
-      cursor: pointer; transition: all 0.2s;
-      letter-spacing: 0.3px;
-      box-shadow: 0 3px 12px rgba(230, 179, 154, 0.35);
+    /* ── SQUARE PAYMENT ── */
+    .payment-section {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--sand);
     }
-    .btn-primary:hover {
-      background: var(--apricot-dark);
-      color: var(--white);
-      transform: translateY(-1px);
-      box-shadow: 0 5px 16px rgba(201, 142, 114, 0.4);
+    .payment-label {
+      font-size: 11px; font-weight: 800;
+      color: var(--espresso-light); margin-bottom: 10px;
+      display: block; text-transform: uppercase; letter-spacing: 0.6px;
     }
-    .btn-primary:disabled {
-      background: var(--booked); color: var(--booked-text);
-      box-shadow: none; cursor: not-allowed; transform: none;
+    #card-container {
+      min-height: 90px;
+      background: var(--cream);
+      border: 1.5px solid var(--sand);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 6px;
+      transition: border-color 0.2s;
     }
-
-    .btn-secondary {
-      background: none; border: none;
+    #card-container.sq-focus { border-color: var(--blue); }
+    .payment-secure-note {
+      font-size: 11px; font-weight: 600;
       color: var(--espresso-light);
-      font-family: 'Nunito', sans-serif;
-      font-size: 13px; font-weight: 700;
-      cursor: pointer; padding: 10px 0;
-      display: block; margin: 10px auto 0;
-      text-decoration: underline; text-underline-offset: 2px;
-      transition: color 0.15s;
+      display: flex; align-items: center; gap: 5px;
+      margin-bottom: 16px;
     }
+    .payment-total-confirm {
+      background: var(--sand);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px;
+      border: 1px solid rgba(74,63,54,0.08);
+    }
+    .payment-total-confirm-label { font-size: 13px; font-weight: 700; color: var(--espresso-light); }
+    .payment-total-confirm-amount { font-size: 20px; font-weight: 900; color: var(--espresso); }
+
+    /* ── BUTTONS ── */
+    .btn-primary { width: 100%; padding: 14px; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900; background: var(--apricot); color: var(--espresso); border: none; border-radius: 99px; cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px; box-shadow: 0 3px 12px rgba(230,179,154,0.35); }
+    .btn-primary:hover { background: var(--apricot-dark); color: var(--white); transform: translateY(-1px); box-shadow: 0 5px 16px rgba(201,142,114,0.4); }
+    .btn-primary:disabled { background: var(--booked); color: var(--booked-text); box-shadow: none; cursor: not-allowed; transform: none; }
+    .btn-secondary { background: none; border: none; color: var(--espresso-light); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; padding: 10px 0; display: block; margin: 10px auto 0; text-decoration: underline; text-underline-offset: 2px; transition: color 0.15s; }
     .btn-secondary:hover { color: var(--espresso); }
 
     /* ── CONFIRMATION ── */
-    .confirmation-screen {
-      text-align: center; padding: 12px 0;
-      display: none; animation: fadeUp 0.4s ease;
-    }
+    .confirmation-screen { text-align: center; padding: 12px 0; display: none; animation: fadeUp 0.4s ease; }
     .confirmation-screen.active { display: block; }
-    .confirm-icon {
-      font-size: 56px; margin-bottom: 14px;
-      display: block; animation: bounceIn 0.5s ease;
-    }
-    @keyframes bounceIn {
-      0%   { transform: scale(0); }
-      60%  { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-    .confirmation-screen h2 {
-      font-family: 'Pacifico', cursive;
-      font-size: 26px; color: var(--espresso);
-      margin-bottom: 8px;
-    }
-    .confirmation-screen p {
-      font-size: 14px; color: var(--espresso-light);
-      font-weight: 600; margin-bottom: 5px; line-height: 1.6;
-    }
-    .confirm-details {
-      background: var(--sand); border-radius: var(--radius-sm);
-      padding: 16px; margin: 20px 0;
-      text-align: left; font-size: 13px;
-      font-weight: 700; line-height: 2;
-      border: 1px solid rgba(74, 63, 54, 0.07);
-    }
-    .event-link {
-      display: inline-block; margin-top: 16px;
-      padding: 11px 24px;
-      background: var(--sand); color: var(--espresso);
-      border-radius: 99px; font-weight: 800; font-size: 13px;
-      text-decoration: none; transition: all 0.2s;
-      border: 1.5px solid var(--sage);
-    }
-    .event-link:hover {
-      background: var(--sage); color: var(--white);
-    }
+    .confirm-icon { font-size: 56px; margin-bottom: 14px; display: block; animation: bounceIn 0.5s ease; }
+    @keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.2); } 100% { transform: scale(1); } }
+    .confirmation-screen h2 { font-family: 'Pacifico', cursive; font-size: 26px; color: var(--espresso); margin-bottom: 8px; }
+    .confirmation-screen p { font-size: 14px; color: var(--espresso-light); font-weight: 600; margin-bottom: 5px; line-height: 1.6; }
+    .confirm-details { background: var(--sand); border-radius: var(--radius-sm); padding: 16px; margin: 20px 0; text-align: left; font-size: 13px; font-weight: 700; line-height: 2; border: 1px solid rgba(74,63,54,0.07); }
+    .event-link { display: inline-block; margin-top: 16px; padding: 11px 24px; background: var(--sand); color: var(--espresso); border-radius: 99px; font-weight: 800; font-size: 13px; text-decoration: none; transition: all 0.2s; border: 1.5px solid var(--sage); }
+    .event-link:hover { background: var(--sage); color: var(--white); }
 
     /* ── ERROR ── */
-    .error-msg {
-      margin-top: 10px; padding: 11px 14px;
-      background: #fdf2f0; border-radius: var(--radius-sm);
-      color: #c0392b; font-size: 12px; font-weight: 700;
-      display: none; border: 1px solid rgba(192, 57, 43, 0.15);
-    }
+    .error-msg { margin-top: 10px; padding: 11px 14px; background: #fdf2f0; border-radius: var(--radius-sm); color: #c0392b; font-size: 12px; font-weight: 700; display: none; border: 1px solid rgba(192,57,43,0.15); }
     .error-msg.visible { display: block; }
+
+    /* ── LOADING OVERLAY ── */
+    .loading-overlay {
+      position: fixed; inset: 0;
+      background: rgba(246,241,232,0.85);
+      display: none; align-items: center; justify-content: center;
+      z-index: 200; flex-direction: column; gap: 12px;
+    }
+    .loading-overlay.visible { display: flex; }
+    .loading-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--sand);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 14px; font-weight: 700; color: var(--espresso-light); }
   </style>
 </head>
 <body>
@@ -526,7 +276,6 @@
 
   <!-- Header -->
   <div class="header">
-
     <h1>Three Tails Cafe</h1>
     <p>Book your cozy cat lounge session</p>
   </div>
@@ -550,7 +299,7 @@
     <div class="progress-line" id="line-3"></div>
     <div class="progress-step">
       <div class="step-circle" id="circle-4">4</div>
-      <div class="step-label" id="label-4">Info</div>
+      <div class="step-label" id="label-4">Payment</div>
     </div>
   </div>
 
@@ -565,20 +314,19 @@
       <li>No outside food or drinks in the lounge. Please do not feed the cats — they are on special diets.</li>
       <li>No personal pets allowed inside. Only certified medical assistance animals are permitted in the café area.</li>
       <li>Do not wake sleeping cats. They need their rest too!</li>
-      <li>This booking is a reservation confirmation only — payment is collected at the café upon arrival.</li>
+      <li>Full payment is collected online at the time of booking. Refunds are available if cancelled at least 24 hours before your visit.</li>
       <li>Need to reschedule? Please contact us at least 24 hours in advance at dustin.nieves@threetailscafe.com or call 123-456-7890.</li>
     </ul>
     <div class="waiver-check-row" onclick="toggleWaiver()">
       <input type="checkbox" id="waiverCheck" onclick="event.stopPropagation(); updateWaiverBtn()" />
-      <label for="waiverCheck">I have read and agree to the Three Tails Cafe rules. I understand my booking is a reservation only and payment is due at the café.</label>
+      <label for="waiverCheck">I have read and agree to the Three Tails Cafe rules. I understand full payment is due at booking and refunds require 24 hours notice.</label>
     </div>
-    <button class="btn-primary" id="waiverBtn" onclick="goToStep(2)" disabled>Let's Book! →</button>
+    <button class="btn-primary" id="waiverBtn" onclick="goToStep(2)" disabled>Let's Book!</button>
   </div>
 
   <!-- Step 2: Date & Time -->
   <div class="card" id="step-2">
     <h2>Date & Time</h2>
-
     <div class="calendar-wrap">
       <div class="cal-header">
         <button class="cal-nav" id="calPrev" onclick="changeMonth(-1)">‹</button>
@@ -587,22 +335,19 @@
       </div>
       <div class="cal-grid" id="calGrid"></div>
     </div>
-
     <div class="slots-section">
       <div class="slots-label">Available Times</div>
       <div class="slots-grid" id="slotsGrid">
         <div class="slots-placeholder">Select a date to see times</div>
       </div>
     </div>
-
-    <button class="btn-primary" style="margin-top:18px" onclick="goToStep3()" id="timeNextBtn" disabled>Select Guests →</button>
+    <button class="btn-primary" style="margin-top:18px" onclick="goToStep3()" id="timeNextBtn" disabled>Select Guests</button>
     <button class="btn-secondary" onclick="goToStep(1)">← Back</button>
   </div>
 
   <!-- Step 3: Guests & Pricing -->
   <div class="card" id="step-3">
     <h2>Guests & Pricing</h2>
-
     <div class="guest-row">
       <div class="guest-info">
         <div class="guest-label">Adults</div>
@@ -615,7 +360,6 @@
         <button class="counter-btn" onclick="changeGuest('adult',1)" id="adultPlus">+</button>
       </div>
     </div>
-
     <div class="guest-row">
       <div class="guest-info">
         <div class="guest-label">Children</div>
@@ -628,14 +372,12 @@
         <button class="counter-btn" onclick="changeGuest('child',1)" id="childPlus">+</button>
       </div>
     </div>
-
     <div class="capacity-info">
       <div id="capacityText">Loading...</div>
       <div class="capacity-bar-wrap">
         <div class="capacity-bar-fill" id="capacityBar" style="width:0%"></div>
       </div>
     </div>
-
     <div class="discount-section">
       <span class="discount-label">Have a discount code?</span>
       <div class="discount-row">
@@ -644,23 +386,22 @@
       </div>
       <div class="discount-msg" id="discountMsg"></div>
     </div>
-
     <div class="total-box">
       <div>
-        <div class="total-label">Total Due at Café</div>
+        <div class="total-label">Total</div>
         <div class="total-note" id="discountNote"></div>
       </div>
       <div class="total-amount" id="totalAmount">$15.00</div>
     </div>
-
-    <button class="btn-primary" style="margin-top:18px" onclick="goToStep4()">Enter Your Info →</button>
+    <button class="btn-primary" style="margin-top:18px" onclick="goToStep4()">Enter Info & Pay</button>
     <button class="btn-secondary" onclick="goToStep(2)">← Back</button>
   </div>
 
-  <!-- Step 4: Info -->
+  <!-- Step 4: Info + Payment -->
   <div class="card" id="step-4">
-    <h2>Your Info</h2>
+    <h2>Your Info & Payment</h2>
     <div class="summary-box" id="bookingSummary"></div>
+
     <div class="form-group">
       <label class="form-label" for="guestName">Full Name</label>
       <input type="text" class="form-input" id="guestName" placeholder="e.g. Jane Smith" autocomplete="name" />
@@ -673,14 +414,31 @@
       <label class="form-label" for="guestPhone">Phone <span style="font-weight:600;text-transform:none;font-size:11px">(optional)</span></label>
       <input type="tel" class="form-input" id="guestPhone" placeholder="e.g. 407-555-0100" autocomplete="tel" />
     </div>
+
+    <!-- Square Payment -->
+    <div class="payment-section">
+      <span class="payment-label">Payment Details</span>
+      <div id="card-container"></div>
+      <div class="payment-secure-note">
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 0L0 2.5V6.5C0 10.1 2.55 13.45 6 14C9.45 13.45 12 10.1 12 6.5V2.5L6 0Z" fill="#A7B6A3"/>
+        </svg>
+        Secured by Square — your card details are never stored on our servers
+      </div>
+      <div class="payment-total-confirm">
+        <div class="payment-total-confirm-label">Amount to charge</div>
+        <div class="payment-total-confirm-amount" id="paymentTotalDisplay">$15.00</div>
+      </div>
+    </div>
+
     <div class="error-msg" id="errorMsg"></div>
-    <button class="btn-primary" onclick="confirmBooking()" id="confirmBtn">Confirm Booking</button>
+    <button class="btn-primary" onclick="confirmBooking()" id="confirmBtn">Pay & Confirm Booking</button>
     <button class="btn-secondary" onclick="goToStep(3)">← Back</button>
   </div>
 
   <!-- Confirmation -->
   <div class="confirmation-screen" id="confirmationScreen">
-    <span class="confirm-icon"></span>
+    <span class="confirm-icon">✓</span>
     <h2>You're booked!</h2>
     <p>We can't wait to see you at Three Tails Cafe.</p>
     <p>A confirmation email is on its way.</p>
@@ -692,17 +450,30 @@
 
 </div>
 
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Processing payment...</div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
 <script>
   // ── CONFIG ──────────────────────────────────────────────────
   const SUPABASE_URL      = "https://ggckzydfipyvnkwqnpfo.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA";
-  const EMAILJS_PUBLIC_KEY         = "VNSbjXzzwXoX7Y_Vx";
-  const EMAILJS_SERVICE_ID         = "service_u00zfta";
-  const EMAILJS_TEMPLATE_CUSTOMER  = "template_5pipgqs";
-  const EMAILJS_TEMPLATE_BUSINESS  = "template_fxs6tv5";
+
+  const EMAILJS_PUBLIC_KEY        = "VNSbjXzzwXoX7Y_Vx";
+  const EMAILJS_SERVICE_ID        = "service_u00zfta";
+  const EMAILJS_TEMPLATE_CUSTOMER = "template_5pipgqs";
+  const EMAILJS_TEMPLATE_BUSINESS = "template_fxs6tv5";
   const BUSINESS_EMAIL            = "dustin.nieves@threetailscafe.com";
+
+  // ── Square Sandbox credentials ──
+  // Replace YOUR_SQUARE_APP_ID with your actual Sandbox Application ID
+  const SQUARE_APP_ID    = "sandbox-sq0idb-SITECZJQJVhjWybe60gdtA";
+  const SQUARE_LOCATION  = "LBAZ4HAATQD6E";
 
   const ADULT_PRICE  = 15;
   const CHILD_PRICE  = 9;
@@ -717,7 +488,7 @@
   ];
 
   // ── STATE ────────────────────────────────────────────────────
-  let db;
+  let db, squareCard;
   let selectedDate = "", selectedTime = "";
   let adults = 1, children = 0;
   let discountApplied = false;
@@ -733,6 +504,28 @@
   calYear  = now.getFullYear();
   calMonth = now.getMonth();
   renderCalendar();
+
+  // Initialize Square card field when step 4 is shown
+  async function initSquare() {
+    if (squareCard) return; // already initialized
+    try {
+      const payments = Square.payments(SQUARE_APP_ID, SQUARE_LOCATION);
+      squareCard = await payments.card({
+        style: {
+          '.input-container': { borderColor: '#E9DDCF', borderRadius: '10px' },
+          '.input-container.is-focus': { borderColor: '#7F9BB3' },
+          '.input-container.is-error': { borderColor: '#c0392b' },
+          input: { fontFamily: 'Nunito, sans-serif', fontSize: '15px', color: '#4A3F36' },
+          'input::placeholder': { color: '#8A7B6F' },
+        }
+      });
+      await squareCard.attach('#card-container');
+    } catch(e) {
+      console.error("Square init error:", e);
+      document.getElementById("errorMsg").innerText = "Payment system failed to load. Please refresh and try again.";
+      document.getElementById("errorMsg").classList.add("visible");
+    }
+  }
 
   // ── WAIVER ───────────────────────────────────────────────────
   function toggleWaiver() {
@@ -751,6 +544,7 @@
     document.getElementById("step-" + n).classList.add("active");
     updateProgress(n);
     window.scrollTo({ top: 0, behavior: "smooth" });
+    if (n === 4) initSquare();
   }
 
   function updateProgress(active) {
@@ -783,8 +577,7 @@
 
     ["Su","Mo","Tu","We","Th","Fr","Sa"].forEach(d => {
       const el = document.createElement("div");
-      el.className = "cal-dow";
-      el.innerText = d;
+      el.className = "cal-dow"; el.innerText = d;
       grid.appendChild(el);
     });
 
@@ -792,14 +585,11 @@
     const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
 
     for (let i = 0; i < firstDay; i++) {
-      const el = document.createElement("div");
-      el.className = "cal-day empty";
-      grid.appendChild(el);
+      const el = document.createElement("div"); el.className = "cal-day empty"; grid.appendChild(el);
     }
 
     for (let d = 1; d <= daysInMonth; d++) {
-      const date = new Date(calYear, calMonth, d);
-      date.setHours(0,0,0,0);
+      const date = new Date(calYear, calMonth, d); date.setHours(0,0,0,0);
       const dateStr = formatDateStr(calYear, calMonth, d);
       const isPast  = date < today;
 
@@ -809,7 +599,6 @@
         (date.getTime() === today.getTime() ? " today" : "") +
         (dateStr === selectedDate ? " selected" : "");
       el.innerText = d;
-
       if (!isPast) el.onclick = () => selectDate(dateStr, el);
       grid.appendChild(el);
     }
@@ -840,19 +629,14 @@
     const grid = document.getElementById("slotsGrid");
     grid.innerHTML = '<div class="slots-loading">Checking availability...</div>';
     slotCapacityMap = {};
-
     try {
-      const { data, error } = await db
-        .from("bookings")
-        .select("time, adults, children")
-        .eq("date", selectedDate);
+      const { data, error } = await db.from("bookings").select("time, adults, children").eq("date", selectedDate);
       if (error) throw error;
       for (const row of (data || [])) {
         const units = (row.adults || 0) + (row.children || 0) * 0.5;
         slotCapacityMap[row.time] = (slotCapacityMap[row.time] || 0) + units;
       }
     } catch(e) { console.error("Slot load error:", e); }
-
     renderSlots();
   }
 
@@ -863,15 +647,12 @@
       const used      = slotCapacityMap[slot] || 0;
       const remaining = MAX_CAPACITY - used;
       const booked    = remaining <= 0;
-
       const div = document.createElement("div");
       div.className = "slot" + (booked ? " booked" : "") + (slot === selectedTime ? " selected" : "");
-
       let availText = "Available";
       if (booked)              availText = "Fully Booked";
       else if (remaining <= 1) availText = "1 spot left!";
       else if (remaining <= 3) availText = Math.floor(remaining) + " spots left";
-
       div.innerHTML = `<div class="slot-time">${slot}</div><div class="slot-availability">${availText}</div>`;
       if (!booked) div.onclick = () => selectSlot(div, slot);
       grid.appendChild(div);
@@ -977,15 +758,17 @@
       "Adults: <strong>" + adults + " adult" + (adults !== 1 ? "s" : "") + "</strong>",
       children > 0 ? "Children: <strong>" + children + " child" + (children !== 1 ? "ren" : "") + "</strong>" : null,
       discountApplied ? "<strong>20% discount applied</strong>" : null,
-      "Total: <strong>" + total + " due at café</strong>"
+      "Total: <strong>" + total + "</strong>"
     ].filter(Boolean);
     document.getElementById("bookingSummary").innerHTML = "<strong>Your booking summary:</strong><br>" + lines.join("<br>");
+    document.getElementById("paymentTotalDisplay").innerText = total;
     goToStep(4);
   }
 
-  // ── CONFIRM ──────────────────────────────────────────────────
+  // ── CONFIRM & PAY ────────────────────────────────────────────
   async function confirmBooking() {
     if (isSubmitting) return;
+
     const name   = document.getElementById("guestName").value.trim();
     const email  = document.getElementById("guestEmail").value.trim();
     const phone  = document.getElementById("guestPhone").value.trim();
@@ -994,34 +777,94 @@
     const errDiv = document.getElementById("errorMsg");
 
     errDiv.classList.remove("visible");
+
     if (!name || !email) { errDiv.innerText = "Please enter your name and email."; errDiv.classList.add("visible"); return; }
     if (!/^\S+@\S+\.\S+$/.test(email)) { errDiv.innerText = "Please enter a valid email address."; errDiv.classList.add("visible"); return; }
+    if (!squareCard) { errDiv.innerText = "Payment system not ready. Please refresh and try again."; errDiv.classList.add("visible"); return; }
 
     isSubmitting = true;
     const btn = document.getElementById("confirmBtn");
-    btn.disabled = true; btn.innerText = "Confirming...";
+    btn.disabled = true; btn.innerText = "Processing...";
+    document.getElementById("loadingOverlay").classList.add("visible");
 
+    // ── Final capacity check ──
     const { data: fresh } = await db.from("bookings").select("adults, children").eq("date", selectedDate).eq("time", selectedTime);
     const freshUsed = (fresh || []).reduce((s,r) => s + (r.adults||0) + (r.children||0)*0.5, 0);
     if (freshUsed + adults + children * 0.5 > MAX_CAPACITY) {
       errDiv.innerText = "Sorry, this slot just filled up! Please go back and choose another time.";
       errDiv.classList.add("visible");
-      btn.disabled = false; btn.innerText = "Confirm Booking"; isSubmitting = false;
-      return;
+      resetBtn(btn); return;
     }
 
+    // ── Tokenize card with Square ──
+    let tokenResult;
+    try {
+      tokenResult = await squareCard.tokenize();
+    } catch(e) {
+      errDiv.innerText = "Payment error: " + e.message;
+      errDiv.classList.add("visible");
+      resetBtn(btn); return;
+    }
+
+    if (tokenResult.status !== "OK") {
+      const msgs = (tokenResult.errors || []).map(e => e.message).join(", ");
+      errDiv.innerText = "Card error: " + (msgs || "Please check your card details.");
+      errDiv.classList.add("visible");
+      resetBtn(btn); return;
+    }
+
+    const sourceId = tokenResult.token;
+
+    // ── Process payment via Square API ──
+    // NOTE: In production, this call should go through a secure backend.
+    // For sandbox testing, we're calling Square directly.
+    // When going live, replace this block with a call to your own server endpoint.
+    let paymentId = null;
+    try {
+      const amountCents = Math.round(total * 100);
+      const paymentResp = await fetch("https://connect.squareupsandbox.com/v2/payments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer EAAAl3_7KZm3mbuJb8k7pQjY8WmGShnJ1tgxSsOsVitCAd6ixYWfaocgaEpcz0Ab",
+          "Square-Version": "2024-01-18"
+        },
+        body: JSON.stringify({
+          source_id: sourceId,
+          idempotency_key: crypto.randomUUID(),
+          amount_money: { amount: amountCents, currency: "USD" },
+          buyer_email_address: email,
+          note: `Three Tails Cafe — ${selectedDate} ${selectedTime} — ${name}`
+        })
+      });
+      const paymentData = await paymentResp.json();
+      if (paymentData.errors) {
+        const msg = paymentData.errors.map(e => e.detail).join(", ");
+        errDiv.innerText = "Payment declined: " + msg;
+        errDiv.classList.add("visible");
+        resetBtn(btn); return;
+      }
+      paymentId = paymentData.payment?.id || null;
+    } catch(e) {
+      errDiv.innerText = "Payment failed. Please try again.";
+      errDiv.classList.add("visible");
+      resetBtn(btn); return;
+    }
+
+    // ── Save to Supabase ──
     const { error } = await db.from("bookings").insert([{
       name, email, phone, date: selectedDate, time: selectedTime,
-      adults, children, discount_code: code || null, total
+      adults, children, discount_code: code || null, total,
+      payment_id: paymentId, payment_status: "paid"
     }]).select();
 
     if (error) {
-      errDiv.innerText = "Booking failed: " + error.message;
+      errDiv.innerText = "Booking save failed: " + error.message;
       errDiv.classList.add("visible");
-      btn.disabled = false; btn.innerText = "Confirm Booking"; isSubmitting = false;
-      return;
+      resetBtn(btn); return;
     }
 
+    // ── Send emails ──
     const params = {
       customer_name: name, customer_email: email,
       booking_date: formatDateDisplay(selectedDate), booking_time: selectedTime,
@@ -1033,18 +876,25 @@
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_BUSINESS,  { ...params, to_email: BUSINESS_EMAIL });
     } catch(e) { console.warn("Email failed (booking still saved):", e); }
 
+    // ── Show confirmation ──
+    document.getElementById("loadingOverlay").classList.remove("visible");
     document.getElementById("step-4").classList.remove("active");
     document.getElementById("progressBar").style.display = "none";
-    const screen = document.getElementById("confirmationScreen");
-    screen.classList.add("active");
+    document.getElementById("confirmationScreen").classList.add("active");
     document.getElementById("confirmDetails").innerHTML =
       "Date: <strong>" + formatDateDisplay(selectedDate) + "</strong><br>" +
       "Time: <strong>" + selectedTime + "</strong><br>" +
       "Guests: <strong>" + adults + " adult" + (adults!==1?"s":"") +
       (children > 0 ? " + " + children + " child" + (children!==1?"ren":"") : "") + "</strong><br>" +
-      "Total: <strong>$" + total.toFixed(2) + " due at café</strong>" +
+      "Paid: <strong>$" + total.toFixed(2) + "</strong>" +
       (discountApplied ? "<br><strong>20% discount applied</strong>" : "");
 
+    isSubmitting = false;
+  }
+
+  function resetBtn(btn) {
+    document.getElementById("loadingOverlay").classList.remove("visible");
+    btn.disabled = false; btn.innerText = "Pay & Confirm Booking";
     isSubmitting = false;
   }
 
