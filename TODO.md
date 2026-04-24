@@ -1,20 +1,16 @@
-Here you go:
-
----
-
 # Three Tails Cafe — Booking System To-Do List
 
 ## Before Launch
-- [ ] Replace `123-456-7890` placeholder with real business phone number
+- [x] Replace `123-456-7890` placeholder with real business phone number — (352) 432-8028
 - [ ] Set strong admin password and staff PIN (currently using defaults)
 - [ ] Add friendly fallback UI if Supabase fails to load
 - [ ] Test full booking flow on desktop and mobile one final time
+- [ ] Scope down Supabase RLS UPDATE policy — currently `true` for anon; should restrict customer self-serve updates to matching `manage_token`, and move admin status changes behind a server-side function with a secret key
 
 ## High Priority (Post-Launch)
 - [ ] Move capacity validation to Supabase database level to prevent rare double-booking edge cases
-- [ ] Add booking cancellation and reschedule page using unique booking ID from confirmation email
 - [ ] Add buffer rules — ability to block or reduce slot capacity for cat rest periods and cleaning
-- [ ] Auto-refresh slot availability when a slot fills mid-booking instead of just showing an error
+- [ ] Auto-refresh slot availability on booking page when a slot fills mid-booking instead of just showing an error
 
 ## Growth Features
 - [ ] Add "First visit?" and "Special occasion?" fields to booking form for customer insights
@@ -29,10 +25,22 @@ Here you go:
 
 ## On Hold / Future
 - [ ] Private event booking flow (separate page)
-- [ ] Payment processing (Stripe) — payments currently collected on-site
 - [ ] Dedicated `bookings@threetailscafe.com` mailbox
 - [ ] Admin UI polish session based on co-owner feedback
 
 ---
 
-Paste this into your GitHub project description or a `TODO.md` file in the repo — I'll be able to reference it in future sessions when you bring it up!
+## Completed
+- [x] Add booking cancellation and reschedule page (`manage.html`) with unique token link from confirmation email
+- [x] Square payment integration — sandbox live, collecting payment at booking time
+- [x] Customer self-serve cancel with Square refund (`api/refund.js`)
+- [x] Fix capacity queries to exclude cancelled bookings
+- [x] Admin: day summary bar, collapsed empty slots, capacity fill bars, contact info on booking rows
+- [x] Admin: 60s auto-refresh on staff view
+- [x] Admin: Revenue stat card, quick date filters, stats reflect active filter
+- [x] Admin: Expandable rows (phone, payment ID, manage link)
+- [x] Admin: Cancel & Refund action for owner view
+- [x] Admin: Cancelled status badge and filter option
+- [x] Supabase RLS UPDATE policy added for anon role
+- [x] Font switched from Pacifico to Tenor Sans across all pages
+- [x] EmailJS Reply-To — set customer template to `{{business_email}}`, business template to `{{customer_email}}`

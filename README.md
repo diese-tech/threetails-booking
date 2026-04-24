@@ -166,7 +166,7 @@ Recommended header block above the iframe:
 
 ## Pre-Launch Checklist
 
-- [ ] Replace `123-456-7890` placeholder with real phone number
+- [x] Replace `123-456-7890` placeholder with real phone number — (352) 432-8028
 - [ ] Replace EmailJS placeholder keys with real credentials
 - [ ] Re-enable RLS in Supabase with correct policies
 - [ ] Set a strong admin password in `admin.html`
