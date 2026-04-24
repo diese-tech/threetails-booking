@@ -227,10 +227,11 @@
       text-transform: uppercase; letter-spacing: 0.3px;
       white-space: nowrap;
     }
-    .status-pending   { background: var(--yellow-light); color: var(--yellow); }
+    .status-pending    { background: var(--yellow-light); color: var(--yellow); }
     .status-checked-in { background: #e8f8ed; color: var(--green-dark); }
-    .status-no-show   { background: var(--red-light); color: var(--red); }
-    .status-walk-in   { background: var(--blue-light); color: var(--blue); }
+    .status-no-show    { background: var(--red-light); color: var(--red); }
+    .status-walk-in    { background: var(--blue-light); color: var(--blue); }
+    .status-cancelled  { background: #eeeeee; color: #777777; }
 
     .action-btn {
       padding: 5px 12px;
@@ -566,6 +567,7 @@
         "checked-in": ["status-checked-in", "Checked In"],
         "no-show":    ["status-no-show",    "No-Show"],
         "walk-in":    ["status-walk-in",    "Walk-In"],
+        "cancelled":  ["status-cancelled",  "Cancelled"],
       };
       const [cls, label] = map[status] || ["status-pending", "Pending"];
       return `<span class="status-badge ${cls}">${label}</span>`;
@@ -702,7 +704,9 @@
       const nameDisplay = b.name || (isWalkIn ? "Walk-In Guest" : "Guest");
 
       let actions = "";
-      if (status === "pending" || status === "walk-in") {
+      if (status === "cancelled") {
+        actions = "";
+      } else if (status === "pending" || status === "walk-in") {
         actions = `
           <button class="action-btn btn-checkin" onclick="updateStatus('${b.id}', 'checked-in')">Check In</button>
           <button class="action-btn btn-noshow" onclick="updateStatus('${b.id}', 'no-show')">No-Show</button>
@@ -795,10 +799,12 @@
           <td>${statusBadge(status)}</td>
           <td>
             <div style="display:flex;gap:5px;flex-wrap:wrap">
-              ${status === "pending" || status === "walk-in"
-                ? `<button class="action-btn btn-checkin" onclick="updateStatus('${b.id}','checked-in')">Check In</button>
-                   <button class="action-btn btn-noshow" onclick="updateStatus('${b.id}','no-show')">No-Show</button>`
-                : `<button class="action-btn btn-undo" onclick="updateStatus('${b.id}','${status==="walk-in"?"walk-in":"pending"}')">Undo</button>`
+              ${status === "cancelled"
+                ? ""
+                : status === "pending" || status === "walk-in"
+                  ? `<button class="action-btn btn-checkin" onclick="updateStatus('${b.id}','checked-in')">Check In</button>
+                     <button class="action-btn btn-noshow" onclick="updateStatus('${b.id}','no-show')">No-Show</button>`
+                  : `<button class="action-btn btn-undo" onclick="updateStatus('${b.id}','${status==="walk-in"?"walk-in":"pending"}')">Undo</button>`
               }
             </div>
           </td>

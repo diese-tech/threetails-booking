@@ -630,7 +630,7 @@
     grid.innerHTML = '<div class="slots-loading">Checking availability...</div>';
     slotCapacityMap = {};
     try {
-      const { data, error } = await db.from("bookings").select("time, adults, children").eq("date", selectedDate);
+      const { data, error } = await db.from("bookings").select("time, adults, children").eq("date", selectedDate).neq("status", "cancelled");
       if (error) throw error;
       for (const row of (data || [])) {
         const units = (row.adults || 0) + (row.children || 0) * 0.5;
@@ -788,7 +788,7 @@
     document.getElementById("loadingOverlay").classList.add("visible");
 
     // ── Final capacity check ──
-    const { data: fresh } = await db.from("bookings").select("adults, children").eq("date", selectedDate).eq("time", selectedTime);
+    const { data: fresh } = await db.from("bookings").select("adults, children").eq("date", selectedDate).eq("time", selectedTime).neq("status", "cancelled");
     const freshUsed = (fresh || []).reduce((s,r) => s + (r.adults||0) + (r.children||0)*0.5, 0);
     if (freshUsed + adults + children * 0.5 > MAX_CAPACITY) {
       errDiv.innerText = "Sorry, this slot just filled up! Please go back and choose another time.";
@@ -848,10 +848,12 @@
     }
 
     // ── Save to Supabase ──
+    const manageToken = crypto.randomUUID();
+    const manageUrl   = window.location.origin + "/manage?token=" + manageToken;
     const { error } = await db.from("bookings").insert([{
       name, email, phone, date: selectedDate, time: selectedTime,
       adults, children, discount_code: code || null, total,
-      payment_id: paymentId, payment_status: "paid"
+      payment_id: paymentId, payment_status: "paid", manage_token: manageToken
     }]).select();
 
     if (error) {
@@ -865,7 +867,8 @@
       customer_name: name, customer_email: email,
       booking_date: formatDateDisplay(selectedDate), booking_time: selectedTime,
       adults, children, discount: discountApplied ? "20% (" + code + ")" : "None",
-      total: "$" + total.toFixed(2), business_email: BUSINESS_EMAIL
+      total: "$" + total.toFixed(2), business_email: BUSINESS_EMAIL,
+      manage_url: manageUrl
     };
     try {
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CUSTOMER, { ...params, to_email: email });
@@ -883,7 +886,8 @@
       "Guests: <strong>" + adults + " adult" + (adults!==1?"s":"") +
       (children > 0 ? " + " + children + " child" + (children!==1?"ren":"") : "") + "</strong><br>" +
       "Paid: <strong>$" + total.toFixed(2) + "</strong>" +
-      (discountApplied ? "<br><strong>20% discount applied</strong>" : "");
+      (discountApplied ? "<br><strong>20% discount applied</strong>" : "") +
+      "<br><br><a href='" + manageUrl + "' style='color:var(--blue);font-weight:800;font-size:12px'>Manage or cancel this booking →</a>";
 
     isSubmitting = false;
   }

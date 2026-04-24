@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Your Booking — Three Tails Cafe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream:          #F6F1E8;
+      --sage:           #A7B6A3;
+      --sage-light:     #C8D4C4;
+      --blue:           #7F9BB3;
+      --blue-light:     #B0C4D4;
+      --apricot:        #E6B39A;
+      --apricot-dark:   #C98E72;
+      --sand:           #E9DDCF;
+      --espresso:       #4A3F36;
+      --espresso-light: #8A7B6F;
+      --booked:         #D6CFC7;
+      --booked-text:    #9E9087;
+      --green:          #6dbf82;
+      --green-dark:     #4ea36a;
+      --red:            #c0392b;
+      --red-light:      #fdf2f0;
+      --white:          #FFFFFF;
+      --shadow-card:    0 4px 24px rgba(74,63,54,0.10);
+      --radius:         14px;
+      --radius-sm:      10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--espresso);
+      min-height: 100vh;
+      padding: 32px 16px 72px;
+    }
+
+    .booking-wrapper { width: 99%; max-width: 600px; margin: 0 auto; }
+
+    .header { text-align: center; margin-bottom: 32px; }
+    .header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(26px, 6vw, 36px);
+      color: var(--espresso); line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .header p { font-size: 14px; color: var(--espresso-light); font-weight: 600; }
+
+    .card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 26px 22px; box-shadow: var(--shadow-card);
+      margin-bottom: 16px; display: none;
+      animation: fadeUp 0.35s ease;
+      border: 1px solid rgba(74,63,54,0.06);
+    }
+    .card.active { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card h2 { font-size: 17px; font-weight: 800; margin-bottom: 18px; color: var(--espresso); }
+
+    /* Detail box */
+    .detail-box {
+      background: var(--sand); border-radius: var(--radius-sm);
+      padding: 16px; margin: 16px 0;
+      font-size: 13px; font-weight: 700; color: var(--espresso-light);
+      line-height: 2; border: 1px solid rgba(74,63,54,0.07);
+    }
+    .detail-box strong { color: var(--espresso); }
+
+    /* Locked notice */
+    .locked-notice {
+      background: #fff8ec; border: 1px solid #f5c97a;
+      border-radius: var(--radius-sm); padding: 14px 16px;
+      font-size: 13px; font-weight: 700; color: #7a5c00;
+      margin-top: 4px; line-height: 1.6;
+    }
+    .locked-notice strong { color: #5a4200; }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%; padding: 14px;
+      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900;
+      background: var(--apricot); color: var(--espresso);
+      border: none; border-radius: 99px; cursor: pointer;
+      transition: all 0.2s; letter-spacing: 0.3px;
+      box-shadow: 0 3px 12px rgba(230,179,154,0.35);
+      display: block; text-align: center; text-decoration: none;
+      margin-bottom: 10px;
+    }
+    .btn-primary:hover { background: var(--apricot-dark); color: var(--white); transform: translateY(-1px); }
+    .btn-primary:disabled { background: var(--booked); color: var(--booked-text); box-shadow: none; cursor: not-allowed; transform: none; }
+
+    .btn-danger {
+      width: 100%; padding: 14px;
+      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900;
+      background: var(--red-light); color: var(--red);
+      border: 1.5px solid rgba(192,57,43,0.2); border-radius: 99px; cursor: pointer;
+      transition: all 0.2s; display: block; text-align: center; text-decoration: none;
+    }
+    .btn-danger:hover { background: var(--red); color: var(--white); }
+    .btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-secondary {
+      background: none; border: none; color: var(--espresso-light);
+      font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+      cursor: pointer; padding: 10px 0; display: block; margin: 6px auto 0;
+      text-decoration: underline; text-underline-offset: 2px; transition: color 0.15s;
+    }
+    .btn-secondary:hover { color: var(--espresso); }
+
+    /* Confirm icon */
+    .confirm-icon { font-size: 52px; margin-bottom: 14px; display: block; animation: bounceIn 0.5s ease; }
+    @keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+    /* Center card content */
+    .card-center { text-align: center; padding: 8px 0; }
+    .card-center h2 { margin-bottom: 10px; }
+    .card-center p { font-size: 13px; color: var(--espresso-light); font-weight: 600; margin-bottom: 6px; line-height: 1.6; }
+
+    /* Error */
+    .error-msg {
+      margin-top: 10px; padding: 11px 14px;
+      background: var(--red-light); border-radius: var(--radius-sm);
+      color: var(--red); font-size: 12px; font-weight: 700;
+      display: none; border: 1px solid rgba(192,57,43,0.15);
+    }
+    .error-msg.visible { display: block; }
+
+    /* Loading overlay */
+    .loading-overlay {
+      position: fixed; inset: 0;
+      background: rgba(246,241,232,0.85);
+      display: none; align-items: center; justify-content: center;
+      z-index: 200; flex-direction: column; gap: 12px;
+    }
+    .loading-overlay.visible { display: flex; }
+    .loading-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--sand);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 14px; font-weight: 700; color: var(--espresso-light); }
+
+    /* ── CALENDAR (reschedule) ── */
+    .calendar-wrap { background: var(--sand); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 20px; }
+    .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .cal-month-label { font-size: 15px; font-weight: 900; color: var(--espresso); }
+    .cal-nav {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1.5px solid var(--sage); background: var(--white); color: var(--espresso);
+      font-size: 15px; font-weight: 900; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+    }
+    .cal-nav:hover { background: var(--sage); color: var(--white); border-color: var(--sage); }
+    .cal-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-dow { text-align: center; font-size: 10px; font-weight: 800; color: var(--espresso-light); text-transform: uppercase; padding: 2px 0 8px; letter-spacing: 0.3px; }
+    .cal-day {
+      aspect-ratio: 1; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: all 0.15s; background: var(--white); color: var(--espresso);
+      border: 1.5px solid transparent; min-width: 0;
+    }
+    .cal-day:hover:not(.disabled):not(.empty) { background: var(--sage-light); }
+    .cal-day.selected { background: var(--blue); color: var(--white); border-color: var(--blue); transform: scale(1.08); box-shadow: 0 2px 8px rgba(127,155,179,0.4); }
+    .cal-day.today { border-color: var(--apricot); font-weight: 900; }
+    .cal-day.disabled { background: var(--booked); color: var(--booked-text); cursor: not-allowed; }
+    .cal-day.empty { background: transparent; cursor: default; }
+
+    /* ── SLOTS (reschedule) ── */
+    .slots-section { margin-top: 4px; }
+    .slots-label { font-size: 12px; font-weight: 800; color: var(--espresso-light); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+    .slots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    @media (min-width: 400px) { .slots-grid { grid-template-columns: repeat(3, 1fr); } }
+    .slot { padding: 11px 8px; border-radius: 99px; background: var(--sand); text-align: center; cursor: pointer; transition: all 0.2s ease; border: 1.5px solid transparent; user-select: none; }
+    .slot:hover:not(.booked) { background: var(--sage-light); border-color: var(--sage); }
+    .slot.selected { background: var(--blue); color: var(--white); border-color: var(--blue); box-shadow: 0 2px 10px rgba(127,155,179,0.35); }
+    .slot.booked { background: var(--booked); color: var(--booked-text); cursor: not-allowed; }
+    .slot.current-slot { border-color: var(--apricot); }
+    .slot-time { font-weight: 800; font-size: 12px; margin-bottom: 2px; }
+    .slot-availability { font-size: 10px; font-weight: 700; opacity: 0.75; }
+    .slot.selected .slot-availability { opacity: 0.9; }
+    .slots-loading { grid-column: 1 / -1; text-align: center; color: var(--espresso-light); font-weight: 700; padding: 16px; font-size: 13px; }
+    .slots-placeholder { grid-column: 1 / -1; text-align: center; color: var(--espresso-light); font-weight: 700; font-size: 13px; padding: 16px; background: var(--sand); border-radius: var(--radius-sm); }
+
+    .current-booking-note {
+      font-size: 11px; color: var(--espresso-light); font-weight: 700;
+      margin-bottom: 12px; padding: 8px 12px; background: var(--sand);
+      border-radius: var(--radius-sm); border-left: 3px solid var(--apricot);
+    }
+  </style>
+</head>
+<body>
+<div class="booking-wrapper">
+
+  <div class="header">
+    <h1>Three Tails Cafe</h1>
+    <p>Manage your reservation</p>
+  </div>
+
+  <!-- Loading -->
+  <div class="card active" id="state-loading">
+    <div style="text-align:center; padding:20px 0">
+      <div class="loading-spinner" style="margin:0 auto 14px"></div>
+      <div class="loading-text">Loading your booking…</div>
+    </div>
+  </div>
+
+  <!-- Not found -->
+  <div class="card" id="state-not-found">
+    <div class="card-center">
+      <span style="font-size:44px;display:block;margin-bottom:12px">🔍</span>
+      <h2>Booking Not Found</h2>
+      <p>This link is invalid or has expired. Check your confirmation email for the correct link, or contact us for help.</p>
+      <a href="/" class="btn-primary" style="margin-top:18px">Make a New Booking</a>
+    </div>
+  </div>
+
+  <!-- Already cancelled -->
+  <div class="card" id="state-already-cancelled">
+    <div class="card-center">
+      <span style="font-size:44px;display:block;margin-bottom:12px">✗</span>
+      <h2>Already Cancelled</h2>
+      <div class="detail-box" id="alreadyCancelledDetails"></div>
+      <p>This reservation has already been cancelled. Refunds take 3–5 business days to appear.</p>
+      <a href="/" class="btn-primary" style="margin-top:18px">Book Again</a>
+    </div>
+  </div>
+
+  <!-- Past booking -->
+  <div class="card" id="state-past">
+    <div class="card-center">
+      <span style="font-size:44px;display:block;margin-bottom:12px">📅</span>
+      <h2>Past Reservation</h2>
+      <div class="detail-box" id="pastDetails"></div>
+      <p>This visit has already taken place. We hope you and the cats had a wonderful time!</p>
+      <a href="/" class="btn-primary" style="margin-top:18px">Book Again</a>
+    </div>
+  </div>
+
+  <!-- View booking -->
+  <div class="card" id="state-view">
+    <h2>Your Reservation</h2>
+    <div class="detail-box" id="viewDetails"></div>
+
+    <div id="actions-available">
+      <button class="btn-primary" onclick="showReschedule()">Reschedule</button>
+      <button class="btn-danger" onclick="showCancelConfirm()">Cancel & Refund</button>
+    </div>
+
+    <div id="actions-locked" style="display:none">
+      <div class="locked-notice">
+        <strong>Modifications are not available within 24 hours of your visit.</strong><br>
+        For urgent changes, please call us at <strong>123-456-7890</strong> or email <strong>dustin.nieves@threetailscafe.com</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Reschedule: pick new date/time -->
+  <div class="card" id="state-reschedule">
+    <h2>Choose a New Date & Time</h2>
+    <div class="current-booking-note" id="rescheduleCurrentNote"></div>
+    <div class="calendar-wrap">
+      <div class="cal-header">
+        <button class="cal-nav" id="calPrev" onclick="changeMonth(-1)">‹</button>
+        <div class="cal-month-label" id="calMonthLabel"></div>
+        <button class="cal-nav" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+    <div class="slots-section">
+      <div class="slots-label">Available Times</div>
+      <div class="slots-grid" id="slotsGrid">
+        <div class="slots-placeholder">Select a date to see times</div>
+      </div>
+    </div>
+    <button class="btn-primary" style="margin-top:18px" id="rescheduleConfirmBtn" onclick="confirmReschedule()" disabled>Confirm Reschedule</button>
+    <button class="btn-secondary" onclick="showView()">← Back to my booking</button>
+  </div>
+
+  <!-- Cancel: confirmation -->
+  <div class="card" id="state-cancel-confirm">
+    <div class="card-center">
+      <span style="font-size:44px;display:block;margin-bottom:12px">⚠️</span>
+      <h2>Cancel Your Reservation?</h2>
+      <div class="detail-box" id="cancelConfirmDetails"></div>
+      <p>A full refund of <strong id="refundAmount"></strong> will be returned to your card within 3–5 business days.</p>
+      <div class="error-msg" id="cancelErrMsg"></div>
+      <button class="btn-danger" id="cancelConfirmBtn" onclick="confirmCancel()" style="margin-top:14px">Yes, Cancel & Refund</button>
+      <button class="btn-secondary" onclick="showView()">Keep My Booking</button>
+    </div>
+  </div>
+
+  <!-- Cancel success -->
+  <div class="card" id="state-cancelled-done">
+    <div class="card-center">
+      <span class="confirm-icon">✓</span>
+      <h2 style="font-family:'Pacifico',cursive;font-size:22px;color:var(--espresso)">Reservation Cancelled</h2>
+      <p>Your refund of <strong id="refundedAmount"></strong> has been issued.</p>
+      <p>Please allow 3–5 business days for it to appear on your statement.</p>
+      <a href="/" class="btn-primary" style="margin-top:22px">Book Again</a>
+    </div>
+  </div>
+
+  <!-- Reschedule success -->
+  <div class="card" id="state-rescheduled-done">
+    <div class="card-center">
+      <span class="confirm-icon">✓</span>
+      <h2 style="font-family:'Pacifico',cursive;font-size:22px;color:var(--espresso)">You're all set!</h2>
+      <p>Your reservation has been updated.</p>
+      <div class="detail-box" id="rescheduledDetails"></div>
+      <a href="/" class="btn-primary" style="margin-top:8px">Make Another Booking</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loadingText">Processing…</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────
+  const SUPABASE_URL      = "https://ggckzydfipyvnkwqnpfo.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA";
+
+  const MAX_CAPACITY = 10;
+  const TIME_SLOTS = [
+    "9:00 AM – 10:00 AM","10:00 AM – 11:00 AM","11:00 AM – 12:00 PM",
+    "12:00 PM – 1:00 PM","1:00 PM – 2:00 PM","2:00 PM – 3:00 PM",
+    "3:00 PM – 4:00 PM","4:00 PM – 5:00 PM","5:00 PM – 6:00 PM"
+  ];
+
+  // ── STATE ────────────────────────────────────────────────────
+  let db, booking;
+  let newDate = "", newTime = "";
+  let calYear, calMonth;
+
+  // ── INIT ─────────────────────────────────────────────────────
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const token = new URLSearchParams(window.location.search).get("token");
+  if (!token) {
+    showState("not-found");
+  } else {
+    loadBooking();
+  }
+
+  async function loadBooking() {
+    const { data, error } = await db
+      .from("bookings")
+      .select("*")
+      .eq("manage_token", token)
+      .single();
+
+    if (error || !data) { showState("not-found"); return; }
+    booking = data;
+
+    if (booking.status === "cancelled") {
+      document.getElementById("alreadyCancelledDetails").innerHTML = detailsHTML(booking);
+      showState("already-cancelled");
+      return;
+    }
+
+    const startMs = bookingStartMs(booking.date, booking.time);
+
+    if (startMs < Date.now()) {
+      document.getElementById("pastDetails").innerHTML = detailsHTML(booking);
+      showState("past");
+      return;
+    }
+
+    const hoursUntil = (startMs - Date.now()) / 36e5;
+    document.getElementById("viewDetails").innerHTML = detailsHTML(booking);
+    document.getElementById("actions-available").style.display = hoursUntil > 24 ? "" : "none";
+    document.getElementById("actions-locked").style.display   = hoursUntil <= 24 ? "" : "none";
+    showState("view");
+  }
+
+  // ── VIEW ─────────────────────────────────────────────────────
+  function showView() {
+    document.getElementById("viewDetails").innerHTML = detailsHTML(booking);
+    showState("view");
+  }
+
+  // ── RESCHEDULE ───────────────────────────────────────────────
+  function showReschedule() {
+    newDate = ""; newTime = "";
+    document.getElementById("rescheduleCurrentNote").innerText =
+      "Current booking: " + formatDateDisplay(booking.date) + " at " + booking.time;
+    document.getElementById("rescheduleConfirmBtn").disabled = true;
+
+    const now = new Date();
+    calYear  = now.getFullYear();
+    calMonth = now.getMonth();
+    renderCalendar();
+
+    document.getElementById("slotsGrid").innerHTML =
+      '<div class="slots-placeholder">Select a date to see times</div>';
+
+    showState("reschedule");
+  }
+
+  function renderCalendar() {
+    const label = document.getElementById("calMonthLabel");
+    const grid  = document.getElementById("calGrid");
+    const today = new Date(); today.setHours(0,0,0,0);
+
+    label.innerText = new Date(calYear, calMonth).toLocaleDateString("en-US", { month:"long", year:"numeric" });
+
+    document.getElementById("calPrev").disabled =
+      calYear === today.getFullYear() && calMonth === today.getMonth();
+
+    grid.innerHTML = "";
+    ["Su","Mo","Tu","We","Th","Fr","Sa"].forEach(d => {
+      const el = document.createElement("div");
+      el.className = "cal-dow"; el.innerText = d; grid.appendChild(el);
+    });
+
+    const firstDay    = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+      const el = document.createElement("div"); el.className = "cal-day empty"; grid.appendChild(el);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date    = new Date(calYear, calMonth, d); date.setHours(0,0,0,0);
+      const dateStr = formatDateStr(calYear, calMonth, d);
+      const isPast  = date < today;
+
+      const el = document.createElement("div");
+      el.className = "cal-day" +
+        (isPast ? " disabled" : "") +
+        (date.getTime() === today.getTime() ? " today" : "") +
+        (dateStr === newDate ? " selected" : "");
+      el.innerText = d;
+      if (!isPast) el.onclick = () => selectDate(dateStr, el);
+      grid.appendChild(el);
+    }
+  }
+
+  function changeMonth(delta) {
+    calMonth += delta;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    if (calMonth < 0)  { calMonth = 11; calYear--; }
+    renderCalendar();
+  }
+
+  function selectDate(dateStr, el) {
+    newDate = dateStr;
+    newTime = "";
+    document.getElementById("rescheduleConfirmBtn").disabled = true;
+    document.querySelectorAll(".cal-day").forEach(d => d.classList.remove("selected"));
+    el.classList.add("selected");
+    loadSlots();
+  }
+
+  async function loadSlots() {
+    const grid = document.getElementById("slotsGrid");
+    grid.innerHTML = '<div class="slots-loading">Loading times…</div>';
+
+    const { data: existing } = await db
+      .from("bookings")
+      .select("time, adults, children")
+      .eq("date", newDate)
+      .neq("status", "cancelled")
+      .neq("id", booking.id);
+
+    const usedMap = {};
+    (existing || []).forEach(r => {
+      usedMap[r.time] = (usedMap[r.time] || 0) + (r.adults || 0) + (r.children || 0) * 0.5;
+    });
+
+    grid.innerHTML = "";
+    TIME_SLOTS.forEach(slot => {
+      const used      = usedMap[slot] || 0;
+      const remaining = MAX_CAPACITY - used;
+      const isBooked  = remaining <= 0;
+      const isCurrent = newDate === booking.date && slot === booking.time;
+
+      const el = document.createElement("div");
+      el.className = "slot" +
+        (isBooked ? " booked" : "") +
+        (slot === newTime ? " selected" : "") +
+        (isCurrent ? " current-slot" : "");
+
+      el.innerHTML = `<div class="slot-time">${slot.split("–")[0].trim()}</div>
+        <div class="slot-availability">${isBooked ? "Full" : remaining + " left"}</div>`;
+
+      if (!isBooked) {
+        el.onclick = () => selectSlot(slot, el);
+      }
+      grid.appendChild(el);
+    });
+  }
+
+  function selectSlot(slot, el) {
+    newTime = slot;
+    document.querySelectorAll(".slot").forEach(s => s.classList.remove("selected"));
+    el.classList.add("selected");
+    document.getElementById("rescheduleConfirmBtn").disabled =
+      newDate === booking.date && newTime === booking.time;
+  }
+
+  async function confirmReschedule() {
+    if (!newDate || !newTime) return;
+    if (newDate === booking.date && newTime === booking.time) return;
+
+    document.getElementById("loadingText").innerText = "Updating your booking…";
+    document.getElementById("loadingOverlay").classList.add("visible");
+
+    // Final capacity check (excluding current booking and cancelled)
+    const { data: fresh } = await db
+      .from("bookings")
+      .select("adults, children")
+      .eq("date", newDate)
+      .eq("time", newTime)
+      .neq("status", "cancelled")
+      .neq("id", booking.id);
+
+    const freshUsed = (fresh || []).reduce((s, r) => s + (r.adults || 0) + (r.children || 0) * 0.5, 0);
+    if (freshUsed + (booking.adults || 0) + (booking.children || 0) * 0.5 > MAX_CAPACITY) {
+      document.getElementById("loadingOverlay").classList.remove("visible");
+      alert("Sorry, that slot just filled up! Please choose another time.");
+      loadSlots();
+      return;
+    }
+
+    const { error } = await db
+      .from("bookings")
+      .update({ date: newDate, time: newTime })
+      .eq("id", booking.id);
+
+    document.getElementById("loadingOverlay").classList.remove("visible");
+
+    if (error) {
+      alert("Update failed: " + error.message);
+      return;
+    }
+
+    booking.date = newDate;
+    booking.time = newTime;
+
+    document.getElementById("rescheduledDetails").innerHTML = detailsHTML(booking);
+    showState("rescheduled-done");
+  }
+
+  // ── CANCEL ───────────────────────────────────────────────────
+  function showCancelConfirm() {
+    document.getElementById("cancelConfirmDetails").innerHTML = detailsHTML(booking);
+    document.getElementById("refundAmount").innerText = "$" + parseFloat(booking.total).toFixed(2);
+    document.getElementById("cancelErrMsg").classList.remove("visible");
+    document.getElementById("cancelErrMsg").innerText = "";
+    document.getElementById("cancelConfirmBtn").disabled = false;
+    showState("cancel-confirm");
+  }
+
+  async function confirmCancel() {
+    const btn    = document.getElementById("cancelConfirmBtn");
+    const errDiv = document.getElementById("cancelErrMsg");
+    btn.disabled = true;
+    errDiv.classList.remove("visible");
+
+    document.getElementById("loadingText").innerText = "Processing refund…";
+    document.getElementById("loadingOverlay").classList.add("visible");
+
+    // Issue Square refund if payment exists
+    if (booking.payment_id) {
+      try {
+        const resp = await fetch("/api/refund", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            payment_id: booking.payment_id,
+            idempotency_key: crypto.randomUUID()
+          })
+        });
+        const data = await resp.json();
+        if (data.errors) {
+          const msg = data.errors.map(e => e.detail || e.message).join(", ");
+          document.getElementById("loadingOverlay").classList.remove("visible");
+          errDiv.innerText = "Refund failed: " + msg + " — please contact us directly.";
+          errDiv.classList.add("visible");
+          btn.disabled = false;
+          return;
+        }
+      } catch (e) {
+        document.getElementById("loadingOverlay").classList.remove("visible");
+        errDiv.innerText = "Refund request failed. Please contact us at dustin.nieves@threetailscafe.com.";
+        errDiv.classList.add("visible");
+        btn.disabled = false;
+        return;
+      }
+    }
+
+    // Mark as cancelled in Supabase
+    await db
+      .from("bookings")
+      .update({ status: "cancelled", payment_status: "refunded" })
+      .eq("id", booking.id);
+
+    document.getElementById("loadingOverlay").classList.remove("visible");
+
+    document.getElementById("refundedAmount").innerText = "$" + parseFloat(booking.total).toFixed(2);
+    showState("cancelled-done");
+  }
+
+  // ── HELPERS ──────────────────────────────────────────────────
+  function showState(name) {
+    document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
+    const el = document.getElementById("state-" + name);
+    if (el) el.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function detailsHTML(b) {
+    const guests = (b.adults || 0) + " adult" + ((b.adults || 0) !== 1 ? "s" : "") +
+      ((b.children || 0) > 0 ? " + " + b.children + " child" + ((b.children || 0) !== 1 ? "ren" : "") : "");
+    return "Date: <strong>" + formatDateDisplay(b.date) + "</strong><br>" +
+           "Time: <strong>" + b.time + "</strong><br>" +
+           "Guests: <strong>" + guests + "</strong><br>" +
+           "Paid: <strong>$" + parseFloat(b.total || 0).toFixed(2) + "</strong>" +
+           (b.name ? "<br>Name: <strong>" + b.name + "</strong>" : "");
+  }
+
+  function bookingStartMs(dateStr, timeStr) {
+    const startPart = timeStr.split("–")[0].trim();
+    const [timePart, ampm] = startPart.split(" ");
+    let [h, m] = timePart.split(":").map(Number);
+    if (ampm === "PM" && h !== 12) h += 12;
+    if (ampm === "AM" && h === 12) h = 0;
+    const [y, mo, d] = dateStr.split("-").map(Number);
+    return new Date(y, mo - 1, d, h, m || 0).getTime();
+  }
+
+  function formatDateDisplay(d) {
+    const [y, m, day] = d.split("-");
+    return new Date(y, m - 1, day).toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+  }
+
+  function formatDateStr(y, m, d) {
+    return y + "-" + String(m + 1).padStart(2, "0") + "-" + String(d).padStart(2, "0");
+  }
+</script>
+</body>
+</html>
