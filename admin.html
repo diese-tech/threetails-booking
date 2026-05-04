@@ -496,10 +496,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     // ── CONFIG ──────────────────────────────────────────────────
-    const SUPABASE_URL      = "https://ggckzydfipyvnkwqnpfo.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA";
-    const OWNER_PASSWORD    = "@dminP@ssw0rd";
-    const STAFF_PIN         = "1228";
+    let SUPABASE_URL = "";
+    let SUPABASE_ANON_KEY = "";
 
     const TIME_SLOTS = [
       "9:00 AM – 10:00 AM","10:00 AM – 11:00 AM","11:00 AM – 12:00 PM",
@@ -510,7 +508,7 @@
     const ADULT_PRICE  = 15;
     const CHILD_PRICE  = 9;
 
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let db;
 
     // ── STATE ────────────────────────────────────────────────────
     let currentRole       = "staff";
@@ -578,22 +576,33 @@
       document.getElementById("loginInput").placeholder = tab === "staff" ? "Enter PIN" : "Enter password";
     }
 
-    function login() {
+    async function login() {
       const val = document.getElementById("loginInput").value.trim();
       const err = document.getElementById("loginError");
       err.classList.remove("visible");
 
-      if (loginTab === "staff" && val === STAFF_PIN) {
-        currentRole = "staff";
+      if (!val) {
+        err.classList.add("visible");
+        return;
+      }
+
+      try {
+        const resp = await fetch("/api/admin-login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ role: loginTab, credential: val })
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error || "Invalid login");
+
+        currentRole = data.role;
+        sessionStorage.setItem("adminRole", currentRole);
         document.getElementById("loginWrap").style.display = "none";
-        document.getElementById("staffPanel").classList.add("active");
-        initStaffView();
-      } else if (loginTab === "owner" && val === OWNER_PASSWORD) {
-        currentRole = "owner";
-        document.getElementById("loginWrap").style.display = "none";
-        document.getElementById("ownerPanel").classList.add("active");
-        initOwnerView();
-      } else {
+        document.getElementById("staffPanel").classList.toggle("active", currentRole === "staff");
+        document.getElementById("ownerPanel").classList.toggle("active", currentRole === "owner");
+        if (currentRole === "staff") initStaffView();
+        if (currentRole === "owner") initOwnerView();
+      } catch (_) {
         err.classList.add("visible");
         document.getElementById("loginInput").value = "";
       }
@@ -602,11 +611,33 @@
     function logout() {
       clearInterval(staffRefreshTimer);
       staffRefreshTimer = null;
+      sessionStorage.removeItem("adminRole");
       document.getElementById("loginWrap").style.display = "";
       document.getElementById("staffPanel").classList.remove("active");
       document.getElementById("ownerPanel").classList.remove("active");
       document.getElementById("loginInput").value = "";
       document.getElementById("loginError").classList.remove("visible");
+      switchTab("staff");
+    }
+
+    async function initializeApp() {
+      const resp = await fetch("/api/public-config");
+      const cfg = await resp.json();
+      if (!resp.ok) throw new Error(cfg.error || "Failed to load config");
+      SUPABASE_URL = cfg.supabaseUrl;
+      SUPABASE_ANON_KEY = cfg.supabaseAnonKey;
+      db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      const savedRole = sessionStorage.getItem("adminRole");
+      if (savedRole === "staff" || savedRole === "owner") {
+        currentRole = savedRole;
+        document.getElementById("loginWrap").style.display = "none";
+        document.getElementById("staffPanel").classList.toggle("active", currentRole === "staff");
+        document.getElementById("ownerPanel").classList.toggle("active", currentRole === "owner");
+        if (currentRole === "staff") initStaffView();
+        if (currentRole === "owner") initOwnerView();
+        return;
+      }
       switchTab("staff");
     }
 
@@ -1023,6 +1054,11 @@
 
     document.getElementById("walkInModal").addEventListener("click", function(e) { if (e.target === this) closeWalkInModal(); });
     document.getElementById("cancelModal").addEventListener("click", function(e)  { if (e.target === this) closeCancelModal(); });
+    initializeApp().catch((e) => {
+      console.error("Admin init failed:", e);
+      document.getElementById("loginError").innerText = "Unable to load admin tools. Please refresh.";
+      document.getElementById("loginError").classList.add("visible");
+    });
   </script>
 </body>
 </html>

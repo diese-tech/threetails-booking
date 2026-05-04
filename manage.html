@@ -335,8 +335,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   // ── CONFIG ──────────────────────────────────────────────────
-  const SUPABASE_URL      = "https://ggckzydfipyvnkwqnpfo.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdnY2t6eWRmaXB5dm5rd3FucGZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzc2NjksImV4cCI6MjA5MTkxMzY2OX0.jMVsLmM1AAwRbP6fU9mEZOrpE-DCsgwFZaJgZmzVzrA";
+  let SUPABASE_URL = "";
+  let SUPABASE_ANON_KEY = "";
 
   const MAX_CAPACITY = 10;
   const TIME_SLOTS = [
@@ -351,16 +351,25 @@
   let calYear, calMonth;
 
   // ── INIT ─────────────────────────────────────────────────────
-  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  initializeApp();
 
-  const token = new URLSearchParams(window.location.search).get("token");
-  if (!token) {
-    showState("not-found");
-  } else {
-    loadBooking();
+  async function initializeApp() {
+    const resp = await fetch("/api/public-config");
+    const cfg = await resp.json();
+    if (!resp.ok) { showState("not-found"); return; }
+    SUPABASE_URL = cfg.supabaseUrl;
+    SUPABASE_ANON_KEY = cfg.supabaseAnonKey;
+    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const token = new URLSearchParams(window.location.search).get("token");
+    if (!token) {
+      showState("not-found");
+    } else {
+      loadBooking(token);
+    }
   }
 
-  async function loadBooking() {
+  async function loadBooking(token) {
     const { data, error } = await db
       .from("bookings")
       .select("*")

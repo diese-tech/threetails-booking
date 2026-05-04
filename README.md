@@ -183,3 +183,20 @@ Recommended header block above the iframe:
 - Closed dates / holiday blocking
 - Cancellation / rescheduling self-service
 - Membership or loyalty discounts
+
+## Environment Variables
+
+Set these in Vercel Project Settings before deploying:
+
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `EMAILJS_PUBLIC_KEY`
+- `EMAILJS_SERVICE_ID`
+- `EMAILJS_TEMPLATE_CUSTOMER`
+- `EMAILJS_TEMPLATE_BUSINESS`
+- `BUSINESS_EMAIL`
+- `SQUARE_APP_ID`
+- `SQUARE_LOCATION`
+- `SQUARE_ACCESS_TOKEN` (server-side only)
+- `ADMIN_OWNER_PASSWORD` (server-side only)
+- `ADMIN_STAFF_PIN` (server-side only)
