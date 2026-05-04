@@ -10,12 +10,16 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
+  if (!process.env.SQUARE_ACCESS_TOKEN) {
+    return res.status(500).json({ error: "Square token not configured" });
+  }
+
   try {
     const response = await fetch("https://connect.squareupsandbox.com/v2/payments", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer EAAAl3_7KZm3mbuJb8k7pQjY8WmGShnJ1tgxSsOsVitCAd6ixYWfaocgaEpcz0Ab",
+        "Authorization": `Bearer ${process.env.SQUARE_ACCESS_TOKEN}`,
         "Square-Version": "2024-01-18"
       },
       body: JSON.stringify({
