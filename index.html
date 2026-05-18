@@ -86,6 +86,32 @@
     .card h2 { font-size: 17px; font-weight: 800; margin-bottom: 18px; color: var(--espresso); letter-spacing: 0.2px; }
     .card h2 span { font-size: 19px; margin-right: 7px; opacity: 0.8; }
 
+    /* ── ABOUT PANEL ── */
+    .about-panel {
+      background: var(--cream);
+      border: 1px solid var(--sand);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.55;
+      color: var(--espresso);
+    }
+    .about-panel p { margin-bottom: 8px; }
+    .about-panel p:last-child { margin-bottom: 0; }
+    .about-panel strong { color: var(--espresso); font-weight: 800; }
+    .about-panel .about-meta {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--sand);
+      font-size: 12px;
+      color: var(--espresso-light);
+      font-weight: 700;
+    }
+    .about-panel .about-meta a { color: var(--espresso); text-decoration: none; }
+    .about-panel .about-meta a:hover { text-decoration: underline; }
+
     /* ── WAIVER ── */
     .rules-list { list-style: none; margin-bottom: 20px; }
     .rules-list li {
@@ -277,7 +303,7 @@
   <!-- Header -->
   <div class="header">
     <h1>Three Tails Cafe</h1>
-    <p>Book your cozy cat lounge session</p>
+    <p>A reservation-only cat lounge in partnership with local rescues</p>
   </div>
 
   <!-- Progress -->
@@ -306,13 +332,22 @@
   <!-- Step 1: Waiver -->
   <div class="card active" id="step-1">
     <h2>Before You Visit</h2>
+
+    <div class="about-panel">
+      <p><strong>What this is.</strong> Three Tails Cafe is a managed cat lounge. You're reserving a 60-minute visit with our resident cats — many of whom are adoptable through our local rescue partners. Light beverage service may be available; the cats are the experience.</p>
+      <p><strong>Heads up.</strong> Cat dander is present throughout the lounge — please skip your visit if you have a serious cat allergy. Photos are welcome, but please no flash. We aim to be accessible; if you have a specific need, contact us before your visit and we'll do our best to accommodate.</p>
+      <div class="about-meta">
+        Questions before you book? Call <a href="tel:+13524328028">(352) 432-8028</a> or email <a href="mailto:dustin.nieves@threetailscafe.com">dustin.nieves@threetailscafe.com</a>
+      </div>
+    </div>
+
     <ul class="rules-list">
       <li>Our cats come first. Please be gentle, move slowly, and let the cats approach you — never chase or corner them.</li>
       <li>Sanitize your hands before entering the lounge. Hand sanitizer is available at the entrance.</li>
       <li>Use inside voices. Cats have sensitive hearing — please keep noise low and silence your phone in the lounge.</li>
-      <li>Children 13 and under must be accompanied by an adult at all times. No more than 2 children per adult in the lounge.</li>
+      <li>Children ages 13 and under must be supervised by an adult at all times, with no more than 2 children per adult in the lounge.</li>
       <li>No outside food or drinks in the lounge. Please do not feed the cats — they are on special diets.</li>
-      <li>No personal pets allowed inside. Only certified medical assistance animals are permitted in the café area.</li>
+      <li>The lounge cats are residents in partnership with local rescues. Personal pets are not permitted; only certified medical assistance animals are allowed in the cafe area.</li>
       <li>Do not wake sleeping cats. They need their rest too!</li>
       <li>Full payment is collected online at the time of booking. Refunds are available if cancelled at least 24 hours before your visit.</li>
       <li>Need to reschedule? You can update or cancel your reservation from the link in your booking confirmation.</li>

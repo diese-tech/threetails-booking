@@ -2,6 +2,8 @@
 
 A custom-built cat café booking system hosted on Vercel, connected to Supabase, and embedded into the Three Tails Cafe Squarespace website.
 
+> **Brand framing note.** The legal entity is Three Tails Cafe LLC. Customer-facing copy positions the experience as a managed cat lounge in partnership with local rescues. Use "cat lounge" in user-visible language; reserve "Cafe" for the legal/brand name only.
+
 ---
 
 ## Live URLs
