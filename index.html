@@ -494,6 +494,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+<script src="/lib/tz.js"></script>
 <script>
   // ── CONFIG ──────────────────────────────────────────────────
   let SUPABASE_URL = "";
@@ -546,9 +547,9 @@
 
     db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     emailjs.init(EMAILJS_PUBLIC_KEY);
-    const now = new Date();
-    calYear  = now.getFullYear();
-    calMonth = now.getMonth();
+    const ym = TT_TZ.todayYearMonth();
+    calYear  = ym.year;
+    calMonth = ym.month0;
     renderCalendar();
   }
 
@@ -613,12 +614,16 @@
   function renderCalendar() {
     const label = document.getElementById("calMonthLabel");
     const grid  = document.getElementById("calGrid");
-    const today = new Date(); today.setHours(0,0,0,0);
+    const todayYMD = TT_TZ.todayStr();
+    const todayYM  = TT_TZ.todayYearMonth();
 
-    label.innerText = new Date(calYear, calMonth).toLocaleDateString("en-US", { month:"long", year:"numeric" });
+    // Month label uses a UTC-anchored Date so the localized month name
+    // is independent of the browser's local timezone.
+    label.innerText = new Date(Date.UTC(calYear, calMonth, 1))
+      .toLocaleDateString("en-US", { month:"long", year:"numeric", timeZone: "UTC" });
 
     const prevBtn = document.getElementById("calPrev");
-    prevBtn.disabled = calYear === today.getFullYear() && calMonth === today.getMonth();
+    prevBtn.disabled = calYear === todayYM.year && calMonth === todayYM.month0;
 
     grid.innerHTML = "";
 
@@ -628,22 +633,22 @@
       grid.appendChild(el);
     });
 
-    const firstDay    = new Date(calYear, calMonth, 1).getDay();
-    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const firstDay    = TT_TZ.firstWeekdayOfMonth(calYear, calMonth);
+    const daysInMonth = TT_TZ.daysInMonth(calYear, calMonth);
 
     for (let i = 0; i < firstDay; i++) {
       const el = document.createElement("div"); el.className = "cal-day empty"; grid.appendChild(el);
     }
 
     for (let d = 1; d <= daysInMonth; d++) {
-      const date = new Date(calYear, calMonth, d); date.setHours(0,0,0,0);
-      const dateStr = formatDateStr(calYear, calMonth, d);
-      const isPast  = date < today;
+      const dateStr = TT_TZ.ymdFromYM(calYear, calMonth, d);
+      const isPast  = dateStr < todayYMD;
+      const isToday = dateStr === todayYMD;
 
       const el = document.createElement("div");
       el.className = "cal-day" +
         (isPast ? " disabled" : "") +
-        (date.getTime() === today.getTime() ? " today" : "") +
+        (isToday ? " today" : "") +
         (dateStr === selectedDate ? " selected" : "");
       el.innerText = d;
       if (!isPast) el.onclick = () => selectDate(dateStr, el);
@@ -947,8 +952,7 @@
 
   // ── HELPERS ──────────────────────────────────────────────────
   function formatDateDisplay(d) {
-    const [y,m,day] = d.split("-");
-    return new Date(y, m-1, day).toLocaleDateString("en-US", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+    return TT_TZ.formatLong(d);
   }
 </script>
 </body>

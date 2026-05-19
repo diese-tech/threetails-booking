@@ -494,6 +494,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/lib/tz.js"></script>
   <script>
     // ── CONFIG ──────────────────────────────────────────────────
     let SUPABASE_URL = "";
@@ -521,38 +522,14 @@
     let cancelTarget      = null;
 
     // ── HELPERS ──────────────────────────────────────────────────
-    function todayStr() { return new Date().toISOString().split("T")[0]; }
-
-    function formatDateDisplay(d) {
-      const [y,m,day] = d.split("-");
-      return new Date(y, m-1, day).toLocaleDateString("en-US", { weekday:"long", month:"long", day:"numeric", year:"numeric" });
-    }
-
-    function formatDateShort(d) {
-      const [y,m,day] = d.split("-");
-      return new Date(y, m-1, day).toLocaleDateString("en-US", { weekday:"short", month:"short", day:"numeric" });
-    }
-
-    function offsetDate(dateStr, days) {
-      const d = new Date(dateStr + "T12:00:00");
-      d.setDate(d.getDate() + days);
-      return d.toISOString().split("T")[0];
-    }
-
-    function weekBounds() {
-      const now = new Date(); now.setHours(0,0,0,0);
-      const day = now.getDay();
-      const sun = new Date(now); sun.setDate(now.getDate() - day);
-      const sat = new Date(sun); sat.setDate(sun.getDate() + 6);
-      return [sun.toISOString().split("T")[0], sat.toISOString().split("T")[0]];
-    }
-
-    function monthBounds() {
-      const now = new Date();
-      const first = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split("T")[0];
-      const last  = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split("T")[0];
-      return [first, last];
-    }
+    // Date helpers route through TT_TZ (lib/tz.js) so "today" and date
+    // formatting are anchored to America/New_York, not the user's local TZ.
+    function todayStr()                  { return TT_TZ.todayStr(); }
+    function formatDateDisplay(d)        { return TT_TZ.formatLong(d); }
+    function formatDateShort(d)          { return TT_TZ.formatShort(d); }
+    function offsetDate(dateStr, days)   { return TT_TZ.addDays(dateStr, days); }
+    function weekBounds()                { return TT_TZ.weekBounds(); }
+    function monthBounds()               { return TT_TZ.monthBounds(); }
 
     function statusBadge(status) {
       const map = {
@@ -1007,7 +984,7 @@
     function openWalkInModal() {
       const select = document.getElementById("wiSlot");
       select.innerHTML = TIME_SLOTS.map(s => `<option value="${s}">${s}</option>`).join("");
-      const hour = new Date().getHours();
+      const hour = TT_TZ.bizHourNow();
       select.selectedIndex = Math.min(Math.max(hour - 9, 0), TIME_SLOTS.length - 1);
       document.getElementById("wiName").value     = "";
       document.getElementById("wiAdults").value   = "1";
