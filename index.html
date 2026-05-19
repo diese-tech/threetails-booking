@@ -696,13 +696,18 @@
     const grid = document.getElementById("slotsGrid");
     grid.innerHTML = "";
     for (const slot of TIME_SLOTS) {
-      const used      = slotCapacityMap[slot] || 0;
-      const remaining = MAX_CAPACITY - used;
-      const booked    = remaining <= 0;
+      const used        = slotCapacityMap[slot] || 0;
+      const remaining   = MAX_CAPACITY - used;
+      const fullySold   = remaining <= 0;
+      // Block past-hour and current-hour slots on today's date. Same-hour
+      // walk-ins are handled by staff via the admin flow.
+      const pastOrNow   = TT_TZ.customerSlotUnavailable(selectedDate, slot);
+      const booked      = fullySold || pastOrNow;
       const div = document.createElement("div");
       div.className = "slot" + (booked ? " booked" : "") + (slot === selectedTime ? " selected" : "");
       let availText = "Available";
-      if (booked)              availText = "Fully Booked";
+      if (pastOrNow)           availText = "Unavailable";
+      else if (fullySold)      availText = "Fully Booked";
       else if (remaining <= 1) availText = "1 spot left!";
       else if (remaining <= 3) availText = Math.floor(remaining) + " spots left";
       div.innerHTML = `<div class="slot-time">${slot}</div><div class="slot-availability">${availText}</div>`;
@@ -838,6 +843,13 @@
     const btn = document.getElementById("confirmBtn");
     btn.disabled = true; btn.innerText = "Processing...";
     document.getElementById("loadingOverlay").classList.add("visible");
+
+    // ── Past/current-hour guard (defensive; UI also blocks selection) ──
+    if (TT_TZ.customerSlotUnavailable(selectedDate, selectedTime)) {
+      errDiv.innerText = "That time has already started or passed. Please pick a later slot.";
+      errDiv.classList.add("visible");
+      resetBtn(btn); return;
+    }
 
     // ── Final capacity check ──
     const { data: fresh } = await db.from("bookings").select("adults, children").eq("date", selectedDate).eq("time", selectedTime).neq("status", "cancelled");

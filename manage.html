@@ -504,7 +504,9 @@
     TIME_SLOTS.forEach(slot => {
       const used      = usedMap[slot] || 0;
       const remaining = MAX_CAPACITY - used;
-      const isBooked  = remaining <= 0;
+      const fullySold = remaining <= 0;
+      const pastOrNow = TT_TZ.customerSlotUnavailable(newDate, slot);
+      const isBooked  = fullySold || pastOrNow;
       const isCurrent = newDate === booking.date && slot === booking.time;
 
       const el = document.createElement("div");
@@ -513,8 +515,9 @@
         (slot === newTime ? " selected" : "") +
         (isCurrent ? " current-slot" : "");
 
+      const availText = pastOrNow ? "Unavailable" : (fullySold ? "Full" : remaining + " left");
       el.innerHTML = `<div class="slot-time">${slot.split("–")[0].trim()}</div>
-        <div class="slot-availability">${isBooked ? "Full" : remaining + " left"}</div>`;
+        <div class="slot-availability">${availText}</div>`;
 
       if (!isBooked) {
         el.onclick = () => selectSlot(slot, el);
@@ -534,6 +537,12 @@
   async function confirmReschedule() {
     if (!newDate || !newTime) return;
     if (newDate === booking.date && newTime === booking.time) return;
+
+    // Defensive guard against past/current-hour selection (UI also blocks it).
+    if (TT_TZ.customerSlotUnavailable(newDate, newTime)) {
+      alert("That time has already started or passed. Please pick a later slot.");
+      return;
+    }
 
     document.getElementById("loadingText").innerText = "Updating your booking…";
     document.getElementById("loadingOverlay").classList.add("visible");
