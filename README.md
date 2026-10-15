@@ -39,6 +39,10 @@ threetails-booking/
 
 ---
 
+## Production Readiness
+
+The project-scoped [production readiness checklist](./docs/production-readiness-checklist.md) contains the shared 146-point inventory plus booking-specific security and reliability audit priorities. Unchecked items are unassessed, not confirmed defects.
+
 ## Required AI Workflow Review
 
 Before beginning AI-assisted implementation, debugging, refactoring, migration, or production fix work in this repository, review [docs/AI_WORKFLOW_GUARDRAILS.md](./docs/AI_WORKFLOW_GUARDRAILS.md).
